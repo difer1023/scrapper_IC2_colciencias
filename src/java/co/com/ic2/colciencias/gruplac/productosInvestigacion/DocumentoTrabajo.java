@@ -21,6 +21,8 @@ public class DocumentoTrabajo extends ProductoInvestigacion{
     private ArrayList<Institucion> instituciones;
     private String url;
     private String doi;
+    
+    private int numeroAutores;
 
     public int getAno() {
         return ano;
@@ -61,7 +63,28 @@ public class DocumentoTrabajo extends ProductoInvestigacion{
     public void setInstituciones(ArrayList<Institucion> instituciones) {
         this.instituciones = instituciones;
     }
-    
-    
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDoi() {
+        return doi;
+    }
+
+    public void setDoi(String doi) {
+        this.doi = doi;
+    }
+
+    public int getNumeroAutores() {
+        return numeroAutores;
+    }
+
+    public void setNumeroAutores(int numeroAutores) {
+        this.numeroAutores = numeroAutores;
+    }
 }

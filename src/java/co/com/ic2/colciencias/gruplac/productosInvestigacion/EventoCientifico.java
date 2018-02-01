@@ -22,6 +22,9 @@ public class EventoCientifico extends ProductoInvestigacion{
     private String tipoParticipacion;
     private ArrayList<Institucion> instituciones;
     private String tipo;
+    
+    private int ano;
+    private int numeroAutores;
 
     public String getLugar() {
         return lugar;
@@ -78,6 +81,22 @@ public class EventoCientifico extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public int getNumeroAutores() {
+        return numeroAutores;
+    }
+
+    public void setNumeroAutores(int numeroAutores) {
+        this.numeroAutores = numeroAutores;
+    }
+
     
 }

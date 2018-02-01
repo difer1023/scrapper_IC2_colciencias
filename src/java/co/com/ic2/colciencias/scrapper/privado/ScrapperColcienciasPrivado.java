@@ -7,7 +7,22 @@ package co.com.ic2.colciencias.scrapper.privado;
 
 import co.com.ic2.colciencias.gruplac.GrupoInvestigacion;
 import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorApoyoProgramasFormacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorCapitulosLibroInvestigacion;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorDocumentosTrabajo;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEdiciones;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEmpresasBaseTeconologica;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEstrategiasPedagogicasFomentoCTI;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEventosCientificos;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorGeneracionContenidosImpresos;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorInformesInvestigacion;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorLibrosInvestigacion;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorParticipacionCiudadanaProyectosCTI;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorProyectos;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorRedesConocimiento;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorSoftwares;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorTrabajosDirigidos;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,10 +96,32 @@ public class ScrapperColcienciasPrivado {
                     .userAgent(USER_AGENT)
                     .execute();
             
-            ExtractorArticulosInvestigacion.extraerArticulosPublicadosPrivado(extraerTablaProductos("ART", "19", "GNC", cookies), cookies);
-
-
-
+            //grupoInvestigacion.setArticulosInvestigacion(ExtractorArticulosInvestigacion.extraerArticulosPublicadosPrivado(extraerTablaProductos("ART", "19", "GNC", cookies), cookies));
+            //grupoInvestigacion.setLibrosResultadoInvestigacion(ExtractorLibrosInvestigacion.extraerLibrosPublicadosPrivado(extraerTablaProductos("LIB", "19", "GNC", cookies), cookies));
+            //grupoInvestigacion.setCapituloDeLibro(ExtractorCapitulosLibroInvestigacion.extraerCapitulosLibroPrivado(extraerTablaProductos("GC_CAP_LIB", "19", "GNC", cookies), cookies));
+            //grupoInvestigacion.setSoftware(ExtractorSoftwares.extraerSoftwaresPrivado(extraerTablaProductos("SF", "19", "DTI", cookies), cookies));
+            //grupoInvestigacion.setEmpresaBaseTecnologica(ExtractorEmpresasBaseTeconologica.extraerEmpresaBaseTecnologicaPrivado(extraerTablaProductos("EBT", "19", "DTI", cookies), cookies));
+            //grupoInvestigacion.setParticipacionCiudadanaProyectoCTI(ExtractorParticipacionCiudadanaProyectosCTI.extraerPaticipacionCiudadanaProyectosCTIPrivado(extraerTablaProductos("PCI", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setEstrategiaPedagogicaFomentoCTI(ExtractorEstrategiasPedagogicasFomentoCTI.extraerEstrategiasPedagogicasFomentoCTIPrivado(extraerTablaProductos("EPA", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setGeneracionContenidoImpreso(ExtractorGeneracionContenidosImpresos.extraerGeneracionContenidosImpresosPrivado(extraerTablaProductos("GC_I", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setEventoCientifico(ExtractorEventosCientificos.extraerEventosCientificosPrivado(extraerTablaProductos("EC", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setRedConocimiento(ExtractorRedesConocimiento.extraerRedesConocimientoPrivado(extraerTablaProductos("RC", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setDocumentoTrabajo(ExtractorDocumentosTrabajo.extraerDocumentosTrabajoPrivado(extraerTablaProductos("WP", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setEdicion(ExtractorEdiciones.extraerEdicionesPrivado(extraerTablaProductos("buscar", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setInformeInvestigacion(ExtractorInformesInvestigacion.extraerInformesInvestigacionPrivado(extraerTablaProductos("IFI", "19", "ASC", cookies), cookies));
+            //grupoInvestigacion.setTrabajoDirigido(ExtractorTrabajosDirigidos.extraerTesisDoctoradoPrivado(extraerTablaProductos("TD", "19", "FRH", cookies), cookies));
+            //grupoInvestigacion.setTrabajoDirigido(ExtractorTrabajosDirigidos.extraerTesisMaestriaPrivado(extraerTablaProductos("TM", "19", "FRH", cookies), cookies));
+            //grupoInvestigacion.setTrabajoDirigido(ExtractorTrabajosDirigidos.extraerTesisPregradoPrivado(extraerTablaProductos("TP", "19", "FRH", cookies), cookies));
+            //grupoInvestigacion.setProyecto(ExtractorProyectos.extraerProyectoInvestigacionDesarrolloPrivado(extraerTablaProductos("PID", "19", "FRH", cookies), cookies));
+            //grupoInvestigacion.setProyecto(ExtractorProyectos.extraerProyectoIDIPrivado(extraerTablaProductos("PF", "19", "FRH", cookies), cookies));
+            //grupoInvestigacion.setProyecto(ExtractorProyectos.extraerProyectoExtensionResponsabilidadSocialPrivado(extraerTablaProductos("buscar", "19", "FRH", cookies), cookies));
+            //grupoInvestigacion.setApoyoProgramaFormacion(ExtractorApoyoProgramasFormacion.extraerApoyoCreacionProgramasPrivado(extraerTablaProductos("AP", "19", "FRH", cookies), cookies));
+            //grupoInvestigacion.setApoyoProgramaFormacion(ExtractorApoyoProgramasFormacion.extraerApoyoCreacionCursosPrivado(extraerTablaProductos("AC", "19", "FRH", cookies), cookies));
+            try{
+            grupoInvestigacion.setApoyoProgramaFormacion(ExtractorApoyoProgramasFormacion.extraerApoyoCreacionCursosPrivado(extraerTablaProductos("PR", "19", "FRH", cookies), cookies));
+            }catch(NullPointerException e){
+                System.out.println("Error al extraer apoyo a programa de formacion");
+            }
 //            documento = Jsoup.connect(urlGruplac).get();
 //            Elements elements=Xsoup.compile("/html/body/table[1]/tbody/tr").evaluate(documento).getElements();
 
@@ -97,7 +134,7 @@ public class ScrapperColcienciasPrivado {
         return grupoInvestigacion;
     }
     
-    private ArrayList<Elements> extraerTablaProductos(String tipoProducto,String idConvocatoria,String claseProduccion,HashMap<String, String> cookies) throws IOException{
+    private ArrayList<Elements> extraerTablaProductos(String tipoProducto,String idConvocatoria,String claseProduccion,HashMap<String, String> cookies) throws IOException, NullPointerException{
        
         ArrayList<Elements> elementosTabla=new ArrayList<>();
         

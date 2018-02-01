@@ -5,6 +5,7 @@
  */
 package co.com.ic2.colciencias.gruplac;
 
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.ApoyoProgramaFormacion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ArticuloInvestigacion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.AsesoriaProgramaOndas;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.CapituloLibroPublicado;
@@ -87,6 +88,7 @@ public class GrupoInvestigacion {
     private ArrayList<AsesoriaProgramaOndas> asesoriaProgramaOndas;
     private ArrayList<TrabajoDirigido> trabajoDirigido;
     private ArrayList<Proyecto> proyecto;
+    private ArrayList<ApoyoProgramaFormacion> apoyoProgramaFormacion;
     
     public String getNombre() {
         return nombre;
@@ -447,6 +449,14 @@ public class GrupoInvestigacion {
 
     public void setProyecto(ArrayList<Proyecto> proyecto) {
         this.proyecto = proyecto;
+    }
+
+    public ArrayList<ApoyoProgramaFormacion> getApoyoProgramaFormacion() {
+        return apoyoProgramaFormacion;
+    }
+
+    public void setApoyoProgramaFormacion(ArrayList<ApoyoProgramaFormacion> apoyoProgramaFormacion) {
+        this.apoyoProgramaFormacion = apoyoProgramaFormacion;
     }
 }
 

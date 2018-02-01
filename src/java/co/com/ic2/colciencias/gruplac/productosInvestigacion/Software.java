@@ -23,6 +23,7 @@ public class Software extends ProductoInvestigacion{
     private String institucion;
     private ArrayList<Integrante> autores;
     private String tipo;
+    private String registrosAsociados;
 
     public String getPais() {
         return pais;
@@ -94,6 +95,14 @@ public class Software extends ProductoInvestigacion{
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getRegistrosAsociados() {
+        return registrosAsociados;
+    }
+
+    public void setRegistrosAsociados(String registrosAsociados) {
+        this.registrosAsociados = registrosAsociados;
     }
 
 }

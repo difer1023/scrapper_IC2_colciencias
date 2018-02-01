@@ -20,6 +20,9 @@ public class EmpresaBaseTecnologica extends ProductoInvestigacion{
     private String estado;
     private ArrayList<Integrante> autores;
     private String tipo;
+    private int ano;
+    private String certificadoCamaraComercio;
+    private String certificacionInstitucional;
 
     public String getFecha() {
         return fecha;
@@ -67,6 +70,30 @@ public class EmpresaBaseTecnologica extends ProductoInvestigacion{
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public String getCertificadoCamaraComercio() {
+        return certificadoCamaraComercio;
+    }
+
+    public void setCertificadoCamaraComercio(String certificadoCamaraComercio) {
+        this.certificadoCamaraComercio = certificadoCamaraComercio;
+    }
+
+    public String getCertificacionInstitucional() {
+        return certificacionInstitucional;
+    }
+
+    public void setCertificacionInstitucional(String certificacionInstitucional) {
+        this.certificacionInstitucional = certificacionInstitucional;
     }
     
     

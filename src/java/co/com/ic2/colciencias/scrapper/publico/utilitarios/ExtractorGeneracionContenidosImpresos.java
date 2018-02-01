@@ -7,7 +7,16 @@ package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
 import co.com.ic2.colciencias.gruplac.Integrante;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoImpreso;
+import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
@@ -42,6 +51,59 @@ public class ExtractorGeneracionContenidosImpresos {
             contenidoImpreso.setAutores(autores);
 
             contenidosImpresos.add(contenidoImpreso);
+        }
+        return contenidosImpresos;
+    }
+    
+    public static ArrayList<GeneracionContenidoImpreso> extraerGeneracionContenidosImpresosPrivado(ArrayList<Elements> arrayElements,HashMap<String,String> cookies) {
+        ArrayList<GeneracionContenidoImpreso> contenidosImpresos = new ArrayList();
+        for (Elements elements : arrayElements) {
+            for (int i = 0; i < elements.size(); i++) {
+
+                GeneracionContenidoImpreso contenidoImpreso = new GeneracionContenidoImpreso();
+                System.out.println("FILA"+ elements.get(i).text());
+                
+              contenidoImpreso.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+              String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
+              contenidoImpreso.setAno(Integer.parseInt(ano));
+              contenidoImpreso.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+              String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                System.out.println("enlace"+enlaceDetalle); 
+                Document doc = null;
+            try {
+                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                        .cookies(cookies)
+                        .userAgent(USER_AGENT)
+                        .execute();
+                doc=res2.parse();
+            } catch (IOException ex) {
+                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//                
+              String numeroAutores=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get();  
+                contenidoImpreso.setRevista(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/"
+                        + "table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[2]/td[3]/text()").evaluate(doc).get());
+
+                contenidoImpreso.setNumeroAutores(Integer.parseInt(numeroAutores.split(" \\) ")[0].split("\\(")[1]));
+                
+                contenidoImpreso.setMes(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[6]/td[3]/text()").evaluate(doc).get());
+                contenidoImpreso.setVolumen(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
+                try{
+                contenidoImpreso.setPagInicial((Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[8]/td[3]/text()").evaluate(doc).get()).split("inicial: ")[1]);
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existe página inicial");}
+                try{
+                contenidoImpreso.setPagFinal((Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[9]/td[3]/text()").evaluate(doc).get()).split("final: ")[1]);
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existe página final");}
+                contenidoImpreso.setIssn(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[10]/td[3]/text()").evaluate(doc).get());
+                try{
+                contenidoImpreso.setUrl((Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[11]/td[3]/text()").evaluate(doc).get()).split("URL: ")[1]);
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existe url");}
+                try{
+                contenidoImpreso.setDoi((Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[12]/td[3]/text()").evaluate(doc).get()).split("DOI: ")[1]);
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existe doi");}
+              
+                contenidosImpresos.add(contenidoImpreso);
+            }
         }
         return contenidosImpresos;
     }

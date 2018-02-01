@@ -19,7 +19,11 @@ public class TrabajoDirigido extends ProductoInvestigacion{
     private int anoFin;
     private String valoracion;
     private String institucion;
+
     private ArrayList<Integrante> autores;
+    private String autorTrabajo;
+    
+    private String tipoDireccion;
 
     public String getTipo() {
         return tipo;
@@ -67,8 +71,21 @@ public class TrabajoDirigido extends ProductoInvestigacion{
 
     public void setAutores(ArrayList<Integrante> autores) {
         this.autores = autores;
+    }   
+
+    public String getTipoDireccion() {
+        return tipoDireccion;
     }
-    
-    
-    
+
+    public void setTipoDireccion(String tipoDireccion) {
+        this.tipoDireccion = tipoDireccion;
+    }
+
+    public String getAutorTrabajo() {
+        return autorTrabajo;
+    }
+
+    public void setAutorTrabajo(String autorTrabajo) {
+        this.autorTrabajo = autorTrabajo;
+    }
 }

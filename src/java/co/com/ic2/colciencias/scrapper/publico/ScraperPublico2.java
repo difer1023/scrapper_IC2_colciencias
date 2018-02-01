@@ -364,7 +364,7 @@ public class ScraperPublico2 {
             
             String ano=detalleCapLibro.split(",")[1].substring(1,5);
             capituloLibroPublicado.setAno(Integer.parseInt(ano));
-            capituloLibroPublicado.setLibro(detalleCapLibro.split(",")[2].substring(1));
+            capituloLibroPublicado.setTituloLibro(detalleCapLibro.split(",")[2].substring(1));
             //System.out.println("detalle"+detalleCapLibro);
             
             String [] detalleCapLibro2=detalleCapLibro.split("ISBN:");

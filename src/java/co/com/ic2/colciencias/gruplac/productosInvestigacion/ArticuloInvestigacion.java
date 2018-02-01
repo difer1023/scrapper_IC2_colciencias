@@ -26,6 +26,8 @@ public class ArticuloInvestigacion extends ProductoInvestigacion{
     private String pagInicial;
     private String pagFinal;
     private String url;
+    private int numeroAutores;
+    private String mes;
 
     public String getIssn() {
         return issn;
@@ -130,6 +132,20 @@ public class ArticuloInvestigacion extends ProductoInvestigacion{
     public void setUrl(String url) {
         this.url = url;
     }
-    
-    
+
+    public int getNumeroAutores() {
+        return numeroAutores;
+    }
+
+    public void setNumeroAutores(int numeroAutores) {
+        this.numeroAutores = numeroAutores;
+    }    
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
 }

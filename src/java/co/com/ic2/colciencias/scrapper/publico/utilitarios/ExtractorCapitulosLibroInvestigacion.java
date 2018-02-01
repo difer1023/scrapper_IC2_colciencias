@@ -7,7 +7,16 @@ package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
 import co.com.ic2.colciencias.gruplac.Integrante;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.CapituloLibroPublicado;
+import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
@@ -27,7 +36,7 @@ public class ExtractorCapitulosLibroInvestigacion {
             
             String ano=detalleCapLibro.split(",")[1].substring(1,5);
             capituloLibroPublicado.setAno(Integer.parseInt(ano));
-            capituloLibroPublicado.setLibro(detalleCapLibro.split(",")[2].substring(1));
+            capituloLibroPublicado.setTituloLibro(detalleCapLibro.split(",")[2].substring(1));
             //System.out.println("detalle"+detalleCapLibro);
             
             String [] detalleCapLibro2=detalleCapLibro.split("ISBN:");
@@ -52,5 +61,55 @@ public class ExtractorCapitulosLibroInvestigacion {
             capitulosLibroPublicados.add(capituloLibroPublicado);
         }
         return capitulosLibroPublicados;
+    }
+    
+    public static ArrayList<CapituloLibroPublicado> extraerCapitulosLibroPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+        ArrayList<CapituloLibroPublicado> capitulosLibro = new ArrayList();
+        for (Elements elements : arrayElements) {
+            for (int i = 0; i < elements.size(); i++) {
+                CapituloLibroPublicado capituloLibro = new CapituloLibroPublicado();
+                System.out.println("FILA"+ elements.get(i).text());
+                
+                capituloLibro.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+                
+               String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
+              capituloLibro.setAno(Integer.parseInt(ano));
+              capituloLibro.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+              
+              String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                System.out.println("enlace"+enlaceDetalle); 
+                Document doc = null;
+            try {
+                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                        .cookies(cookies)
+                        .userAgent(USER_AGENT)
+                        .execute();
+                doc=res2.parse();
+            } catch (IOException ex) {
+                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+                capituloLibro.setTituloLibro(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[2]/td[3]/text()").evaluate(doc).get());
+                
+                capituloLibro.setIsbn(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
+                
+                String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split("-");
+                capituloLibro.setAno(Integer.parseInt(fechaPublicacion[0]));
+                
+                String numeroAutores=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[6]/td[3]/text()").evaluate(doc).get();
+                System.out.println("re"+numeroAutores);
+                capituloLibro.setNumeroAutores(Integer.parseInt(numeroAutores.split("\\) ")[0].split("\\(")[1]));
+                capituloLibro.setEditorial(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
+                capituloLibro.setPais(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[8]/td[3]/text()").evaluate(doc).get());
+                
+                //Campo en blanco
+                try{
+                capituloLibro.setRequisitosGuiaVerificacion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[9]/td[3]/text()").evaluate(doc).get());
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
+                
+                capitulosLibro.add(capituloLibro);
+            }
+        }
+        return capitulosLibro;
     }
 }

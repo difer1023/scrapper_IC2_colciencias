@@ -19,7 +19,17 @@ public class LibroPublicado extends ProductoInvestigacion{
     private String editorial;
     private ArrayList<Integrante> autores;
     private String tipo;
-
+    private String mes;
+    private int numeroAutores;
+    private String requisitosVerificacion;
+    
+    private String certificacionInstitucion;
+    private String bookCitationIndex;
+    private String referenciaRevistasD;
+    private String referenciaRevistasA1;
+    private int numeroReferenciasBCI;
+    private int numeroReferenciasLibB;
+    
     public String getIsbn() {
         return isbn;
     }
@@ -67,5 +77,76 @@ public class LibroPublicado extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public int getNumeroAutores() {
+        return numeroAutores;
+    }
+
+    public void setNumeroAutores(int numeroAutores) {
+        this.numeroAutores = numeroAutores;
+    }
+
+    public String getRequisitosVerificacion() {
+        return requisitosVerificacion;
+    }
+
+    public void setRequisitosVerificacion(String requisitosVerificacion) {
+        this.requisitosVerificacion = requisitosVerificacion;
+    }
+
+    public String getCertificacionInstitucion() {
+        return certificacionInstitucion;
+    }
+
+    public void setCertificacionInstitucion(String certificacionInstitucion) {
+        this.certificacionInstitucion = certificacionInstitucion;
+    }
+
+    public String getBookCitationIndex() {
+        return bookCitationIndex;
+    }
+
+    public void setBookCitationIndex(String bookCitationIndex) {
+        this.bookCitationIndex = bookCitationIndex;
+    }
+
+    public String getReferenciaRevistasD() {
+        return referenciaRevistasD;
+    }
+
+    public void setReferenciaRevistasD(String referenciaRevistasD) {
+        this.referenciaRevistasD = referenciaRevistasD;
+    }
+
+    public String getReferenciaRevistasA1() {
+        return referenciaRevistasA1;
+    }
+
+    public void setReferenciaRevistasA1(String referenciaRevistasA1) {
+        this.referenciaRevistasA1 = referenciaRevistasA1;
+    }
+
+    public int getNumeroReferenciasBCI() {
+        return numeroReferenciasBCI;
+    }
+
+    public void setNumeroReferenciasBCI(int numeroReferenciasBCI) {
+        this.numeroReferenciasBCI = numeroReferenciasBCI;
+    }
+
+    public int getNumeroReferenciasLibB() {
+        return numeroReferenciasLibB;
+    }
+
+    public void setNumeroReferenciasLibB(int numeroReferenciasLibB) {
+        this.numeroReferenciasLibB = numeroReferenciasLibB;
+    }
 }

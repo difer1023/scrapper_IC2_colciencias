@@ -5,6 +5,9 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
+import co.com.ic2.colciencias.gruplac.Institucion;
+import java.util.ArrayList;
+
 /**
  *
  * @author L
@@ -14,6 +17,9 @@ public class EstrategiaPedagogicaFomentoCTI extends ProductoInvestigacion{
     private int anoInicio;
     private String descripcion;
     private String tipo;
+    
+    private ArrayList<Institucion> instituciones;
+    private int numeroInvestigadoresPrincipales;
 
     public int getAnoInicio() {
         return anoInicio;
@@ -38,7 +44,21 @@ public class EstrategiaPedagogicaFomentoCTI extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
-    
+
+    public ArrayList<Institucion> getInstituciones() {
+        return instituciones;
+    }
+
+    public void setInstituciones(ArrayList<Institucion> instituciones) {
+        this.instituciones = instituciones;
+    }
+
+    public int getNumeroInvestigadoresPrincipales() {
+        return numeroInvestigadoresPrincipales;
+    }
+
+    public void setNumeroInvestigadoresPrincipales(int numeroInvestigadoresPrincipales) {
+        this.numeroInvestigadoresPrincipales = numeroInvestigadoresPrincipales;
+    }
 }
 

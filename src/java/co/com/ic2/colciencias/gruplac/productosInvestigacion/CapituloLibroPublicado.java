@@ -16,10 +16,13 @@ public class CapituloLibroPublicado extends ProductoInvestigacion {
     private String isbn;
     private int ano;
     private String pais;
-    private String libro;
+    private String tituloLibro;
     private String editorial;
     private ArrayList<Integrante> autores;
     private String tipo;
+    
+    private int numeroAutores;
+    private String requisitosGuiaVerificacion;
 
     public String getIsbn() {
         return isbn;
@@ -45,12 +48,12 @@ public class CapituloLibroPublicado extends ProductoInvestigacion {
         this.pais = pais;
     }
 
-    public String getLibro() {
-        return libro;
+    public String getTituloLibro() {
+        return tituloLibro;
     }
 
-    public void setLibro(String libro) {
-        this.libro = libro;
+    public void setTituloLibro(String tituloLibro) {
+        this.tituloLibro = tituloLibro;
     }
 
     public String getEditorial() {
@@ -77,5 +80,19 @@ public class CapituloLibroPublicado extends ProductoInvestigacion {
         this.tipo = tipo;
     }
 
-    
+    public int getNumeroAutores() {
+        return numeroAutores;
+    }
+
+    public void setNumeroAutores(int numeroAutores) {
+        this.numeroAutores = numeroAutores;
+    }
+
+    public String getRequisitosGuiaVerificacion() {
+        return requisitosGuiaVerificacion;
+    }
+
+    public void setRequisitosGuiaVerificacion(String requisitosGuiaVerificacion) {
+        this.requisitosGuiaVerificacion = requisitosGuiaVerificacion;
+    }
 }
