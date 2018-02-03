@@ -21,7 +21,9 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Trabajos dirigidos
+ * Extrae información de la parte pública y la parte privada del gruplac
+ * Extrae tesis de doctorado, maestría y pregrado
  * @author Difer
  */
 public class ExtractorTrabajosDirigidos {

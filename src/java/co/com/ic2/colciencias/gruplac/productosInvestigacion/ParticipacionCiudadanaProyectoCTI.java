@@ -9,7 +9,7 @@ import co.com.ic2.colciencias.gruplac.Institucion;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Participacion ciudadana en proyectos de CTI
  * @author L
  */
 public class ParticipacionCiudadanaProyectoCTI extends ProductoInvestigacion{

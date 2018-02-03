@@ -6,7 +6,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 /**
- *
+ *Clase que representa el producto Apoyo a programas de formación
  * @author L
  */
 public class ApoyoProgramaFormacion extends ProductoInvestigacion{

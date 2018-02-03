@@ -21,7 +21,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Empresa de base tecnológica
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author Difer
  */
 public class ExtractorEmpresasBaseTeconologica {
@@ -84,8 +85,11 @@ public class ExtractorEmpresasBaseTeconologica {
             
                 
                 empresaBT.setCertificadoCamaraComercio(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
+                
                 empresaBT.setNit(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
+              
                 empresaBT.setCertificacionInstitucional(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()/text()").evaluate(doc).get());
+                
                 
                 empresasBT.add(empresaBT);
             }

@@ -10,7 +10,7 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Consultoría
  * @author L
  */
 public class Consultoria extends ProductoInvestigacion{
@@ -87,7 +87,5 @@ public class Consultoria extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
-    
-  
+ 
 }

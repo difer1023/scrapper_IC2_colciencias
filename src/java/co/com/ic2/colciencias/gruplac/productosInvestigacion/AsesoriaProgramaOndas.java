@@ -6,7 +6,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 /**
- *
+ * Clase que reperesenta el producto Asesoría al programa Ondas
  * @author L
  */
 public class AsesoriaProgramaOndas extends ProductoInvestigacion{

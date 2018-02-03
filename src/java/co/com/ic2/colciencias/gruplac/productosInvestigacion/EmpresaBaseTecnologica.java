@@ -9,7 +9,7 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Empresa de base tecnológica
  * @author L
  */
 public class EmpresaBaseTecnologica extends ProductoInvestigacion{

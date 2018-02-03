@@ -20,7 +20,9 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Proyecto
+ * Extrae información de la parte pública y la parte privada del gruplac
+ * Extrae información sobre proyectos de investigación y desarrollo, I+D+I, extensión de responsabilidad social
  * @author Difer
  */
 public class ExtractorProyectos {

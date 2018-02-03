@@ -22,7 +22,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Libro
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author Difer
  */
 public class ExtractorLibrosInvestigacion {
@@ -111,22 +112,27 @@ public class ExtractorLibrosInvestigacion {
             } catch (IOException ex) {
                 Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+                try {
                 String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split("-");
-                libroPublicado.setIsbn(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
-                
                 libroPublicado.setMes(fechaPublicacion[1]);
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error no existe mes");}
                 
+                
+                libroPublicado.setIsbn(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
+   
+                try {
                 String numeroAutores=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get();
-                System.out.println("re"+numeroAutores);
                 libroPublicado.setNumeroAutores(Integer.parseInt(numeroAutores.split("\\) ")[0].split("\\(")[1]));
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error no existe numero autores");}
+                
                 libroPublicado.setEditorial(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[6]/td[3]/text()").evaluate(doc).get());
+                
+                
                 libroPublicado.setPais(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
                 
                 //Campo en blanco
-                try{
                 libroPublicado.setRequisitosVerificacion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[8]/td[3]/text()").evaluate(doc).get());
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
+                
 //                libroPublicado.setCertificacionInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[2]/tbody/tr[2]/td[3]/text()").evaluate(doc).get());
 //                libroPublicado.setBookCitationIndex(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[2]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
 //                

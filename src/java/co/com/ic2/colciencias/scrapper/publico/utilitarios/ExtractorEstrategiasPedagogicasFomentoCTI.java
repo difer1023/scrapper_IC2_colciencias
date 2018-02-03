@@ -21,7 +21,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Estrategia pedágogica de fomento a la CTI
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author Difer
  */
 public class ExtractorEstrategiasPedagogicasFomentoCTI {
@@ -71,10 +72,10 @@ public class ExtractorEstrategiasPedagogicasFomentoCTI {
             } catch (IOException ex) {
                 Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+                try{
                 String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-");
                 estrategiaPedagogica.setAnoInicio(Integer.parseInt(fechaPublicacion[0]));
-                
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error no existe fecha publicacion");}
                 //Campo en blanco
                 try{
                 String [] institucionesTabla= Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split(" \\| ");

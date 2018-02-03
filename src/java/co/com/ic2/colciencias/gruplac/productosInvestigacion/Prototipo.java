@@ -9,7 +9,7 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Prototipo
  * @author L
  */
 public class Prototipo extends ProductoInvestigacion{

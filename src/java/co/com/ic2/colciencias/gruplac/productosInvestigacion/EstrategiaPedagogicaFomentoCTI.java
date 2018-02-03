@@ -9,7 +9,7 @@ import co.com.ic2.colciencias.gruplac.Institucion;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Estrategia pedagogica para el fomento de CTI
  * @author L
  */
 public class EstrategiaPedagogicaFomentoCTI extends ProductoInvestigacion{

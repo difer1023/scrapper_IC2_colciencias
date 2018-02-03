@@ -10,7 +10,7 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Evento científico
  * @author L
  */
 public class EventoCientifico extends ProductoInvestigacion{

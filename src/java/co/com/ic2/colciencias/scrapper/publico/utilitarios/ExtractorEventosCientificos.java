@@ -21,7 +21,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Evento científico
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author Difer
  */
 public class ExtractorEventosCientificos {
@@ -80,15 +81,12 @@ public class ExtractorEventosCientificos {
 
                 try {
                     String numeroAutores = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get();
-
                     eventoCientifico.setNumeroAutores(Integer.parseInt(numeroAutores.split("registrados: ")[1].split(" ")[0]));
-                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error no existe numero autores");}
+                //System.out.println(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
 
-                }
-                System.out.println(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
-
+                try{
                 String[] institucionesTabla = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split(" \\| ");
-                System.out.println(institucionesTabla.length);
                 ArrayList<Institucion> instituciones = new ArrayList<>();
 
                 for (String nombreInstitucion : institucionesTabla) {
@@ -97,6 +95,8 @@ public class ExtractorEventosCientificos {
                     instituciones.add(institucion);
                 }
                 eventoCientifico.setInstituciones(instituciones);
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existen instituciones");}
+                
                 eventosCientíficos.add(eventoCientifico);
             }
         }

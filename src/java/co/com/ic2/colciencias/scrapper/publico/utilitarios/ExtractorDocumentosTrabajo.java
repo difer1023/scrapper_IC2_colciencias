@@ -22,7 +22,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Documento de trabajo
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author Difer
  */
 public class ExtractorDocumentosTrabajo {
@@ -77,13 +78,14 @@ public class ExtractorDocumentosTrabajo {
             } catch (IOException ex) {
                 Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+                try {
                 String numeroAutores=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get();
                 documentosTrabajo.setNumeroAutores(Integer.parseInt(numeroAutores.split("\\) ")[0].split("\\(")[1]));
-            
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error existe numero autores");}
+                try {
                 String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split("-");
                 documentosTrabajo.setAno(Integer.parseInt(fechaPublicacion[0]));
-                
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error existe fecha publicacion");}  
                 //Pendiente scrapear url o doi
                 
                 documentoTrabajo.add(documentosTrabajo);

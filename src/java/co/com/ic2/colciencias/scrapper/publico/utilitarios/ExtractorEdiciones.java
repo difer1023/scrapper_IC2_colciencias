@@ -22,7 +22,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Edición
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author Difer
  */
 public class ExtractorEdiciones {
@@ -84,10 +85,10 @@ public class ExtractorEdiciones {
                 //falta issn o isbn
                 //falta autor, no sé si uno o varios
                 //fechapublicacion, no sé formato
-                
+                try {
                 String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split("-");
                 edicion.setAno(Integer.parseInt(fechaPublicacion[0]));
-        
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error existe fecha publicacion");}
                 ediciones.add(edicion);
             }
         }

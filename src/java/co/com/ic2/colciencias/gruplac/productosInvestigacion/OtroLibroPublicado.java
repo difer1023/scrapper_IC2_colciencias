@@ -9,7 +9,8 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Otro libro publicado
+ * Presente en la parte pública del Gruplac
  * @author L
  */
 public class OtroLibroPublicado extends ProductoInvestigacion{

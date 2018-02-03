@@ -6,7 +6,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 /**
- *
+ * Clase que representa los atributos principales de un producto de investigación 
  * @author L
  */
 public abstract class ProductoInvestigacion {

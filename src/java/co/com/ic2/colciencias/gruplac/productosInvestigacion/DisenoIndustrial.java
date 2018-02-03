@@ -9,7 +9,7 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Diseño Industrial
  * @author L
  */
 public class DisenoIndustrial extends ProductoInvestigacion{

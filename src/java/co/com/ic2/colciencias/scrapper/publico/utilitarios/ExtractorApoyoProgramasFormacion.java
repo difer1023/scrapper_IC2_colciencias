@@ -20,10 +20,12 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Apoyo a programas de formación
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author L
  */
 public class ExtractorApoyoProgramasFormacion {
+    
     public static ArrayList<ApoyoProgramaFormacion> extraerApoyoCreacionProgramasPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<ApoyoProgramaFormacion> apoyoProgramasFormacion = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -56,10 +58,13 @@ public class ExtractorApoyoProgramasFormacion {
                 try{
                 apoyoProgramaFormacion.setFechaActoAdministrativo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
                 } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay fecha acto administrativo");}
-                
+                try{
                 apoyoProgramaFormacion.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay fecha acto institucion");}
+                
                 
                 apoyoProgramasFormacion.add(apoyoProgramaFormacion);
+                
             }
         }
         return apoyoProgramasFormacion;
@@ -91,14 +96,11 @@ public class ExtractorApoyoProgramasFormacion {
                 Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-                try{
+          
                 apoyoCreacionCurso.setActoAdministrativo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay acto administrativo");}
-                try{
                 apoyoCreacionCurso.setFechaActoAdministrativo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay fecha acto administrativo");}
-                
                 apoyoCreacionCurso.setProgramaSeleccionado(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
+                
                 
                 apoyoCreacionCursos.add(apoyoCreacionCurso);
             }

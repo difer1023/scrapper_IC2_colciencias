@@ -21,7 +21,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer la información relacionada con el producto Red de conocimiento
+ * Extrae información de la parte pública y la parte privada del gruplac
  * @author Difer
  */
 public class ExtractorRedesConocimiento {
@@ -72,10 +73,12 @@ public class ExtractorRedesConocimiento {
                 redConocimiento.setInvestigador(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(elements.get(i)).get());
                 redConocimiento.setPagWeb(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[6]/td[3]/text()").evaluate(elements.get(i)).get());
                 
+                try{
                 String numeroComunidades=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()/text()").evaluate(doc).get();
-                
                 redConocimiento.setComunidadesParticipantes(Integer.parseInt(numeroComunidades.split("registradas: ")[1].split(" ")[0]));
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error no existe numero comunidades");}
                 
+                try{
                 String [] institucionesTabla= Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split(" \\| ");
                 ArrayList<Institucion> instituciones= new ArrayList<>();
                 
@@ -85,7 +88,8 @@ public class ExtractorRedesConocimiento {
                     instituciones.add(institucion);
                 }
                 redConocimiento.setInstituciones(instituciones);
-
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existen instituciones");}
+                
                 redesConocimiento.add(redConocimiento);
             }
         }

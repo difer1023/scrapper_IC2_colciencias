@@ -10,7 +10,7 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Working Paper (Documento de trabajo)
  * @author L
  */
 public class DocumentoTrabajo extends ProductoInvestigacion{

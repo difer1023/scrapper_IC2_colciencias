@@ -10,7 +10,7 @@ import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que representa el producto Generación de contenido multimedia
  * @author L
  */
 public class GeneracionContenidoMultimedia extends ProductoInvestigacion{
