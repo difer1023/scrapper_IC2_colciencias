@@ -96,6 +96,22 @@ public class ScrapperColcienciasPrivado {
                     .userAgent(USER_AGENT)
                     .execute();
             
+            //Pieza de codigo para extraer productos de grupos de lideres con mas de un grupo de investigacion
+             System.out.println(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/b[2]/text()").evaluate(homePage.parse()).getElements());
+            Elements enlaces = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/li").evaluate(homePage.parse()).getElements();
+
+            System.out.println(enlaces);
+
+            String enlaceGrupo = "http://scienti.colciencias.gov.co:8080/gruplac" + (Xsoup.compile("/a/@href").evaluate(enlaces.get(1)).get().replace("..", ""));
+
+            System.out.println(enlaceGrupo);
+
+            Connection.Response home = Jsoup.connect(enlaceGrupo)
+                    .cookies(cookies)
+                    .method(Connection.Method.GET)
+                    .userAgent(USER_AGENT)
+                    .execute();
+            //////////////////
             try{
             grupoInvestigacion.setArticulosInvestigacion(ExtractorArticulosInvestigacion.extraerArticulosPublicadosPrivado(extraerTablaProductos("ART", "19", "GNC", cookies), cookies));
             }catch(NullPointerException e){

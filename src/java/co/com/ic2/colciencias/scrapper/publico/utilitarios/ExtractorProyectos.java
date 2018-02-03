@@ -72,9 +72,9 @@ public class ExtractorProyectos {
                 Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-                
+                try{
                 proyectoInvestigacionDesarrollo.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("entidades: ")[1]);
-                
+                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay institucion");}
                 String numeroInvestigadoresPrincipales=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get();
                 try{
                 proyectoInvestigacionDesarrollo.setNumeroInvestigadoresPrincipales(Integer.parseInt(numeroInvestigadoresPrincipales.split("\\) ")[0].split("\\(")[1]));

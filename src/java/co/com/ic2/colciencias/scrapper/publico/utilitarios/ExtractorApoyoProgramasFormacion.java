@@ -35,8 +35,13 @@ public class ExtractorApoyoProgramasFormacion {
                 
                 apoyoProgramaFormacion.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
+                try{
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get().substring(0,4);
                 apoyoProgramaFormacion.setAno(Integer.parseInt(ano));
+                }catch(StringIndexOutOfBoundsException | NumberFormatException e){
+                    System.out.println("Error en ano programa formacion");
+                }
+                
                 apoyoProgramaFormacion.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
