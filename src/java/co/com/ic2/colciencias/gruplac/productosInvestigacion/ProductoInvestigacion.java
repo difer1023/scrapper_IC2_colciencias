@@ -10,16 +10,19 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
  * @author L
  */
 public abstract class ProductoInvestigacion {
+	
     private String subtipo;
     private String nombre;
-    private String clasificacion;
+    private String categoria;
+    private boolean clasificado;
+    private int codigo;
 
-    public String getClasificacion() {
-        return clasificacion;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setClasificacion(String clasificacion) {
-        this.clasificacion = clasificacion;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
             
     public String getSubtipo() {
@@ -37,4 +40,20 @@ public abstract class ProductoInvestigacion {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+	public boolean isClasificado() {
+		return clasificado;
+	}
+
+	public void setClasificado(boolean clasificado) {
+		this.clasificado = clasificado;
+	}
 }

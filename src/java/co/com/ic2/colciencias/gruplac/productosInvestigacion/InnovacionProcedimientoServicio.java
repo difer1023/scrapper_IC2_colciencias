@@ -5,21 +5,26 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
  * Clase que representa el producto Innovación en Proceso
  * @author L
  */
-public class InnovacionProceso extends ProductoInvestigacion{
+public class InnovacionProcedimientoServicio extends ProductoInvestigacion{
     
     private String pais;
     private int ano;
     private String disponibilidad;
     private String institucion;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
+    
+    private String nit;
+    private boolean certificadoImpPeq;
+    private boolean certificadoImpMed;
+    private boolean certificadoImpGran;
 
     public String getPais() {
         return pais;
@@ -53,11 +58,11 @@ public class InnovacionProceso extends ProductoInvestigacion{
         this.institucion = institucion;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -68,7 +73,38 @@ public class InnovacionProceso extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
+	public String getNit() {
+		return nit;
+	}
+
+	public void setNit(String nit) {
+		this.nit = nit;
+	}
+
+	public boolean isCertificadoImpPeq() {
+		return certificadoImpPeq;
+	}
+
+	public void setCertificadoImpPeq(boolean certificadoImpPeq) {
+		this.certificadoImpPeq = certificadoImpPeq;
+	}
+
+	public boolean isCertificadoImpMed() {
+		return certificadoImpMed;
+	}
+
+	public void setCertificadoImpMed(boolean certificadoImpMed) {
+		this.certificadoImpMed = certificadoImpMed;
+	}
+
+	public boolean isCertificadoImpGran() {
+		return certificadoImpGran;
+	}
+
+	public void setCertificadoImpGran(boolean certificadoImpGran) {
+		this.certificadoImpGran = certificadoImpGran;
+	}
 }
 
 

@@ -11,10 +11,16 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer información relacionada con el producto Signo distintivo
+ * extrae información de la parte pública del Gruplac
  * @author Difer
  */
 public class ExtractorSignosDistintivos {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Signo distintivo
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<SignoDistintivo> extraerSignosDistintivos(Elements elements) {
         ArrayList<SignoDistintivo> signosDistintivos = new ArrayList();
         for(int i=1;i<elements.size();i++){

@@ -7,7 +7,6 @@ package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.RedConocimiento;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +25,11 @@ import us.codecraft.xsoup.Xsoup;
  * @author Difer
  */
 public class ExtractorRedesConocimiento {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Red de conocimiento
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<RedConocimiento> extraerRedesConocimiento(Elements elements) {
         ArrayList<RedConocimiento> redesConocimiento = new ArrayList();
         for(int i=1;i<elements.size();i++){
@@ -36,13 +40,18 @@ public class ExtractorRedesConocimiento {
             
             String [] detalleRed2=detalleRed.split(", desde");
             redConocimiento.setLugar(detalleRed2[0].substring(4));
-            redConocimiento.setFechaInicio(detalleRed2[1].substring(1,20));
+            redConocimiento.setFechaInicio(detalleRed2[1].split("- hasta")[0].substring(1,11));
            
             redesConocimiento.add(redConocimiento);
         }
         return redesConocimiento;
     }
     
+    
+    /**
+    * Método encargado de extraer información sobre el producto Red de conocimiento
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<RedConocimiento> extraerRedesConocimientoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<RedConocimiento> redesConocimiento = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -54,20 +63,20 @@ public class ExtractorRedesConocimiento {
                 
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get().substring(0,4);
                 redConocimiento.setAno(Integer.parseInt(ano));
-                redConocimiento.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                redConocimiento.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorRedesConocimiento.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
                 redConocimiento.setLugar(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(elements.get(i)).get());
                 redConocimiento.setInvestigador(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(elements.get(i)).get());

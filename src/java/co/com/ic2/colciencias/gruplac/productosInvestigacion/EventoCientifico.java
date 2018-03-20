@@ -5,9 +5,9 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
+
+import co.com.ic2.colciencias.gruplac.Institucion;
 
 /**
  * Clase que representa el producto Evento científico

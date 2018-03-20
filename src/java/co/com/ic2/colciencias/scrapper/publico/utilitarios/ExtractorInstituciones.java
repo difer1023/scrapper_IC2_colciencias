@@ -11,7 +11,9 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer información relacionada con las instituciones
+ * Extrae insticuiones que avalan un grupo de investigación
+ * Extrae instituciones relacionadas con un producto presentado por un grupo de investigación
  * @author L
  */
 public class ExtractorInstituciones {

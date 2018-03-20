@@ -6,7 +6,6 @@
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Proyecto;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,10 +21,15 @@ import us.codecraft.xsoup.Xsoup;
 /**
  * Clase encargada de extraer la información relacionada con el producto Proyecto
  * Extrae información de la parte pública y la parte privada del gruplac
- * Extrae información sobre proyectos de investigación y desarrollo, I+D+I, extensión de responsabilidad social
+ * Extrae información sobre proyectos de investigación y desarrollo, ID+I, extensión de responsabilidad social
  * @author Difer
  */
 public class ExtractorProyectos {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Proyecto
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<Proyecto> extraerProyectos(Elements elements) {
         ArrayList<Proyecto> proyectos = new ArrayList();
         for(int i=1;i<elements.size();i++){
@@ -46,6 +50,10 @@ public class ExtractorProyectos {
         return proyectos;
     }
     
+    /**
+    * Método encargado de extraer información sobre el producto Proyecto de investigación y desarrollo
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<Proyecto> extraerProyectoInvestigacionDesarrolloPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<Proyecto> proyectosInvestigacionDesarrollo = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -57,20 +65,20 @@ public class ExtractorProyectos {
                 
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
                 proyectoInvestigacionDesarrollo.setAnoInicio(Integer.parseInt(ano));
-                proyectoInvestigacionDesarrollo.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                proyectoInvestigacionDesarrollo.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorProyectos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
                 try{
                 proyectoInvestigacionDesarrollo.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("entidades: ")[1]);
@@ -91,6 +99,10 @@ public class ExtractorProyectos {
         return proyectosInvestigacionDesarrollo;
     }
     
+    /**
+    * Método encargado de extraer información sobre el producto Proyecto ID+I
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<Proyecto> extraerProyectoIDIPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<Proyecto> proyectosIDI = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -102,22 +114,21 @@ public class ExtractorProyectos {
                 
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
                 proyectoIDI.setAnoInicio(Integer.parseInt(ano));
-                proyectoIDI.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                proyectoIDI.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorProyectos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
-                System.out.println(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
                 try{
                 proyectoIDI.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("entidades: ")[1]);
                 } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay institucion");}
@@ -138,6 +149,10 @@ public class ExtractorProyectos {
         return proyectosIDI;
     }
     
+    /**
+    * Método encargado de extraer información sobre el producto Proyecto de extensión en responsabilidad social
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<Proyecto> extraerProyectoExtensionResponsabilidadSocialPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<Proyecto> proyectosExtension = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -146,42 +161,43 @@ public class ExtractorProyectos {
                 System.out.println("FILA"+ elements.get(i).text());
                 
                 proyectoExtension.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
-                
+                try{
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
                 proyectoExtension.setAnoInicio(Integer.parseInt(ano));
-                proyectoExtension.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                }catch(NumberFormatException e){System.out.println("Error no existe año inicio");}
+                proyectoExtension.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorProyectos.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 String fechaInicio=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-")[0];
                 try{
                 proyectoExtension.setAnoInicio(Integer.parseInt(fechaInicio));
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay fecha inicio");}
-                String fechaFin=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split("-")[0];
+                } catch(ArrayIndexOutOfBoundsException | NumberFormatException e){System.out.println("Error no hay fecha inicio");}
+                String fechaFin=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get();
                 try{
                 proyectoExtension.setAnoFin(Integer.parseInt(fechaFin));
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay fecha fin");}
+                } catch(ArrayIndexOutOfBoundsException | NumberFormatException e){System.out.println("Error no hay fecha fin");}
                 
                 String numeroInvestigadoresPrincipales=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get();
                 try{
                 proyectoExtension.setNumeroInvestigadoresPrincipales(Integer.parseInt(numeroInvestigadoresPrincipales.split("\\) ")[0].split("\\(")[1]));
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay numero de investigadores principales");}
+                } catch(ArrayIndexOutOfBoundsException | NumberFormatException e){System.out.println("Error no hay numero de investigadores principales");}
               
                 String numeroInvestigadoresParticipantes=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[6]/td[3]/text()").evaluate(doc).get();
                 try{
                 proyectoExtension.setNumeroInvestigadoresPrincipales(Integer.parseInt(numeroInvestigadoresParticipantes.split("\\) ")[0].split("\\(")[1]));
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay numero investigadores participantes");}
+                } catch(ArrayIndexOutOfBoundsException | NumberFormatException e){System.out.println("Error no hay numero investigadores participantes");}
                 
                 proyectosExtension.add(proyectoExtension);
             }

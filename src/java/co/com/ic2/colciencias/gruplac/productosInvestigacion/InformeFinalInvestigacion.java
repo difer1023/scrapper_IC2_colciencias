@@ -5,17 +5,17 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
- * Clase que representa el producto Informa final de investigación
+ * Clase que representa el producto Informe final de investigación
  * @author L
  */
-public class InformeInvestigacion extends ProductoInvestigacion{
+public class InformeFinalInvestigacion extends ProductoInvestigacion{
     private int ano;
     private String proyecto;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
 
     public int getAno() {
@@ -34,11 +34,11 @@ public class InformeInvestigacion extends ProductoInvestigacion{
         this.proyecto = proyecto;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 

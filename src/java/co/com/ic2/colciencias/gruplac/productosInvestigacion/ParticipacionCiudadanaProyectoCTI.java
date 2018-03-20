@@ -20,6 +20,8 @@ public class ParticipacionCiudadanaProyectoCTI extends ProductoInvestigacion{
     private int numeroInvestigadoresPrincipales;
     private String comunidadesParticipantes;
     private ArrayList<Institucion> instituciones;
+    
+    private boolean constanciaParticipacion;
 
     public int getAnoInicio() {
         return anoInicio;
@@ -60,4 +62,12 @@ public class ParticipacionCiudadanaProyectoCTI extends ProductoInvestigacion{
     public void setInstituciones(ArrayList<Institucion> instituciones) {
         this.instituciones = instituciones;
     }
+
+	public boolean isConstanciaParticipacion() {
+		return constanciaParticipacion;
+	}
+
+	public void setConstanciaParticipacion(boolean constanciaParticipacion) {
+		this.constanciaParticipacion = constanciaParticipacion;
+	}
 }

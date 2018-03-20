@@ -9,14 +9,14 @@ package co.com.ic2.colciencias.gruplac;
  *
  * @author L
  */
-public class Integrante {
+public class Investigador {
     private String nombreCompleto;
-    private String vinculacion;
     private String horasDedicacion;
     private String inicioVinculacion;
     private String finVinculacion;
     private String categoria;
     private String vigenciaCategoria;
+    private boolean lider;
 
     public String getNombreCompleto() {
         return nombreCompleto;
@@ -24,14 +24,6 @@ public class Integrante {
 
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
-    }
-
-    public String getVinculacion() {
-        return vinculacion;
-    }
-
-    public void setVinculacion(String vinculacion) {
-        this.vinculacion = vinculacion;
     }
 
     public String getHorasDedicacion() {
@@ -73,6 +65,14 @@ public class Integrante {
     public void setVigenciaCategoria(String vigenciaCategoria) {
         this.vigenciaCategoria = vigenciaCategoria;
     }
+
+	public boolean isLider() {
+		return lider;
+	}
+
+	public void setLider(boolean lider) {
+		this.lider = lider;
+	}
     
     
 }

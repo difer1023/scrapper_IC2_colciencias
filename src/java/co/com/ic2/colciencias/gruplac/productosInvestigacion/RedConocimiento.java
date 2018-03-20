@@ -6,7 +6,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +22,9 @@ public class RedConocimiento extends ProductoInvestigacion{
     private String investigador;
     private int comunidadesParticipantes;
     private String pagWeb;
+    
+    private String nombreComunidad;
+    private boolean liderRed;
     
     private ArrayList<Institucion> instituciones;
     
@@ -89,4 +92,20 @@ public class RedConocimiento extends ProductoInvestigacion{
     public void setInstituciones(ArrayList<Institucion> instituciones) {
         this.instituciones = instituciones;
     }
+
+	public String getNombreComunidad() {
+		return nombreComunidad;
+	}
+
+	public void setNombreComunidad(String nombreComunidad) {
+		this.nombreComunidad = nombreComunidad;
+	}
+
+	public boolean isLiderRed() {
+		return liderRed;
+	}
+
+	public void setLiderRed(boolean liderRed) {
+		this.liderRed = liderRed;
+	}
 }

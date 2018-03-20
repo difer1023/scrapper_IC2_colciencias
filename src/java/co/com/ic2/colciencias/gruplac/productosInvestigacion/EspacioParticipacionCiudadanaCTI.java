@@ -6,18 +6,18 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 /**
- * Clase que representa el producto Estrategia de comunicación del conocimiento
+ * Clase que representa el producto Espacio de participación ciudadana
  * @author L
  */
-public class EstrategiaComunicacionConocimiento extends ProductoInvestigacion{
+public class EspacioParticipacionCiudadanaCTI extends ProductoInvestigacion{
     
     private int anoInicio;
-    private String descripcion;
     private String tipo;
     
-    private String lider;
     private String nombreComunidad;
-    private boolean certificacion;
+    private boolean constanciaParticipacion;
+    
+    private int numeroParticipantes;
 
     public int getAnoInicio() {
         return anoInicio;
@@ -25,14 +25,6 @@ public class EstrategiaComunicacionConocimiento extends ProductoInvestigacion{
 
     public void setAnoInicio(int anoInicio) {
         this.anoInicio = anoInicio;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public String getTipo() {
@@ -43,14 +35,6 @@ public class EstrategiaComunicacionConocimiento extends ProductoInvestigacion{
         this.tipo = tipo;
     }
 
-	public String getLider() {
-		return lider;
-	}
-
-	public void setLider(String lider) {
-		this.lider = lider;
-	}
-
 	public String getNombreComunidad() {
 		return nombreComunidad;
 	}
@@ -59,11 +43,19 @@ public class EstrategiaComunicacionConocimiento extends ProductoInvestigacion{
 		this.nombreComunidad = nombreComunidad;
 	}
 
-	public boolean isCertificacion() {
-		return certificacion;
+	public boolean isConstanciaParticipacion() {
+		return constanciaParticipacion;
 	}
 
-	public void setCertificacion(boolean certificacion) {
-		this.certificacion = certificacion;
+	public void setConstanciaParticipacion(boolean constanciaParticipacion) {
+		this.constanciaParticipacion = constanciaParticipacion;
 	}
+
+    public int getNumeroParticipantes() {
+        return numeroParticipantes;
+    }
+
+    public void setNumeroParticipantes(int numeroParticipantes) {
+        this.numeroParticipantes = numeroParticipantes;
+    }
 }

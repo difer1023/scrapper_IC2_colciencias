@@ -5,7 +5,7 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +18,7 @@ public class OtroLibroPublicado extends ProductoInvestigacion{
     private int ano;
     private String pais;
     private String editorial;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
 
     public String getIsbn() {
@@ -45,11 +45,11 @@ public class OtroLibroPublicado extends ProductoInvestigacion{
         this.editorial = editorial;
     }
     
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 

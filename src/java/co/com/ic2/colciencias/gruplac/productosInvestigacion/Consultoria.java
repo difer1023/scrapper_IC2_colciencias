@@ -5,9 +5,9 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
 import java.util.ArrayList;
+
+import co.com.ic2.colciencias.gruplac.Investigador;
 
 /**
  * Clase que representa el producto Consultoría
@@ -21,8 +21,10 @@ public class Consultoria extends ProductoInvestigacion{
     private String disponibilidad;
     private String numContrato;
     private String institucion;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
+    
+    private boolean certificacionEmpresa;
 
     public String getPais() {
         return pais;
@@ -72,11 +74,11 @@ public class Consultoria extends ProductoInvestigacion{
         this.institucion = institucion;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -87,5 +89,12 @@ public class Consultoria extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
- 
+
+	public boolean isCertificacionEmpresa() {
+		return certificacionEmpresa;
+	}
+
+	public void setCertificacionEmpresa(boolean certificacionEmpresa) {
+		this.certificacionEmpresa = certificacionEmpresa;
+	}
 }

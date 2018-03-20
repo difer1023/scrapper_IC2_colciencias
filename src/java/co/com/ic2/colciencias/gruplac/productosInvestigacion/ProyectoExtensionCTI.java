@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 /**
- * Clase que representa el producto Proyecto
+ * Clase que representa el producto Proyecto de extensiòn y responsabilidad social en CTI
  * @author L
  */
-public class Proyecto extends ProductoInvestigacion{
+public class ProyectoExtensionCTI extends ProductoInvestigacion{
     
     private int anoInicio;
     private String tipo;
@@ -27,6 +22,8 @@ public class Proyecto extends ProductoInvestigacion{
     private String numeroContrato;
     private int tipoFinanciacion;
     
+    private String nombreComunidad;
+    private String resumenCtel;
 
     public int getAnoInicio() {
         return anoInicio;
@@ -122,5 +119,29 @@ public class Proyecto extends ProductoInvestigacion{
 
 	public void setTipoFinanciacion(int tipoFinanciacion) {
 		this.tipoFinanciacion = tipoFinanciacion;
+	}
+
+	public int getNumeroInvestigadoresParticipantes() {
+		return numeroInvestigadoresParticipantes;
+	}
+
+	public void setNumeroInvestigadoresParticipantes(int numeroInvestigadoresParticipantes) {
+		this.numeroInvestigadoresParticipantes = numeroInvestigadoresParticipantes;
+	}
+
+	public String getNombreComunidad() {
+		return nombreComunidad;
+	}
+
+	public void setNombreComunidad(String nombreComunidad) {
+		this.nombreComunidad = nombreComunidad;
+	}
+
+	public String getResumenCtel() {
+		return resumenCtel;
+	}
+
+	public void setResumenCtel(String resumenCtel) {
+		this.resumenCtel = resumenCtel;
 	}
 }

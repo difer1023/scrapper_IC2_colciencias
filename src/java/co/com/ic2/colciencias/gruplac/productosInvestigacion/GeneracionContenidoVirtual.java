@@ -6,7 +6,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -18,9 +18,14 @@ public class GeneracionContenidoVirtual extends ProductoInvestigacion{
     private int ano;
     private String fecha;
     private String medioCirculacion;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private ArrayList<Institucion> instituciones;
     private String tipo;
+    
+    private String comunidad;
+    private String resumen;
+    private String url;
+    private boolean certificacion;
 
     public int getAno() {
         return ano;
@@ -46,11 +51,11 @@ public class GeneracionContenidoVirtual extends ProductoInvestigacion{
         this.medioCirculacion = medioCirculacion;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -69,6 +74,36 @@ public class GeneracionContenidoVirtual extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
-    
+
+	public String getComunidad() {
+		return comunidad;
+	}
+
+	public void setComunidad(String comunidad) {
+		this.comunidad = comunidad;
+	}
+
+	public String getResumen() {
+		return resumen;
+	}
+
+	public void setResumen(String resumen) {
+		this.resumen = resumen;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public boolean isCertificacion() {
+		return certificacion;
+	}
+
+	public void setCertificacion(boolean certificacion) {
+		this.certificacion = certificacion;
+	}   
 }

@@ -6,7 +6,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class DocumentoTrabajo extends ProductoInvestigacion{
     private int ano;
     private String numPaginas;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
     private ArrayList<Institucion> instituciones;
     private String url;
@@ -40,11 +40,11 @@ public class DocumentoTrabajo extends ProductoInvestigacion{
         this.numPaginas = numPaginas;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 

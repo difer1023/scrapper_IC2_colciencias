@@ -7,7 +7,6 @@ package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaPedagogicaFomentoCTI;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,18 +25,21 @@ import us.codecraft.xsoup.Xsoup;
  * @author Difer
  */
 public class ExtractorEstrategiasPedagogicasFomentoCTI {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Estrategia pedagógica de fomento a la CTI
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<EstrategiaPedagogicaFomentoCTI> extraerEstrategiasPedagogicasFomentoCTI(Elements elements) {
         ArrayList<EstrategiaPedagogicaFomentoCTI> estrategiasPedagogicas = new ArrayList();
         for(int i=1;i<elements.size();i++){
             EstrategiaPedagogicaFomentoCTI estrategiaPedagogica= new EstrategiaPedagogicaFomentoCTI();
             estrategiaPedagogica.setNombre(Xsoup.compile("/td[2]/strong[1]/text()").evaluate(elements.get(i)).get());
-            //estrategiaPedagogica.setNombre(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get().substring(3));
             String detalleEstrategiaPedagogica=Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get();
       
             String [] detalle1=detalleEstrategiaPedagogica.split("desde ");
             String [] detalle2= detalle1[1].split(" ");
             estrategiaPedagogica.setAnoInicio(Integer.parseInt(detalle2[1]));
-            //System.out.println("FechaFin"+detalle2[1]);
             
             String detalleEstrategia=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
             estrategiaPedagogica.setDescripcion(detalleEstrategia.substring(14));
@@ -47,6 +49,11 @@ public class ExtractorEstrategiasPedagogicasFomentoCTI {
         return estrategiasPedagogicas;
     }
     
+    
+    /**
+    * Método encargado de extraer información sobre el producto Estrategia pedagógica de fomento a la CTI
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<EstrategiaPedagogicaFomentoCTI> extraerEstrategiasPedagogicasFomentoCTIPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<EstrategiaPedagogicaFomentoCTI> estrategiasPedagogicas = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -56,22 +63,22 @@ public class ExtractorEstrategiasPedagogicasFomentoCTI {
                 
                 estrategiaPedagogica.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
-               String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-              estrategiaPedagogica.setAnoInicio(Integer.parseInt(ano));
-              estrategiaPedagogica.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
+                estrategiaPedagogica.setAnoInicio(Integer.parseInt(ano));
+                estrategiaPedagogica.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-              String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                 Logger.getLogger(ExtractorEstrategiasPedagogicasFomentoCTI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 try{
                 String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-");
                 estrategiaPedagogica.setAnoInicio(Integer.parseInt(fechaPublicacion[0]));

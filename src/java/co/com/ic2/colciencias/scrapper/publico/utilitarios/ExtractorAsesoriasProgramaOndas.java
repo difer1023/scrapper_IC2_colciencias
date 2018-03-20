@@ -11,10 +11,16 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ *Clase encargada de exraer la información relacionada con el producto Asesoría al programa ondas
+ * Extrae información de la parte pública del Gruplac
  * @author Difer
  */
 public class ExtractorAsesoriasProgramaOndas {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Asesoría al programa Ondas
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<AsesoriaProgramaOndas> extraerAsesoriasProgramaOndas(Elements elements) {
         ArrayList<AsesoriaProgramaOndas> asesoriasProgramaOndas= new ArrayList();
         for(int i=1;i<elements.size();i++){
@@ -32,14 +38,14 @@ public class ExtractorAsesoriasProgramaOndas {
             String [] detalleOndas3=detalleOndas2[2].split("-");
             asesoriaProgramaOndas.setAnoInicio(Integer.parseInt(detalleOndas3[0]));
             
+            asesoriaProgramaOndas.setParticipacionFeria(detalleProgramaOndas1.split("Participó en ")[1].split("\\, Nombre de las ferias: ")[0]);
+            try{
+            asesoriaProgramaOndas.setNombreFeria(detalleProgramaOndas1.split("\\, Nombre de las ferias: ")[1]);
+            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error Nombre Feria");};
             String detalleProgramaOndasI=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
-            //String [] detalle2= detalle1[1].split(" ");
-            asesoriaProgramaOndas.setInstitucion(detalleProgramaOndasI.split(": ")[1]);
-            //System.out.println("FechaFin"+detalle1[1]);
             
-            //String detalleEstrategia=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
-            //asesoriaProgramaOndas.setDescripcion(detalleEstrategia.substring(14));
-
+            asesoriaProgramaOndas.setInstitucion(detalleProgramaOndasI.split(": ")[1]);
+            
             asesoriasProgramaOndas.add(asesoriaProgramaOndas);
         }
         return asesoriasProgramaOndas;

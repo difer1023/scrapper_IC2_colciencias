@@ -5,7 +5,7 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -18,11 +18,13 @@ public class EmpresaBaseTecnologica extends ProductoInvestigacion{
     private String nit;
     private String fechaRegistro;
     private String estado;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
     private int ano;
-    private String certificadoCamaraComercio;
-    private String certificacionInstitucional;
+    private boolean certificadoCamaraComercio;
+    private boolean certificacionInstitucional;
+    
+    private int tipoIdentificacion;
 
     public String getFecha() {
         return fecha;
@@ -56,11 +58,11 @@ public class EmpresaBaseTecnologica extends ProductoInvestigacion{
         this.estado = estado;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -80,21 +82,27 @@ public class EmpresaBaseTecnologica extends ProductoInvestigacion{
         this.ano = ano;
     }
 
-    public String getCertificadoCamaraComercio() {
+    public boolean getCertificadoCamaraComercio() {
         return certificadoCamaraComercio;
     }
 
-    public void setCertificadoCamaraComercio(String certificadoCamaraComercio) {
+    public void setCertificadoCamaraComercio(boolean certificadoCamaraComercio) {
         this.certificadoCamaraComercio = certificadoCamaraComercio;
     }
 
-    public String getCertificacionInstitucional() {
+    public boolean getCertificacionInstitucional() {
         return certificacionInstitucional;
     }
 
-    public void setCertificacionInstitucional(String certificacionInstitucional) {
+    public void setCertificacionInstitucional(boolean certificacionInstitucional) {
         this.certificacionInstitucional = certificacionInstitucional;
     }
-    
-    
+
+	public int getTipoIdentificacion() {
+		return tipoIdentificacion;
+	}
+
+	public void setTipoIdentificacion(int tipoIdentificacion) {
+		this.tipoIdentificacion = tipoIdentificacion;
+	}
 }

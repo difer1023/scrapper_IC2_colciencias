@@ -5,7 +5,7 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +16,8 @@ public class GeneracionContenidoImpreso extends ProductoInvestigacion{
     private String lugarPublicacion;
     private String fecha;
     private String medioCirculacion;
-    private ArrayList<Integrante> autores;
+    private String ambito;
+    private ArrayList<Investigador> autores;
     private String tipo;
     
     private String revista;
@@ -31,6 +32,8 @@ public class GeneracionContenidoImpreso extends ProductoInvestigacion{
     private String mes;
     private String issn;
     private int ano;
+    
+    private boolean certificacion;
 
     public String getLugarPublicacion() {
         return lugarPublicacion;
@@ -56,11 +59,11 @@ public class GeneracionContenidoImpreso extends ProductoInvestigacion{
         this.medioCirculacion = medioCirculacion;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -167,6 +170,20 @@ public class GeneracionContenidoImpreso extends ProductoInvestigacion{
     public void setAno(int ano) {
         this.ano = ano;
     }
-    
-    
+
+	public String getAmbito() {
+		return ambito;
+	}
+
+	public void setAmbito(String ambito) {
+		this.ambito = ambito;
+	}
+
+	public boolean isCertificacion() {
+		return certificacion;
+	}
+
+	public void setCertificacion(boolean certificacion) {
+		this.certificacion = certificacion;
+	}   
 }

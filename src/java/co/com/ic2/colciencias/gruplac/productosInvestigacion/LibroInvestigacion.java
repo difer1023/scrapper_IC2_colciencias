@@ -5,23 +5,23 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
  * Clase que representa el producto Libro
  * @author L
  */
-public class LibroPublicado extends ProductoInvestigacion{
+public class LibroInvestigacion extends ProductoInvestigacion{
     private String isbn;
     private int ano;
     private String pais;
     private String editorial;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
     private String mes;
     private int numeroAutores;
-    private String requisitosVerificacion;
+    private boolean requisitosGuiaVerificacion;
     
     private String certificacionInstitucion;
     private String bookCitationIndex;
@@ -54,11 +54,11 @@ public class LibroPublicado extends ProductoInvestigacion{
         this.editorial = editorial;
     }
     
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -94,12 +94,12 @@ public class LibroPublicado extends ProductoInvestigacion{
         this.numeroAutores = numeroAutores;
     }
 
-    public String getRequisitosVerificacion() {
-        return requisitosVerificacion;
+    public boolean getRequisitosVerificacion() {
+        return requisitosGuiaVerificacion;
     }
 
-    public void setRequisitosVerificacion(String requisitosVerificacion) {
-        this.requisitosVerificacion = requisitosVerificacion;
+    public void setRequisitosGuiaVerificacion(boolean requisitosGuiaVerificacion) {
+        this.requisitosGuiaVerificacion = requisitosGuiaVerificacion;
     }
 
     public String getCertificacionInstitucion() {

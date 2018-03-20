@@ -6,7 +6,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -17,9 +17,14 @@ public class GeneracionContenidoMultimedia extends ProductoInvestigacion{
     
     private int ano;
     private String medioCirculacion;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private ArrayList<Institucion> instituciones;
     private String tipo;
+    
+    private String ambito;
+    private String comunidades;
+    private String resumen;
+    private boolean certificacion;
 
     public int getAno() {
         return ano;
@@ -37,11 +42,11 @@ public class GeneracionContenidoMultimedia extends ProductoInvestigacion{
         this.medioCirculacion = medioCirculacion;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -60,4 +65,36 @@ public class GeneracionContenidoMultimedia extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+	public String getAmbito() {
+		return ambito;
+	}
+
+	public void setAmbito(String ambito) {
+		this.ambito = ambito;
+	}
+
+	public String getComunidades() {
+		return comunidades;
+	}
+
+	public void setComunidades(String comunidades) {
+		this.comunidades = comunidades;
+	}
+
+	public String getResumen() {
+		return resumen;
+	}
+
+	public void setResumen(String resumen) {
+		this.resumen = resumen;
+	}
+
+	public boolean isCertificacion() {
+		return certificacion;
+	}
+
+	public void setCertificacion(boolean certificacion) {
+		this.certificacion = certificacion;
+	}
 }

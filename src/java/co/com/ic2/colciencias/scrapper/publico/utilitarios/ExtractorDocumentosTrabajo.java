@@ -6,9 +6,8 @@
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.DocumentoTrabajo;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +26,11 @@ import us.codecraft.xsoup.Xsoup;
  * @author Difer
  */
 public class ExtractorDocumentosTrabajo {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Documento de trabajo
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<DocumentoTrabajo> extraerDocumentosTrabajo(Elements elements) {
         ArrayList<DocumentoTrabajo> documentosTrabajo = new ArrayList();
         for(int i=1;i<elements.size();i++){
@@ -37,12 +41,13 @@ public class ExtractorDocumentosTrabajo {
             
             String ano=detalleDocTrabajo.split(",")[0].substring(1,5);
             documentoTrabajo.setAno(Integer.parseInt(ano));
-            documentoTrabajo.setNumPaginas(detalleDocTrabajo.split(",")[1].substring(15));
+            documentoTrabajo.setUrl(detalleDocTrabajo.split("URL: ")[1].split("\\, DOI:")[0]);
+            documentoTrabajo.setDoi(detalleDocTrabajo.split("DOI:")[1]);
          
             String[] datosAutores=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get().substring(9).split(",");
-            ArrayList<Integrante> autores=new ArrayList<>();
+            ArrayList<Investigador> autores=new ArrayList<>();
             for(int k=0;k<datosAutores.length-1;k++){
-                Integrante autor=new Integrante();
+                Investigador autor=new Investigador();
                 autor.setNombreCompleto(datosAutores[k].substring(1));
                 autores.add(autor);
             }
@@ -53,6 +58,11 @@ public class ExtractorDocumentosTrabajo {
         return documentosTrabajo;
     }
     
+    
+    /**
+    * Método encargado de extraer información sobre el producto Documento de trabajo
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<DocumentoTrabajo> extraerDocumentosTrabajoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<DocumentoTrabajo> documentoTrabajo = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -62,22 +72,22 @@ public class ExtractorDocumentosTrabajo {
                 
                 documentosTrabajo.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
-               String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-              documentosTrabajo.setAno(Integer.parseInt(ano));
-              documentosTrabajo.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
+                documentosTrabajo.setAno(Integer.parseInt(ano));
+                documentosTrabajo.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-              String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorDocumentosTrabajo.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 try {
                 String numeroAutores=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get();
                 documentosTrabajo.setNumeroAutores(Integer.parseInt(numeroAutores.split("\\) ")[0].split("\\(")[1]));
@@ -86,7 +96,13 @@ public class ExtractorDocumentosTrabajo {
                 String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split("-");
                 documentosTrabajo.setAno(Integer.parseInt(fechaPublicacion[0]));
                 } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error existe fecha publicacion");}  
-                //Pendiente scrapear url o doi
+                
+                try {
+                String [] URL_DOI = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split("DOI: ");
+                documentosTrabajo.setUrl(URL_DOI[0].split("URL: ")[1]);
+                documentosTrabajo.setDoi(URL_DOI[1]);
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error existe fecha publicacion");}  
+        
                 
                 documentoTrabajo.add(documentosTrabajo);
             }

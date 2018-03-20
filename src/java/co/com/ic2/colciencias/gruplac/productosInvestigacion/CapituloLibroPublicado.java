@@ -5,7 +5,7 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -18,11 +18,14 @@ public class CapituloLibroPublicado extends ProductoInvestigacion {
     private String pais;
     private String tituloLibro;
     private String editorial;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
     
     private int numeroAutores;
-    private String requisitosGuiaVerificacion;
+    private boolean requisitosGuiaVerificacion;
+    private boolean certificadoValidacion;
+    
+    private String tituloCapitulo;
 
     public String getIsbn() {
         return isbn;
@@ -64,11 +67,11 @@ public class CapituloLibroPublicado extends ProductoInvestigacion {
         this.editorial = editorial;
     }
     
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -88,11 +91,28 @@ public class CapituloLibroPublicado extends ProductoInvestigacion {
         this.numeroAutores = numeroAutores;
     }
 
-    public String getRequisitosGuiaVerificacion() {
+    public boolean getRequisitosGuiaVerificacion() {
         return requisitosGuiaVerificacion;
     }
 
-    public void setRequisitosGuiaVerificacion(String requisitosGuiaVerificacion) {
+    public void setRequisitosGuiaVerificacion(boolean requisitosGuiaVerificacion) {
         this.requisitosGuiaVerificacion = requisitosGuiaVerificacion;
     }
+
+	public String getTituloCapitulo() {
+		return tituloCapitulo;
+	}
+
+	public void setTituloCapitulo(String tituloCapitulo) {
+		this.tituloCapitulo = tituloCapitulo;
+	}
+
+	public boolean isCertificadoValidacion() {
+		return certificadoValidacion;
+	}
+
+	public void setCertificadoValidacion(boolean certificadoValidacion) {
+		this.certificadoValidacion = certificadoValidacion;
+	}
+	
 }

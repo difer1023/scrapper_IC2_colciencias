@@ -5,7 +5,7 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -18,8 +18,12 @@ public class DisenoIndustrial extends ProductoInvestigacion{
     private int ano;
     private String disponibilidad;
     private String institucion;
-    private ArrayList<Integrante> autores;
+    private ArrayList<Investigador> autores;
     private String tipo;
+    
+    private String numeroRegistro;
+    private boolean gaceta;
+    private boolean contrato;
 
     public String getPais() {
         return pais;
@@ -53,11 +57,11 @@ public class DisenoIndustrial extends ProductoInvestigacion{
         this.institucion = institucion;
     }
 
-    public ArrayList<Integrante> getAutores() {
+    public ArrayList<Investigador> getAutores() {
         return autores;
     }
 
-    public void setAutores(ArrayList<Integrante> autores) {
+    public void setAutores(ArrayList<Investigador> autores) {
         this.autores = autores;
     }
 
@@ -68,5 +72,28 @@ public class DisenoIndustrial extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
+	public String getNumeroRegistro() {
+		return numeroRegistro;
+	}
+
+	public void setNumeroRegistro(String numeroRegistro) {
+		this.numeroRegistro = numeroRegistro;
+	}
+
+	public boolean getGaceta() {
+		return gaceta;
+	}
+
+	public void setGaceta(boolean gaceta) {
+		this.gaceta = gaceta;
+	}
+
+	public boolean isContrato() {
+		return contrato;
+	}
+
+	public void setContrato(boolean contrato) {
+		this.contrato = contrato;
+	}  
 }

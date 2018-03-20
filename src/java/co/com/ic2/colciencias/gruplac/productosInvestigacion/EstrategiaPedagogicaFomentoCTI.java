@@ -6,6 +6,8 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
+import co.com.ic2.colciencias.gruplac.Investigador;
+
 import java.util.ArrayList;
 
 /**
@@ -20,8 +22,27 @@ public class EstrategiaPedagogicaFomentoCTI extends ProductoInvestigacion{
     
     private ArrayList<Institucion> instituciones;
     private int numeroInvestigadoresPrincipales;
+    
+    private Investigador investigador;
+    private boolean certificado;
 
-    public int getAnoInicio() {
+    public Investigador getInvestigador() {
+		return investigador;
+	}
+
+	public void setInvestigador(Investigador investigador) {
+		this.investigador = investigador;
+	}
+
+	public boolean isCertificado() {
+		return certificado;
+	}
+
+	public void setCertificado(boolean certificado) {
+		this.certificado = certificado;
+	}
+
+	public int getAnoInicio() {
         return anoInicio;
     }
 

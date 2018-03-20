@@ -5,14 +5,15 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.PlantaPiloto;
 import java.util.ArrayList;
 import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer información relacionada con el producto Plata piloto
+ * Extrae información de la parte pública del Gruplac
  * @author Difer
  */
 public class ExtractorPlantasPiloto {
@@ -34,9 +35,9 @@ public class ExtractorPlantasPiloto {
             plantaPiloto.setInstitucion(detallePlantaPilotoI.split(":")[1].substring(1));
         
             String[] datosAutores=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get().substring(9).split(",");
-            ArrayList<Integrante> autores=new ArrayList<>();
+            ArrayList<Investigador> autores=new ArrayList<>();
             for(int k=0;k<datosAutores.length-1;k++){
-                Integrante autor=new Integrante();
+                Investigador autor=new Investigador();
                 autor.setNombreCompleto(datosAutores[k].substring(1));
                 autores.add(autor);
             }

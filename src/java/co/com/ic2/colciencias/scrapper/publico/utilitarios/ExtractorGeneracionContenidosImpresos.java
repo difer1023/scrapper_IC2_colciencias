@@ -5,9 +5,8 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoImpreso;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +25,11 @@ import us.codecraft.xsoup.Xsoup;
  * @author Difer
  */
 public class ExtractorGeneracionContenidosImpresos {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Generación de contenido impreso
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<GeneracionContenidoImpreso> extraerGeneracionContenidosImpresos(Elements elements) {
         ArrayList<GeneracionContenidoImpreso> contenidosImpresos = new ArrayList();
         for(int i=1;i<elements.size();i++){
@@ -34,18 +38,17 @@ public class ExtractorGeneracionContenidosImpresos {
             contenidoImpreso.setNombre(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get().substring(3));
             String detalleContenidoImpreso=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
             
-            contenidoImpreso.setFecha(detalleContenidoImpreso.split(",")[0].substring(1));
-            //tring ano=detalleEdicion.split(",")[1].substring(1,5);
-            //contenidoImpreso.setAno(Integer.parseInt(ano));
+            String ano=detalleContenidoImpreso.split(",")[0].substring(1,5);
+            contenidoImpreso.setAno(Integer.parseInt(ano));
             contenidoImpreso.setMedioCirculacion(detalleContenidoImpreso.split(",")[2].substring(23));
             
             String detalleContenidoImpreso2=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
             contenidoImpreso.setLugarPublicacion(detalleContenidoImpreso2.split(",")[0].substring(22));
             
             String[] datosAutores=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get().substring(9).split(",");
-            ArrayList<Integrante> autores=new ArrayList<>();
+            ArrayList<Investigador> autores=new ArrayList<>();
             for(int k=0;k<datosAutores.length-1;k++){
-                Integrante autor=new Integrante();
+                Investigador autor=new Investigador();
                 autor.setNombreCompleto(datosAutores[k].substring(1));
                 autores.add(autor);
             }
@@ -56,6 +59,10 @@ public class ExtractorGeneracionContenidosImpresos {
         return contenidosImpresos;
     }
     
+    /**
+    * Método encargado de extraer información sobre el producto Generación de contenido impreso
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<GeneracionContenidoImpreso> extraerGeneracionContenidosImpresosPrivado(ArrayList<Elements> arrayElements,HashMap<String,String> cookies) {
         ArrayList<GeneracionContenidoImpreso> contenidosImpresos = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -64,22 +71,22 @@ public class ExtractorGeneracionContenidosImpresos {
                 GeneracionContenidoImpreso contenidoImpreso = new GeneracionContenidoImpreso();
                 System.out.println("FILA"+ elements.get(i).text());
                 
-              contenidoImpreso.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
-              String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-              contenidoImpreso.setAno(Integer.parseInt(ano));
-              contenidoImpreso.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
-              String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                contenidoImpreso.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
+                contenidoImpreso.setAno(Integer.parseInt(ano));
+                contenidoImpreso.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorGeneracionContenidosImpresos.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 try{  
                 String numeroAutores=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get();  
                 contenidoImpreso.setNumeroAutores(Integer.parseInt(numeroAutores.split(" \\) ")[0].split("\\(")[1]));  

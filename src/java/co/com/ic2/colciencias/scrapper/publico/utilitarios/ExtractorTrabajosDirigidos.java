@@ -5,9 +5,8 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoDirigido;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
+import co.com.ic2.colciencias.gruplac.Investigador;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoGrado;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,35 +26,46 @@ import us.codecraft.xsoup.Xsoup;
  * @author Difer
  */
 public class ExtractorTrabajosDirigidos {
-    public static ArrayList<TrabajoDirigido> extraerTrabajosDirigidos(Elements elements) {
-        ArrayList<TrabajoDirigido> trabajosDirigidos = new ArrayList();
+    
+    /**
+    * Método encargado de extraer información sobre el producto Trabajo dirigido
+    * Presente en la parte pública del Gruplac
+    */
+    public static ArrayList<TrabajoGrado> extraerTrabajosDirigidos(Elements elements) {
+        ArrayList<TrabajoGrado> trabajosDirigidos = new ArrayList();
         for(int i=1;i<elements.size();i++){
-            TrabajoDirigido trabajoDirigido = new TrabajoDirigido();
+            TrabajoGrado trabajoDirigido = new TrabajoGrado();
             trabajoDirigido.setTipo(Xsoup.compile("/td[2]/strong[1]/text()").evaluate(elements.get(i)).get());
             if(!trabajoDirigido.getTipo().equalsIgnoreCase("Trabajos dirigidos/Tutorías de otro tipo")){
             trabajoDirigido.setNombre(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get().substring(3));
-            System.out.println("tipo "+trabajoDirigido.getTipo());
-            String detalleTrabajoDirigido=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
-            String [] detalleTrabajo1=detalleTrabajoDirigido.split(" hasta ");
+           
+            String detalleTrabajoGrado=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
+            String [] detalleTrabajo1=detalleTrabajoGrado.split(" hasta ");
             String [] detalleTrabajo2= detalleTrabajo1[1].split(",");
             String [] detalleTrabajo3= detalleTrabajo2[0].split(" ");
             
-            System.out.println("DETALLETRABAJODIRIGIDO "+detalleTrabajoDirigido);
-            System.out.println("DETALLETRABAJO2 "+detalleTrabajo2[1]);
-            System.out.println("DETALLETRABAJO3 "+detalleTrabajo3[0]);
+            try{
+            trabajoDirigido.setTipoDireccion(detalleTrabajoGrado.split("Tipo de orientación: ")[1]);
+            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error tipo de orientacion");}
             
             if(detalleTrabajo3.length>=2){
-                System.out.println("DETALLETRABAJO3 "+detalleTrabajo3[1]);
             trabajoDirigido.setAnoFin(Integer.parseInt(detalleTrabajo3[1]));
             }
-            String detalleTrabajoDirigido2=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get();
-            trabajoDirigido.setValoracion(detalleTrabajoDirigido2.split(",")[1].substring(13));
-            trabajoDirigido.setInstitucion(detalleTrabajoDirigido2.split(",")[2].substring(14));
+           
+            try{
+            String nombreEstudiante=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
+            String [] detalleNombreEstudiante= nombreEstudiante.split(", Programa académico:");
+            trabajoDirigido.setAutorTrabajo(detalleNombreEstudiante[0].split("Nombre del estudiante: ")[1]);
+            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error nombre estudiante");}
             
+            String detalleTrabajoGrado2=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get();
+            trabajoDirigido.setValoracion(detalleTrabajoGrado2.split(",")[1].substring(13));
+            trabajoDirigido.setInstitucion(detalleTrabajoGrado2.split(",")[2].substring(14));
+         
             String[] datosAutores=Xsoup.compile("/td[2]/text(6)").evaluate(elements.get(i)).get().substring(9).split(",");
-            ArrayList<Integrante> autores=new ArrayList<>();
+            ArrayList<Investigador> autores=new ArrayList<>();
             for(int k=0;k<datosAutores.length-1;k++){
-                Integrante autor=new Integrante();
+                Investigador autor=new Investigador();
                 autor.setNombreCompleto(datosAutores[k].substring(1));
                 autores.add(autor);
             }
@@ -67,31 +77,35 @@ public class ExtractorTrabajosDirigidos {
         return trabajosDirigidos;
     }
     
-    public static ArrayList<TrabajoDirigido> extraerTesisDoctoradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
-        ArrayList<TrabajoDirigido> trabajosDoctorado = new ArrayList();
+    /**
+    * Método encargado de extraer información sobre el producto Tesis de doctorado
+    * Presente en la parte privada del Gruplac
+    */
+    public static ArrayList<TrabajoGrado> extraerTesisDoctoradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+        ArrayList<TrabajoGrado> trabajosDoctorado = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
-                TrabajoDirigido trabajoDoctorado = new TrabajoDirigido();
+                TrabajoGrado trabajoDoctorado = new TrabajoGrado();
                 System.out.println("FILA"+ elements.get(i).text());
                 
                 trabajoDoctorado.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
                 trabajoDoctorado.setAnoFin(Integer.parseInt(ano));
-                trabajoDoctorado.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                trabajoDoctorado.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
                 trabajoDoctorado.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
                 trabajoDoctorado.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
@@ -104,31 +118,35 @@ public class ExtractorTrabajosDirigidos {
         return trabajosDoctorado;
     }
     
-    public static ArrayList<TrabajoDirigido> extraerTesisMaestriaPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
-        ArrayList<TrabajoDirigido> trabajosMaestria = new ArrayList();
+    /**
+    * Método encargado de extraer información sobre el producto Tesis de maestría
+    * Presente en la parte privada del Gruplac
+    */
+    public static ArrayList<TrabajoGrado> extraerTesisMaestriaPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+        ArrayList<TrabajoGrado> trabajosMaestria = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
-                TrabajoDirigido trabajoMaestria = new TrabajoDirigido();
+                TrabajoGrado trabajoMaestria = new TrabajoGrado();
                 System.out.println("FILA"+ elements.get(i).text());
                 
                 trabajoMaestria.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
                 trabajoMaestria.setAnoFin(Integer.parseInt(ano));
-                trabajoMaestria.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                trabajoMaestria.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
                 trabajoMaestria.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
                 trabajoMaestria.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
@@ -141,31 +159,35 @@ public class ExtractorTrabajosDirigidos {
         return trabajosMaestria;
     }
     
-    public static ArrayList<TrabajoDirigido> extraerTesisPregradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
-        ArrayList<TrabajoDirigido> trabajosPregrado = new ArrayList();
+    /**
+    * Método encargado de extraer información sobre el producto tesis de pregrado
+    * Presente en la parte privada del Gruplac
+    */
+    public static ArrayList<TrabajoGrado> extraerTesisPregradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+        ArrayList<TrabajoGrado> trabajosPregrado = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
-                TrabajoDirigido trabajoPregrado = new TrabajoDirigido();
+                TrabajoGrado trabajoPregrado = new TrabajoGrado();
                 System.out.println("FILA"+ elements.get(i).text());
                 
                 trabajoPregrado.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
                 trabajoPregrado.setAnoFin(Integer.parseInt(ano));
-                trabajoPregrado.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                trabajoPregrado.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
                 String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
                 trabajoPregrado.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
                 trabajoPregrado.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());

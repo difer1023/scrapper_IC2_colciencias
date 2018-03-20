@@ -7,7 +7,7 @@ package co.com.ic2.colciencias.scrapper.publico;
 
 import co.com.ic2.colciencias.gruplac.GrupoInvestigacion;
 import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.LineaInvestigacion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ArticuloInvestigacion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.AsesoriaProgramaOndas;
@@ -17,7 +17,7 @@ import co.com.ic2.colciencias.gruplac.productosInvestigacion.DisenoIndustrial;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.DocumentoTrabajo;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Edicion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EmpresaBaseTecnologica;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.EspacioParticipacionCiudadana;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.EspacioParticipacionCiudadanaCTI;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EsquemaCircuito;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaComunicacionConocimiento;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaPedagogicaFomentoCTI;
@@ -25,19 +25,19 @@ import co.com.ic2.colciencias.gruplac.productosInvestigacion.EventoCientifico;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoImpreso;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoMultimedia;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoVirtual;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.InformeInvestigacion;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.InnovacionProceso;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.LibroPublicado;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.InformeFinalInvestigacion;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.InnovacionProcedimientoServicio;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.LibroInvestigacion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.OtroArticuloPublicado;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.OtroLibroPublicado;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ParticipacionCiudadanaProyectoCTI;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.PlantaPiloto;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.Prototipo;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.PrototipoIndustrial;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Proyecto;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.RedConocimiento;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.SignoDistintivo;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Software;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoDirigido;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoGrado;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorAsesoriasProgramaOndas;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorCapitulosLibroInvestigacion;
@@ -45,7 +45,7 @@ import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorConsultorias
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorDisenosIndustriales;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorDocumentosTrabajo;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEdiciones;
-import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEmpresasBaseTeconologica;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEmpresasBaseTecnologica;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEspaciosParticipacionCiudadana;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEsquemasCircuito;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEstrategiasComunicacionConocimiento;
@@ -84,7 +84,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase que se encarga de extraer la información de la parte pública del Gruplac
+ * Requiere la dirección URL del grupo de investigación
  * @author Difer
  */
 @WebService(serviceName = "NewWebService")
@@ -232,7 +233,7 @@ public class ScrapperColcienciasPublico {
 
             System.out.println(gson.toJson(grupoInvestigacion));
         } catch (IOException ex) {
-            Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScrapperColcienciasPublico.class.getName()).log(Level.SEVERE, null, ex);
         }
         return grupoInvestigacion;
     }
@@ -245,7 +246,7 @@ public class ScrapperColcienciasPublico {
         return ExtractorLineasInvestigacion.extraerLineasInvestigacion(elements);
     }
 
-    private ArrayList<Integrante> extraerIntegrantes(Elements elements) {
+    private ArrayList<Investigador> extraerIntegrantes(Elements elements) {
         return ExtractorIntegrantes.extraerIntegrantes(elements);
     }
 
@@ -256,7 +257,7 @@ public class ScrapperColcienciasPublico {
     }
 
     //pendientes espacio blanco despues de la editorial
-    private ArrayList<LibroPublicado> extraerLibrosPublicados(Elements elements) {
+    private ArrayList<LibroInvestigacion> extraerLibrosPublicados(Elements elements) {
         return ExtractorLibrosInvestigacion.extraerLibrosPublicados(elements);
     }
 
@@ -296,7 +297,7 @@ public class ScrapperColcienciasPublico {
     }
 
     //espacio en blanco al final de institucion, no necesita disponibilidad
-    private ArrayList<InnovacionProceso> extraerInnovacionProcesos(Elements elements) {
+    private ArrayList<InnovacionProcedimientoServicio> extraerInnovacionProcesos(Elements elements) {
         return ExtractorInnovacionProcesos.extraerInnovacionProcesos(elements);
     }
 
@@ -306,7 +307,7 @@ public class ScrapperColcienciasPublico {
     }
 
     //No necesita disponibilidad ni nombre comercial, espacio en blanco despues de institucion
-    private ArrayList<Prototipo> extraerPrototipos(Elements elements) {
+    private ArrayList<PrototipoIndustrial> extraerPrototipos(Elements elements) {
         return ExtractorPrototipos.extraerPrototipos(elements);
     }
 
@@ -323,7 +324,7 @@ public class ScrapperColcienciasPublico {
     //Espacio en blanco al final del estado, fecha de registro tal vez necesita substring
     //No sé si es necesario scrapear autor, y cual de las dos fechas
     private ArrayList<EmpresaBaseTecnologica> extraerEmpresasBaseTecnologica(Elements elements) {
-        return ExtractorEmpresasBaseTeconologica.extraerEmpresasBaseTecnologica(elements);
+        return ExtractorEmpresasBaseTecnologica.extraerEmpresasBaseTecnologica(elements);
     }
 
     //No sé qué campos hay que scrapear exactamente
@@ -338,7 +339,7 @@ public class ScrapperColcienciasPublico {
     }
 
     //no sé si es necesario scrapear nombre del proyecto
-    private ArrayList<InformeInvestigacion> extraerInformesInvestigacion(Elements elements) {
+    private ArrayList<InformeFinalInvestigacion> extraerInformesInvestigacion(Elements elements) {
         return ExtractorInformesInvestigacion.extraerInformesInvestigacion(elements);
     }
 
@@ -382,7 +383,7 @@ public class ScrapperColcienciasPublico {
 
     //no se si scrapear fecha fin (no hay aparentemente) y descripcion
     //cambio de tipo a nombre
-    private ArrayList<EspacioParticipacionCiudadana> extraerEspaciosParticipacionCiudadana(Elements elements) {
+    private ArrayList<EspacioParticipacionCiudadanaCTI> extraerEspaciosParticipacionCiudadana(Elements elements) {
         return ExtractorEspaciosParticipacionCiudadana.extraerEspaciosParticipacionCiudadana(elements);
     }
 
@@ -398,7 +399,7 @@ public class ScrapperColcienciasPublico {
 
     //No sé si scrapear tipo de orientacion, nombre estudiante, programa académico,número de páginas
     //Hay que scrappear mes
-    private ArrayList<TrabajoDirigido> extraerTrabajosDirigidos(Elements elements) {
+    private ArrayList<TrabajoGrado> extraerTrabajosDirigidos(Elements elements) {
         return ExtractorTrabajosDirigidos.extraerTrabajosDirigidos(elements);
     }
 

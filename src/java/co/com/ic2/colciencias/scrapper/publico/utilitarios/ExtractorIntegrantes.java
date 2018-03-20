@@ -5,8 +5,7 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -18,16 +17,17 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer información relacionada con los integrantes
+ * Extrae los integrantes de un grupo de investigación
+ * Extrae los integrantes relacionados con un producto presente en el grupo de investigación
  * @author Difer
  */
 public class ExtractorIntegrantes {
-    public static ArrayList<Integrante> extraerIntegrantes(Elements elements) {
-        ArrayList<Integrante> integrantes = new ArrayList();
+    public static ArrayList<Investigador> extraerIntegrantes(Elements elements) {
+        ArrayList<Investigador> integrantes = new ArrayList();
        for(int i=2;i<elements.size();i++){
-            Integrante integrante = new Integrante();
+            Investigador integrante = new Investigador();
             integrante.setNombreCompleto(Xsoup.compile("/td[1]/a/text()").evaluate(elements.get(i)).get());
-            integrante.setVinculacion(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
             integrante.setHorasDedicacion(Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get());
             integrante.setInicioVinculacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get().split("-")[0]);
             integrante.setFinVinculacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get().split("-")[1]);
@@ -37,7 +37,7 @@ public class ExtractorIntegrantes {
             try {
                 doc = Jsoup.connect(url).get();
             } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ExtractorIntegrantes.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             String categoriaIntegrante=Xsoup.compile("/html/body/table/tbody/tr[2]/td/blockquote/table/tbody/tr[1]/td[1]/text()").evaluate(doc).get();

@@ -5,9 +5,8 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Software;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +25,11 @@ import us.codecraft.xsoup.Xsoup;
  * @author Difer
  */
 public class ExtractorSoftwares {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Software
+    * Presente en la parte pública del gruplac
+    */
     public static ArrayList<Software> extraerSoftwares(Elements elements) {
         ArrayList<Software> softwares = new ArrayList();
         for(int i=1;i<elements.size();i++){
@@ -40,17 +44,13 @@ public class ExtractorSoftwares {
             software.setDisponibilidad(detalleSoftware.split(",")[2].substring(17));
             software.setSitioWeb(detalleSoftware.split(",")[3].substring(12));
            
-            //String detalleSoftwareNombres=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
-            //software.setNombreComercial(detalleSoftwareNombres.split(":")[1].substring(12).split(",")[0]);
-            //software.setNombreProyecto(detalleSoftwareNombres.split(":")[3].substring(12).split(",")[2]);
-            
             String detalleSoftwareI=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get();
             software.setInstitucion(detalleSoftwareI.split(":")[1].substring(1));
            
             String[] datosAutores=Xsoup.compile("/td[2]/text(6)").evaluate(elements.get(i)).get().substring(9).split(",");
-            ArrayList<Integrante> autores=new ArrayList<>();
+            ArrayList<Investigador> autores=new ArrayList<>();
             for(int k=0;k<datosAutores.length-1;k++){
-                Integrante autor=new Integrante();
+                Investigador autor=new Investigador();
                 autor.setNombreCompleto(datosAutores[k].substring(1));
                 autores.add(autor);
             }
@@ -61,6 +61,11 @@ public class ExtractorSoftwares {
         return softwares;
     }
     
+    
+    /**
+    * Método encargado de extraer información sobre el producto Software
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<Software> extraerSoftwaresPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<Software> softwares = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -71,21 +76,21 @@ public class ExtractorSoftwares {
                 software.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
                 String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-              software.setAno(Integer.parseInt(ano));
-              software.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                software.setAno(Integer.parseInt(ano));
+                software.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-              String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorSoftwares.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
                 
                 software.setRegistrosAsociados(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());

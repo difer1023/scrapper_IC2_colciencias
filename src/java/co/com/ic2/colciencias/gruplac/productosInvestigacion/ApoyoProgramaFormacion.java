@@ -16,7 +16,13 @@ public class ApoyoProgramaFormacion extends ProductoInvestigacion{
     private String institucion;
     private String programaSeleccionado;   
     private int ano;
+    
+    private String facultad;
+    private String departamento;
+    private String numActoAdmin;
+    private int tipoApoyo;
 
+    
     public String getActoAdministrativo() {
         return actoAdministrativo;
     }
@@ -56,5 +62,36 @@ public class ApoyoProgramaFormacion extends ProductoInvestigacion{
     public void setAno(int ano) {
         this.ano = ano;
     }
+
+    public String getFacultad() {
+        return facultad;
+    }
     
+	public void setFacultad(String facultad) {
+		this.facultad = facultad;	
+	}
+
+	public String getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(String departamento) {
+		this.departamento = departamento;
+	}
+
+	public String getNumActoAdmin() {
+		return numActoAdmin;
+	}
+
+	public void setNumActoAdmin(String numActoAdmin) {
+		this.numActoAdmin = numActoAdmin;
+	}
+
+	public int getTipoApoyo() {
+		return tipoApoyo;
+	}
+
+	public void setTipoApoyo(int tipoApoyo) {
+		this.tipoApoyo = tipoApoyo;
+	}
 }

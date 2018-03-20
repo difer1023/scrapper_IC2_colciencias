@@ -5,7 +5,7 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
-import co.com.ic2.colciencias.gruplac.Integrante;
+import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +19,12 @@ public class SignoDistintivo extends ProductoInvestigacion{
     private String numRegistro;
     private String nombreTitular;
     private String tipo;
+    
+    
+    private String mes;
+    private boolean certificado;
+    private String condicionesUso;
+   
 
     public String getPais() {
         return pais;
@@ -59,6 +65,29 @@ public class SignoDistintivo extends ProductoInvestigacion{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
+	public String getMes() {
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	public boolean isCertificado() {
+		return certificado;
+	}
+
+	public void setCertificado(boolean certificado) {
+		this.certificado = certificado;
+	}
+
+	public String getCondicionesUso() {
+		return condicionesUso;
+	}
+
+	public void setCondicionesUso(String condicionesUso) {
+		this.condicionesUso = condicionesUso;
+	} 
 }
 

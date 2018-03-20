@@ -7,7 +7,6 @@ package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ParticipacionCiudadanaProyectoCTI;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,10 +20,16 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer información relacionada con el producto Participacion ciudadana en proyectos de CTI
+ * Extrae información de la parte privada y la parte pública del gruplac
  * @author Difer
  */
 public class ExtractorParticipacionCiudadanaProyectosCTI {
+    
+    /**
+    * Método encargado de extraer información sobre el producto Participación ciudadana en proyectos de CTI
+    * Presente en la parte pública del Gruplac
+    */
     public static ArrayList<ParticipacionCiudadanaProyectoCTI> extraerParticipacionCiudadanaProyectosCTI(Elements elements) {
         ArrayList<ParticipacionCiudadanaProyectoCTI> participacionCiudadanaProyectos = new ArrayList();
         for(int i=1;i<elements.size();i++){
@@ -35,16 +40,16 @@ public class ExtractorParticipacionCiudadanaProyectosCTI {
             String [] detalle1=detalleEstrategiaPedagogica.split("desde ");
             String [] detalle2= detalle1[1].split(" ");
             participacionCiudadana.setAnoInicio(Integer.parseInt(detalle2[1]));
-            //System.out.println("FechaFin"+detalle2[1]);
             
-            //String detalleEstrategia=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
-            //estrategiaPedagogica.setDescripcion(detalleEstrategia.substring(14));
-
             participacionCiudadanaProyectos.add(participacionCiudadana);
         }
         return participacionCiudadanaProyectos;
     }
     
+    /**
+    * Método encargado de extraer información sobre el producto Participación ciudadana en proyectos de CTI
+    * Presente en la parte privada del Gruplac
+    */
     public static ArrayList<ParticipacionCiudadanaProyectoCTI> extraerPaticipacionCiudadanaProyectosCTIPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
         ArrayList<ParticipacionCiudadanaProyectoCTI> participacionCiudadanaProyectos = new ArrayList();
         for (Elements elements : arrayElements) {
@@ -55,21 +60,21 @@ public class ExtractorParticipacionCiudadanaProyectosCTI {
                 participacionCiudadanaProyecto.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
                 
                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-              participacionCiudadanaProyecto.setAnoInicio(Integer.parseInt(ano));
-              participacionCiudadanaProyecto.setClasificacion(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
+                participacionCiudadanaProyecto.setAnoInicio(Integer.parseInt(ano));
+                participacionCiudadanaProyecto.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-              String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
-            try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
                         .cookies(cookies)
                         .userAgent(USER_AGENT)
                         .execute();
-                doc=res2.parse();
-            } catch (IOException ex) {
-                Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    doc=res2.parse();
+                } catch (IOException ex) {
+                    Logger.getLogger(ExtractorParticipacionCiudadanaProyectosCTI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             
                 String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-");
                 participacionCiudadanaProyecto.setAnoInicio(Integer.parseInt(fechaPublicacion[0]));

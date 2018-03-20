@@ -14,7 +14,7 @@ import co.com.ic2.colciencias.gruplac.productosInvestigacion.DisenoIndustrial;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.DocumentoTrabajo;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Edicion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EmpresaBaseTecnologica;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.EspacioParticipacionCiudadana;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.EspacioParticipacionCiudadanaCTI;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EsquemaCircuito;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaComunicacionConocimiento;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaPedagogicaFomentoCTI;
@@ -22,20 +22,20 @@ import co.com.ic2.colciencias.gruplac.productosInvestigacion.EventoCientifico;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoImpreso;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoMultimedia;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.GeneracionContenidoVirtual;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.InformeInvestigacion;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.InnovacionProceso;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.LibroPublicado;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.InformeFinalInvestigacion;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.InnovacionProcedimientoServicio;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.LibroInvestigacion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.OtroArticuloPublicado;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.OtroLibroPublicado;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ParticipacionCiudadanaProyectoCTI;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.PlantaPiloto;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ProductoInvestigacion;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.Prototipo;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.PrototipoIndustrial;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Proyecto;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.RedConocimiento;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.SignoDistintivo;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Software;
-import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoDirigido;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoGrado;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +43,7 @@ import java.util.ArrayList;
  * @author L
  */
 public class GrupoInvestigacion {
+	private int codigo;
     private String nombre;
     private String anoMesFormacion;
     private String departamento;
@@ -57,10 +58,10 @@ public class GrupoInvestigacion {
     private String programaCienciaTecnologiaSecundario;
     private ArrayList<Institucion> instituciones;
     private ArrayList<LineaInvestigacion> lineasInvestigacion;
-    private ArrayList<Integrante> integrantes;
+    private ArrayList<Investigador> integrantes;
     private ArrayList<ProductoInvestigacion> productosInvestigacion;
     private ArrayList<ArticuloInvestigacion> articulosInvestigacion;
-    private ArrayList<LibroPublicado> librosResultadoInvestigacion;
+    private ArrayList<LibroInvestigacion> librosResultadoInvestigacion;
     private ArrayList<CapituloLibroPublicado> capituloDeLibro;
     private ArrayList<DocumentoTrabajo> documentoTrabajo;
     private ArrayList<OtroArticuloPublicado> otroArticuloPublicado;
@@ -68,29 +69,38 @@ public class GrupoInvestigacion {
     private ArrayList<Consultoria> consultoria;
     private ArrayList<DisenoIndustrial> disenoIndustrial;
     private ArrayList<EsquemaCircuito> esquemaCircuito;
-    private ArrayList<InnovacionProceso> innovacionProceso;
+    private ArrayList<InnovacionProcedimientoServicio> innovacionProceso;
     private ArrayList<PlantaPiloto> plantaPiloto;
-    private ArrayList<Prototipo> prototipo;
+    private ArrayList<PrototipoIndustrial> prototipo;
     private ArrayList<SignoDistintivo> signoDistintivo;
     private ArrayList<Software> software;
     private ArrayList<EmpresaBaseTecnologica> empresaBaseTecnologica;
     private ArrayList<Edicion> edicion;
     private ArrayList<EventoCientifico> eventoCientifico;
-    private ArrayList<InformeInvestigacion> informeInvestigacion;
+    private ArrayList<InformeFinalInvestigacion> informeInvestigacion;
     private ArrayList<RedConocimiento> redConocimiento;
     private ArrayList<GeneracionContenidoImpreso> generacionContenidoImpreso;
     private ArrayList<GeneracionContenidoMultimedia> generacionContenidoMultimedia;
     private ArrayList<GeneracionContenidoVirtual> generacionContenidoVirtual;
     private ArrayList<EstrategiaComunicacionConocimiento> estrategiaComunicacionConocimiento;
     private ArrayList<EstrategiaPedagogicaFomentoCTI> estrategiaPedagogicaFomentoCTI;
-    private ArrayList<EspacioParticipacionCiudadana> espacioParticipacionCiudadana;
+    private ArrayList<EspacioParticipacionCiudadanaCTI> espacioParticipacionCiudadana;
     private ArrayList<ParticipacionCiudadanaProyectoCTI> participacionCiudadanaProyectoCTI;
     private ArrayList<AsesoriaProgramaOndas> asesoriaProgramaOndas;
-    private ArrayList<TrabajoDirigido> trabajoDirigido;
+    private ArrayList<TrabajoGrado> trabajoDirigido;
     private ArrayList<Proyecto> proyecto;
     private ArrayList<ApoyoProgramaFormacion> apoyoProgramaFormacion;
     
-    public String getNombre() {
+    
+    public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getNombre() {
         return nombre;
     }
 
@@ -202,11 +212,11 @@ public class GrupoInvestigacion {
         this.lineasInvestigacion = lineasInvestigacion;
     }
 
-    public ArrayList<Integrante> getIntegrantes() {
+    public ArrayList<Investigador> getIntegrantes() {
         return integrantes;
     }
 
-    public void setIntegrantes(ArrayList<Integrante> integrantes) {
+    public void setIntegrantes(ArrayList<Investigador> integrantes) {
         this.integrantes = integrantes;
     }
 
@@ -226,11 +236,11 @@ public class GrupoInvestigacion {
         this.articulosInvestigacion = articulosInvestigacion;
     }
 
-    public ArrayList<LibroPublicado> getLibrosResultadoInvestigacion() {
+    public ArrayList<LibroInvestigacion> getLibrosResultadoInvestigacion() {
         return librosResultadoInvestigacion;
     }
 
-    public void setLibrosResultadoInvestigacion(ArrayList<LibroPublicado> librosResultadoInvestigacion) {
+    public void setLibrosResultadoInvestigacion(ArrayList<LibroInvestigacion> librosResultadoInvestigacion) {
         this.librosResultadoInvestigacion = librosResultadoInvestigacion;
     }
 
@@ -291,11 +301,11 @@ public class GrupoInvestigacion {
         this.esquemaCircuito = esquemaCircuito;
     }
 
-    public ArrayList<InnovacionProceso> getInnovacionProceso() {
+    public ArrayList<InnovacionProcedimientoServicio> getInnovacionProceso() {
         return innovacionProceso;
     }
 
-    public void setInnovacionProceso(ArrayList<InnovacionProceso> innovacionProceso) {
+    public void setInnovacionProceso(ArrayList<InnovacionProcedimientoServicio> innovacionProceso) {
         this.innovacionProceso = innovacionProceso;
     }
 
@@ -307,11 +317,11 @@ public class GrupoInvestigacion {
         this.plantaPiloto = plantaPiloto;
     }
 
-    public ArrayList<Prototipo> getPrototipo() {
+    public ArrayList<PrototipoIndustrial> getPrototipo() {
         return prototipo;
     }
 
-    public void setPrototipo(ArrayList<Prototipo> prototipo) {
+    public void setPrototipo(ArrayList<PrototipoIndustrial> prototipo) {
         this.prototipo = prototipo;
     }
 
@@ -355,11 +365,11 @@ public class GrupoInvestigacion {
         this.eventoCientifico = eventoCientifico;
     }
 
-    public ArrayList<InformeInvestigacion> getInformeInvestigacion() {
+    public ArrayList<InformeFinalInvestigacion> getInformeInvestigacion() {
         return informeInvestigacion;
     }
 
-    public void setInformeInvestigacion(ArrayList<InformeInvestigacion> informeInvestigacion) {
+    public void setInformeInvestigacion(ArrayList<InformeFinalInvestigacion> informeInvestigacion) {
         this.informeInvestigacion = informeInvestigacion;
     }
 
@@ -411,11 +421,11 @@ public class GrupoInvestigacion {
         this.estrategiaPedagogicaFomentoCTI = estrategiaPedagogicaFomentoCTI;
     }
 
-    public ArrayList<EspacioParticipacionCiudadana> getEspacioParticipacionCiudadana() {
+    public ArrayList<EspacioParticipacionCiudadanaCTI> getEspacioParticipacionCiudadana() {
         return espacioParticipacionCiudadana;
     }
 
-    public void setEspacioParticipacionCiudadana(ArrayList<EspacioParticipacionCiudadana> espacioParticipacionCiudadana) {
+    public void setEspacioParticipacionCiudadana(ArrayList<EspacioParticipacionCiudadanaCTI> espacioParticipacionCiudadana) {
         this.espacioParticipacionCiudadana = espacioParticipacionCiudadana;
     }
 
@@ -435,11 +445,11 @@ public class GrupoInvestigacion {
         this.asesoriaProgramaOndas = asesoriaProgramaOndas;
     }
 
-    public ArrayList<TrabajoDirigido> getTrabajoDirigido() {
+    public ArrayList<TrabajoGrado> getTrabajoDirigido() {
         return trabajoDirigido;
     }
 
-    public void setTrabajoDirigido(ArrayList<TrabajoDirigido> trabajoDirigido) {
+    public void setTrabajoDirigido(ArrayList<TrabajoGrado> trabajoDirigido) {
         this.trabajoDirigido = trabajoDirigido;
     }
 

@@ -6,13 +6,12 @@
 package co.com.ic2.colciencias.scrapper.privado;
 
 import co.com.ic2.colciencias.gruplac.GrupoInvestigacion;
-import co.com.ic2.colciencias.scrapper.publico.ScraperPublico2;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorApoyoProgramasFormacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorCapitulosLibroInvestigacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorDocumentosTrabajo;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEdiciones;
-import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEmpresasBaseTeconologica;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEmpresasBaseTecnologica;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEstrategiasPedagogicasFomentoCTI;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorEventosCientificos;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorGeneracionContenidosImpresos;
@@ -39,7 +38,8 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase que se encarga de extraer la información de la parte privada de un grupo de investigación
+ * Requiere de los datos necesarios para hacer Log In
  * @author Difer
  */
 @WebService(serviceName = "ScrapperColcienciasPrivado")
@@ -66,8 +66,8 @@ public class ScrapperColcienciasPrivado {
 
         final String USER_AGENT = "\"Mozilla/5.0 (Windows NT\" +\n"
                 + "          \" 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36\"";
-        String loginFormUrl = "http://scienti.colciencias.gov.co:8080/gruplac/";
-        String loginActionUrl = "http://scienti.colciencias.gov.co:8080/gruplac/LoginGruplac/login.do";
+        String loginFormUrl = "http://scienti.colciencias.gov.co:8085/gruplac/";
+        String loginActionUrl = "http://scienti.colciencias.gov.co:8085/gruplac/LoginGruplac/login.do";
 
         String fechaNacimiento = "";
 
@@ -97,12 +97,12 @@ public class ScrapperColcienciasPrivado {
                     .execute();
             
             //Pieza de codigo para extraer productos de grupos de lideres con mas de un grupo de investigacion
-             System.out.println(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/b[2]/text()").evaluate(homePage.parse()).getElements());
+             //System.out.println(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/b[2]/text()").evaluate(homePage.parse()).getElements());
             Elements enlaces = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/li").evaluate(homePage.parse()).getElements();
 
             System.out.println(enlaces);
 
-            String enlaceGrupo = "http://scienti.colciencias.gov.co:8080/gruplac" + (Xsoup.compile("/a/@href").evaluate(enlaces.get(1)).get().replace("..", ""));
+            String enlaceGrupo = "http://scienti.colciencias.gov.co:8085/gruplac" + (Xsoup.compile("/a/@href").evaluate(enlaces.get(1)).get().replace("..", ""));
 
             System.out.println(enlaceGrupo);
 
@@ -133,7 +133,7 @@ public class ScrapperColcienciasPrivado {
                 System.out.println("Error al extraer software");
             }
             try{
-            grupoInvestigacion.setEmpresaBaseTecnologica(ExtractorEmpresasBaseTeconologica.extraerEmpresaBaseTecnologicaPrivado(extraerTablaProductos("EBT", "19", "DTI", cookies), cookies));
+            grupoInvestigacion.setEmpresaBaseTecnologica(ExtractorEmpresasBaseTecnologica.extraerEmpresaBaseTecnologicaPrivado(extraerTablaProductos("EBT", "19", "DTI", cookies), cookies));
             }catch(NullPointerException e){
                 System.out.println("Error al extraer empresas de base tecnologica");
             }
@@ -168,7 +168,7 @@ public class ScrapperColcienciasPrivado {
                 System.out.println("Error al extraer documentos de trabajo");
             }
             try{
-            grupoInvestigacion.setEdicion(ExtractorEdiciones.extraerEdicionesPrivado(extraerTablaProductos("buscar", "19", "ASC", cookies), cookies));
+            grupoInvestigacion.setEdicion(ExtractorEdiciones.extraerEdicionesPrivado(extraerTablaProductos("ERL", "19", "ASC", cookies), cookies));
             }catch(NullPointerException e){
                 System.out.println("Error al extraer ediciones");
             }
@@ -203,7 +203,7 @@ public class ScrapperColcienciasPrivado {
                 System.out.println("Error al extraer proyecto I+D+I");
             }
             try{
-            grupoInvestigacion.setProyecto(ExtractorProyectos.extraerProyectoExtensionResponsabilidadSocialPrivado(extraerTablaProductos("buscar", "19", "FRH", cookies), cookies));
+            grupoInvestigacion.setProyecto(ExtractorProyectos.extraerProyectoExtensionResponsabilidadSocialPrivado(extraerTablaProductos("PE", "19", "FRH", cookies), cookies));
             }catch(NullPointerException e){
                 System.out.println("Error al extraer proyecto extension responsabilidad social");
             }
@@ -211,11 +211,6 @@ public class ScrapperColcienciasPrivado {
             grupoInvestigacion.setApoyoProgramaFormacion(ExtractorApoyoProgramasFormacion.extraerApoyoCreacionProgramasPrivado(extraerTablaProductos("AP", "19", "FRH", cookies), cookies));
             }catch(NullPointerException e){
                 System.out.println("Error al extraer apoyo creacion programas");
-            }
-            try{
-            grupoInvestigacion.setEdicion(ExtractorEdiciones.extraerEdicionesPrivado(extraerTablaProductos("buscar", "19", "ASC", cookies), cookies));
-            }catch(NullPointerException e){
-                System.out.println("Error al extraer ediciones");
             }
             try{
             grupoInvestigacion.setApoyoProgramaFormacion(ExtractorApoyoProgramasFormacion.extraerApoyoCreacionCursosPrivado(extraerTablaProductos("AC", "19", "FRH", cookies), cookies));
@@ -229,7 +224,7 @@ public class ScrapperColcienciasPrivado {
 
             System.out.println(gson.toJson(grupoInvestigacion));
         } catch (IOException ex) {
-            Logger.getLogger(ScraperPublico2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScrapperColcienciasPrivado.class.getName()).log(Level.SEVERE, null, ex);
         }
         return grupoInvestigacion;
     }
@@ -255,7 +250,7 @@ public class ScrapperColcienciasPrivado {
             datosProductosConvocatoria.put("clase_prod", claseProduccion); 
 //            System.out.println("HOME>>>>>>>>>>>>>>>>>>>>>>>>>>"+homePage.parse().html());
         
-            Connection.Response res2 = Jsoup.connect("http://scienti.colciencias.gov.co:8080/gruplac/Medicion/calificacion/redirect.do")
+            Connection.Response res2 = Jsoup.connect("http://scienti.colciencias.gov.co:8085/gruplac/Medicion/calificacion/redirect.do")
             .data(datosProductosConvocatoria)
             .method(Connection.Method.GET)
             .cookies(cookies)

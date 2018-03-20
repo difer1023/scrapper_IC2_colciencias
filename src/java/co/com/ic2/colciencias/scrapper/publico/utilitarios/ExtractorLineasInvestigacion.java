@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
 /**
- *
+ * Clase encargada de extraer información relacionada con las líneas de investigación de un grupo de investigación
  * @author Difer
  */
 public class ExtractorLineasInvestigacion {
