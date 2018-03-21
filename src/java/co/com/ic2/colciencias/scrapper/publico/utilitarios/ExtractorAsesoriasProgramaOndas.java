@@ -38,10 +38,15 @@ public class ExtractorAsesoriasProgramaOndas {
             String [] detalleOndas3=detalleOndas2[2].split("-");
             asesoriaProgramaOndas.setAnoInicio(Integer.parseInt(detalleOndas3[0]));
             
-            asesoriaProgramaOndas.setParticipacionFeria(detalleProgramaOndas1.split("Participó en ")[1].split("\\, Nombre de las ferias: ")[0]);
-            try{
-            asesoriaProgramaOndas.setNombreFeria(detalleProgramaOndas1.split("\\, Nombre de las ferias: ")[1]);
-            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error Nombre Feria");};
+            
+            String participacionFerias=detalleProgramaOndas1.split("Participó en ")[1].split("\\, Nombre de las ferias: ")[0];
+            
+            if(!participacionFerias.equals("")||participacionFerias!=null){
+                asesoriaProgramaOndas.setParticipacionFerias(true);
+                }else{
+                asesoriaProgramaOndas.setParticipacionFerias(false);
+                }
+            
             String detalleProgramaOndasI=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
             
             asesoriaProgramaOndas.setInstitucion(detalleProgramaOndasI.split(": ")[1]);
