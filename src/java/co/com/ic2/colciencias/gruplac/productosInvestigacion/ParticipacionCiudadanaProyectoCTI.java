@@ -7,20 +7,33 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Participacion ciudadana en proyectos de CTI
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "ParticipacionCiudadanaProyectoCTI",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class ParticipacionCiudadanaProyectoCTI extends ProductoInvestigacion{
     
+    @XmlElement(name = "anoInicio")
     private int anoInicio;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "numeroInvestigadoresPrincipales")
     private int numeroInvestigadoresPrincipales;
+    @XmlElement(name = "comunidadesParticipantes")
     private String comunidadesParticipantes;
+    @XmlElement(name = "instituciones")
     private ArrayList<Institucion> instituciones;
     
+    @XmlElement(name = "constanciaParticipacion")
     private boolean constanciaParticipacion;
 
     public int getAnoInicio() {

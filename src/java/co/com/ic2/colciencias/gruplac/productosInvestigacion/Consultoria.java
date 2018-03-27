@@ -8,22 +8,38 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 import java.util.ArrayList;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Consultoría
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "Consultoria",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class Consultoria extends ProductoInvestigacion{
     
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "idioma")
     private String idioma;
+    @XmlElement(name = "disponibilidad")
     private String disponibilidad;
+    @XmlElement(name = "numContrato")
     private String numContrato;
+    @XmlElement(name = "institucion")
     private String institucion;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "certificacionEmpresa")
     private boolean certificacionEmpresa;
 
     public String getPais() {

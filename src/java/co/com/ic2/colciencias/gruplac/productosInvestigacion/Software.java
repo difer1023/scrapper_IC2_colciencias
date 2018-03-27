@@ -7,27 +7,47 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Software
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "Software",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class Software extends ProductoInvestigacion{
     
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "disponibilidad")
     private String disponibilidad;
+    @XmlElement(name = "sitioWeb")
     private String sitioWeb;
+    @XmlElement(name = "nombreComercial")
     private String nombreComercial;
+    @XmlElement(name = "nombreProyecto")
     private String nombreProyecto;
+    @XmlElement(name = "institucion")
     private String institucion;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
+    @XmlElement(name = "registrosAsociados")
     private String registrosAsociados;
     
+    @XmlElement(name = "registroDerechosAutor")
     private String registroDerechosAutor;
+    @XmlElement(name = "descripcion")
     private String descripcion;
+    @XmlElement(name = "codigoProyectoColciencias")
     private String codigoProyectoColciencias;
+    @XmlElement(name = "certificacion")
     private boolean certificacion;
 
     public String getPais() {

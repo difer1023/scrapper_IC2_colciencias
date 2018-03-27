@@ -7,24 +7,41 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Edición
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "Edicion",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class Edicion extends ProductoInvestigacion{
     
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "editorial")
     private String editorial;
+    @XmlElement(name = "idiomas")
     private String idiomas;
+    @XmlElement(name = "numPaginas")
     private String numPaginas;
+    @XmlElement(name = "autor")
     private Investigador autor;
+    @XmlElement(name = "tipo")
     private String tipo;
     
     
+    @XmlElement(name = "isbn_issn")
     private String isbn_issn;
+    @XmlElement(name = "fechaEdicion")
     private String fechaEdicion;
+    @XmlElement(name = "url")
     private String url;
 
     public String getPais() {

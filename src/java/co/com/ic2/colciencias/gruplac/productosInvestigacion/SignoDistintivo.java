@@ -7,24 +7,36 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Signo distintivo
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "SignoDistintivo",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class SignoDistintivo extends ProductoInvestigacion{
     
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "numRegistro")
     private String numRegistro;
+    @XmlElement(name = "nombreTitular")
     private String nombreTitular;
+    @XmlElement(name = "tipo")
     private String tipo;
     
-    
+    @XmlElement(name = "mes")
     private String mes;
+    @XmlElement(name = "certificado")
     private boolean certificado;
+    @XmlElement(name = "condicionesUso")
     private String condicionesUso;
-   
 
     public String getPais() {
         return pais;

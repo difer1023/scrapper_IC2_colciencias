@@ -7,22 +7,37 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Trabajo dirigido
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "TrabajoGrado",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class TrabajoGrado extends ProductoInvestigacion{
     
+    @XmlElement(name = "tipo")
     private String tipo;
+    @XmlElement(name = "lugar")
     private String lugar;
+    @XmlElement(name = "anoFin")
     private int anoFin;
+    @XmlElement(name = "valoracion")
     private String valoracion;
+    @XmlElement(name = "institucion")
     private String institucion;
 
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "autorTrabajo")
     private String autorTrabajo;
     
+    @XmlElement(name = "tipoDireccion")
     private String tipoDireccion;
 
     public String getTipo() {

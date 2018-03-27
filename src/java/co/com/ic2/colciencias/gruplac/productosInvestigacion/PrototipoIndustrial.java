@@ -7,18 +7,30 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Prototipo Industrial
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "PrototipoIndustrial",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class PrototipoIndustrial extends ProductoInvestigacion{
     
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "disponibilidad")
     private String disponibilidad;
+    @XmlElement(name = "institucion")
     private String institucion;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
     
     private boolean copiaContrato;

@@ -7,23 +7,40 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Innovación en Proceso
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "InnovacionProcedimientoServicio",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class InnovacionProcedimientoServicio extends ProductoInvestigacion{
     
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "disponibilidad")
     private String disponibilidad;
+    @XmlElement(name = "institucion")
     private String institucion;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "nit")
     private String nit;
+    @XmlElement(name = "certificadoImpPeq")
     private boolean certificadoImpPeq;
+    @XmlElement(name = "certificadoImpMed")
     private boolean certificadoImpMed;
+    @XmlElement(name = "certificadoImpGran")
     private boolean certificadoImpGran;
 
     public String getPais() {

@@ -6,7 +6,6 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
-import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
 
 /**

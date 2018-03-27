@@ -8,22 +8,38 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Generación de contenido multimedia
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "GeneracionContenidoMultimedia",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class GeneracionContenidoMultimedia extends ProductoInvestigacion{
     
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "medioCirculacion")
     private String medioCirculacion;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "instituciones")
     private ArrayList<Institucion> instituciones;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "ambito")
     private String ambito;
+    @XmlElement(name = "comunidades")
     private String comunidades;
+    @XmlElement(name = "resumen")
     private String resumen;
+    @XmlElement(name = "certificacion")
     private boolean certificacion;
 
     public int getAno() {

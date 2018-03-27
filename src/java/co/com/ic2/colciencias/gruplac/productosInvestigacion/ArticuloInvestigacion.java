@@ -7,26 +7,63 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que reperesenta el producto Artículo de investigación
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "ArticuloInvestigacion",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class ArticuloInvestigacion extends ProductoInvestigacion{
+    
+    @XmlElement(name = "pais")
     private String pais;
+    
+    @XmlElement(name = "issn")
     private String issn;
+    
+    @XmlElement(name = "ano")
     private int ano;
+    
+    @XmlElement(name = "tipo")
     private String tipo;
+    
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    
+    @XmlElement(name = "revista")
     private String revista;
+    
+    @XmlElement(name = "volumen")
     private String volumen;
+    
+    @XmlElement(name = "fasciculo")
     private String fasciculo;
+    
+    @XmlElement(name = "paginas")
     private String paginas;
+    
+    @XmlElement(name = "doi")
     private String doi;
+    
+    @XmlElement(name = "pagInicial")
     private String pagInicial;
+    
+    @XmlElement(name = "pagFinal")
     private String pagFinal;
+    
+    @XmlElement(name = "url")
     private String url;
+    
+    @XmlElement(name = "numeroAutores")
     private int numeroAutores;
+    
+    @XmlElement(name = "mes")
     private String mes;
 
     public String getIssn() {

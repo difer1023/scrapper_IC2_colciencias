@@ -5,18 +5,31 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Clase que representa los atributos principales de un producto de investigación 
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "ProductoInvestigacion",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public abstract class ProductoInvestigacion {
 	
+    @XmlElement(name = "subtipo")
     private String subtipo;
+    @XmlElement(name = "nombre")
     private String nombre;
+    @XmlElement(name = "categoria")
     private String categoria;
+    @XmlElement(name = "clasificado")
     private boolean clasificado;
+    @XmlElement(name = "codigo")
     private int codigo;
-
+    
     public String getCategoria() {
         return categoria;
     }

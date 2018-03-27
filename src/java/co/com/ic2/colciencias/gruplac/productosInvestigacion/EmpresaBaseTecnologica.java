@@ -7,23 +7,40 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Empresa de base tecnológica
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "EmpresaBaseTecnologica",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class EmpresaBaseTecnologica extends ProductoInvestigacion{
     
+    @XmlElement(name = "fecha")
     private String fecha;
+    @XmlElement(name = "nit")
     private String nit;
+    @XmlElement(name = "fechaRegistro")
     private String fechaRegistro;
+    @XmlElement(name = "estado")
     private String estado;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "certificadoCamaraComercio")
     private boolean certificadoCamaraComercio;
+    @XmlElement(name = "certificacionInstitucional")
     private boolean certificacionInstitucional;
     
+    @XmlElement(name = "tipoIdentificacion")
     private int tipoIdentificacion;
 
     public String getFecha() {

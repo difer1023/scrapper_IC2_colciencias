@@ -7,32 +7,58 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Generación de contenido impreso
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "GeneracionContenidoImpreso",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class GeneracionContenidoImpreso extends ProductoInvestigacion{
+    
+    @XmlElement(name = "lugarPublicacion")
     private String lugarPublicacion;
+    @XmlElement(name = "fecha")
     private String fecha;
+    @XmlElement(name = "medioCirculacion")
     private String medioCirculacion;
+    @XmlElement(name = "ambito")
     private String ambito;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "revista")
     private String revista;
+    @XmlElement(name = "volumen")
     private String volumen;
+    @XmlElement(name = "fasciculo")
     private String fasciculo;
+    @XmlElement(name = "paginas")
     private String paginas;
+    @XmlElement(name = "doi")
     private String doi;
+    @XmlElement(name = "pagInicial")
     private String pagInicial;
+    @XmlElement(name = "pagFinal")
     private String pagFinal;
+    @XmlElement(name = "url")
     private String url;
+    @XmlElement(name = "numeroAutores")
     private int numeroAutores;
+    @XmlElement(name = "mes")
     private String mes;
+    @XmlElement(name = "issn")
     private String issn;
+    @XmlElement(name = "ano")
     private int ano;
     
+    @XmlElement(name = "certificacion")
     private boolean certificacion;
 
     public String getLugarPublicacion() {

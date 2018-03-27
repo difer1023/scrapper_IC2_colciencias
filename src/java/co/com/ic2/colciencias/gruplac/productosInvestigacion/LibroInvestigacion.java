@@ -7,27 +7,50 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Libro
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "LibroInvestigacion",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class LibroInvestigacion extends ProductoInvestigacion{
+    
+    @XmlElement(name = "isbn")
     private String isbn;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "editorial")
     private String editorial;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
+    @XmlElement(name = "mes")
     private String mes;
+    @XmlElement(name = "numeroAutores")
     private int numeroAutores;
+    @XmlElement(name = "requisitosGuiaVerificacion")
     private boolean requisitosGuiaVerificacion;
     
+    @XmlElement(name = "certificacionInstitucion")
     private String certificacionInstitucion;
+    @XmlElement(name = "bookCitationIndex")
     private String bookCitationIndex;
+    @XmlElement(name = "referenciaRevistasD")
     private String referenciaRevistasD;
+    @XmlElement(name = "referenciaRevistasA1")
     private String referenciaRevistasA1;
+    @XmlElement(name = "numeroReferenciasBCI")
     private int numeroReferenciasBCI;
+    @XmlElement(name = "numeroReferenciasLibB")
     private int numeroReferenciasLibB;
     
     public String getIsbn() {

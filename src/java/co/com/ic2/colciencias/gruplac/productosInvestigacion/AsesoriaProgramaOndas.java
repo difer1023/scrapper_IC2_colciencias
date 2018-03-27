@@ -5,24 +5,42 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Clase que reperesenta el producto Asesoría al programa Ondas
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "AsesoriaProgramaOndas",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class AsesoriaProgramaOndas extends ProductoInvestigacion{
     
+    @XmlElement(name = "lugar")
     private String lugar;
+    @XmlElement(name = "anoInicio")
     private int anoInicio;
+    @XmlElement(name = "institucion")
     private String institucion;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "registroBD")
     private boolean registroBD;
+    @XmlElement(name = "municipio")
     private String municipio;
+    @XmlElement(name = "departamento")
     private String departamento;
+    @XmlElement(name = "resultados")
     private boolean resultados;
+    @XmlElement(name = "reconocido")
     private boolean reconocido;
+    @XmlElement(name = "participacionFerias")
     private boolean participacionFerias;
-
+    
     public String getLugar() {
         return lugar;
     }

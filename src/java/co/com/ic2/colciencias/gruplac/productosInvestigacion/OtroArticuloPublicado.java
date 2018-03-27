@@ -7,22 +7,40 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Otro artículo publicado
  * Presente en la parte pública del Gruplac
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "OtroArticuloPublicado",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class OtroArticuloPublicado extends ProductoInvestigacion{
+    
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "issn")
     private String issn;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "tipo")
     private String tipo;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "revista")
     private String revista;
+    @XmlElement(name = "volumen")
     private String volumen;
+    @XmlElement(name = "fasciculo")
     private String fasciculo;
+    @XmlElement(name = "paginas")
     private String paginas;
+    @XmlElement(name = "doi")
     private String doi;
 
     public String getIssn() {

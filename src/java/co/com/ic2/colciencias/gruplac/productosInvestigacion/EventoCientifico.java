@@ -8,22 +8,38 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 import java.util.ArrayList;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Evento científico
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "EventoCientifico",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class EventoCientifico extends ProductoInvestigacion{
     
+    @XmlElement(name = "lugar")
     private String lugar;
+    @XmlElement(name = "fechaInicio")
     private String fechaInicio;
+    @XmlElement(name = "fechaFin")
     private String fechaFin;
+    @XmlElement(name = "ambito")
     private String ambito;
+    @XmlElement(name = "tipoParticipacion")
     private String tipoParticipacion;
+    @XmlElement(name = "instituciones")
     private ArrayList<Institucion> instituciones;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "numeroAutores")
     private int numeroAutores;
 
     public String getLugar() {

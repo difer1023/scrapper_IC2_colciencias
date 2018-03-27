@@ -7,24 +7,43 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Capítulo de libro
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "CapituloLibroPublicado",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class CapituloLibroPublicado extends ProductoInvestigacion {
+    
+    @XmlElement(name = "isbn")
     private String isbn;
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "pais")
     private String pais;
+    @XmlElement(name = "tituloLibro")
     private String tituloLibro;
+    @XmlElement(name = "editorial")
     private String editorial;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "numeroAutores")
     private int numeroAutores;
+    @XmlElement(name = "requisitosGuiaVerificacion")
     private boolean requisitosGuiaVerificacion;
+    @XmlElement(name = "certificadoValidacion")
     private boolean certificadoValidacion;
     
+    @XmlElement(name = "tituloCapitulo")
     private String tituloCapitulo;
 
     public String getIsbn() {

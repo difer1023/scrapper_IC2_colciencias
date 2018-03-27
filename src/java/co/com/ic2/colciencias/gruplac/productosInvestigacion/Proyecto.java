@@ -5,28 +5,46 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Clase que representa el producto Proyecto
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "Proyecto",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class Proyecto extends ProductoInvestigacion{
     
+    @XmlElement(name = "anoInicio")
     private int anoInicio;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "institucion")
     private String institucion;
+    @XmlElement(name = "numeroInvestigadoresPrincipales")
     private int numeroInvestigadoresPrincipales;
+    @XmlElement(name = "actoAdministrativo")
     private String actoAdministrativo;
+    @XmlElement(name = "fechaActoAdministrativo")
     private String fechaActoAdministrativo;
+    @XmlElement(name = "numeroInvestigadoresParticipantes")
     private int numeroInvestigadoresParticipantes;
     
+    @XmlElement(name = "anoFin")
     private int anoFin;
     
+    @XmlElement(name = "financiacion")
     private String financiacion;
+    @XmlElement(name = "actoAdmin")
     private boolean actoAdmin;
+    @XmlElement(name = "numeroContrato")
     private String numeroContrato;
+    @XmlElement(name = "tipoFinanciacion")
     private int tipoFinanciacion;
-    
 
     public int getAnoInicio() {
         return anoInicio;

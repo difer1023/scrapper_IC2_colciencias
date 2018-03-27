@@ -8,20 +8,36 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.Investigador;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Working Paper (Documento de trabajo)
  * @author L
  */
+
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "DocumentoTrabajo",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class DocumentoTrabajo extends ProductoInvestigacion{
+    
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "numPaginas")
     private String numPaginas;
+    @XmlElement(name = "autores")
     private ArrayList<Investigador> autores;
+    @XmlElement(name = "tipo")
     private String tipo;
+    @XmlElement(name = "instituciones")
     private ArrayList<Institucion> instituciones;
+    @XmlElement(name = "url")
     private String url;
+    @XmlElement(name = "doi")
     private String doi;
     
+    @XmlElement(name = "numeroAutores")
     private int numeroAutores;
 
     public int getAno() {
