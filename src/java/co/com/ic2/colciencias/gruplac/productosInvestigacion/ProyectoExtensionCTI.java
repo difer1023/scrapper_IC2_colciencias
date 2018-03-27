@@ -1,7 +1,7 @@
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 /**
- * Clase que representa el producto Proyecto de extensiòn y responsabilidad social en CTI
+ * Clase que representa el producto Proyecto de extension y responsabilidad social en CTI
  * @author L
  */
 public class ProyectoExtensionCTI extends ProductoInvestigacion{

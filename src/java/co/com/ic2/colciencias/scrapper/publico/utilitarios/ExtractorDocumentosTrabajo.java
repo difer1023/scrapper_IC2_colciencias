@@ -5,6 +5,7 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
+import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.DocumentoTrabajo;
@@ -76,7 +77,7 @@ public class ExtractorDocumentosTrabajo {
                 documentosTrabajo.setAno(Integer.parseInt(ano));
                 documentosTrabajo.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
                 try {

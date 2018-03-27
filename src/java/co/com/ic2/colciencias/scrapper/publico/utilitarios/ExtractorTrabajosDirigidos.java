@@ -5,6 +5,7 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
+import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoGrado;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
@@ -94,7 +95,7 @@ public class ExtractorTrabajosDirigidos {
                 trabajoDoctorado.setAnoFin(Integer.parseInt(ano));
                 trabajoDoctorado.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
                 try {
@@ -135,7 +136,7 @@ public class ExtractorTrabajosDirigidos {
                 trabajoMaestria.setAnoFin(Integer.parseInt(ano));
                 trabajoMaestria.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
                 try {
@@ -176,7 +177,7 @@ public class ExtractorTrabajosDirigidos {
                 trabajoPregrado.setAnoFin(Integer.parseInt(ano));
                 trabajoPregrado.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
                 try {

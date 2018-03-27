@@ -5,21 +5,37 @@
  */
 package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  *Clase que representa el producto Apoyo a programas de formación
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "ApoyoProgramaFormacion",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class ApoyoProgramaFormacion extends ProductoInvestigacion{
     
+    @XmlElement(name = "actoAdministrativo")
     private String actoAdministrativo;
+    @XmlElement(name = "fechaActoAdministrativo")
     private String fechaActoAdministrativo;
+    @XmlElement(name = "institucion")
     private String institucion;
+    @XmlElement(name = "programaSeleccionado")
     private String programaSeleccionado;   
+    @XmlElement(name = "ano")
     private int ano;
     
+    @XmlElement(name = "facultad")
     private String facultad;
+    @XmlElement(name = "departamento")
     private String departamento;
+    @XmlElement(name = "numActoAdmin")
     private String numActoAdmin;
+    @XmlElement(name = "tipoApoyo")
     private int tipoApoyo;
 
     

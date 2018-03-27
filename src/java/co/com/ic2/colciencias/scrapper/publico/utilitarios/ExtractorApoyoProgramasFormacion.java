@@ -5,6 +5,7 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
+import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ApoyoProgramaFormacion;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class ExtractorApoyoProgramasFormacion {
                 
                 apoyoProgramaFormacion.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 Document doc = null;
                 
@@ -95,7 +96,7 @@ public class ExtractorApoyoProgramasFormacion {
                 apoyoCreacionCurso.setAno(Integer.parseInt(ano));
                 apoyoCreacionCurso.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
               
-                String enlaceDetalle=("http://scienti.colciencias.gov.co:8080"+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
                 System.out.println("enlace"+enlaceDetalle); 
                 
                 Document doc = null;

@@ -5,6 +5,7 @@
  */
 package co.com.ic2.colciencias.scrapper.privado;
 
+import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.GrupoInvestigacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorApoyoProgramasFormacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion;
@@ -66,8 +67,8 @@ public class ScrapperColcienciasPrivado {
 
         final String USER_AGENT = "\"Mozilla/5.0 (Windows NT\" +\n"
                 + "          \" 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36\"";
-        String loginFormUrl = "http://scienti.colciencias.gov.co:8085/gruplac/";
-        String loginActionUrl = "http://scienti.colciencias.gov.co:8085/gruplac/LoginGruplac/login.do";
+        String loginFormUrl = ConstantesScrapper.urlGruplac+"/gruplac/";
+        String loginActionUrl = ConstantesScrapper.urlGruplac+"/gruplac/LoginGruplac/login.do";
 
         String fechaNacimiento = "";
 
@@ -98,19 +99,19 @@ public class ScrapperColcienciasPrivado {
             
             //Pieza de codigo para extraer productos de grupos de lideres con mas de un grupo de investigacion
              //System.out.println(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/b[2]/text()").evaluate(homePage.parse()).getElements());
-            Elements enlaces = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/li").evaluate(homePage.parse()).getElements();
-
-            System.out.println(enlaces);
-
-            String enlaceGrupo = "http://scienti.colciencias.gov.co:8085/gruplac" + (Xsoup.compile("/a/@href").evaluate(enlaces.get(1)).get().replace("..", ""));
-
-            System.out.println(enlaceGrupo);
-
-            Connection.Response home = Jsoup.connect(enlaceGrupo)
-                    .cookies(cookies)
-                    .method(Connection.Method.GET)
-                    .userAgent(USER_AGENT)
-                    .execute();
+//            Elements enlaces = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/li").evaluate(homePage.parse()).getElements();
+//
+//            System.out.println(enlaces);
+//
+//            String enlaceGrupo = ConstantesScrapper.urlGruplac+"/gruplac" + (Xsoup.compile("/a/@href").evaluate(enlaces.get(1)).get().replace("..", ""));
+//
+//            System.out.println(enlaceGrupo);
+//
+//            Connection.Response home = Jsoup.connect(enlaceGrupo)
+//                    .cookies(cookies)
+//                    .method(Connection.Method.GET)
+//                    .userAgent(USER_AGENT)
+//                    .execute();
             //////////////////
             try{
             grupoInvestigacion.setArticulosInvestigacion(ExtractorArticulosInvestigacion.extraerArticulosPublicadosPrivado(extraerTablaProductos("ART", "19", "GNC", cookies), cookies));
@@ -250,7 +251,7 @@ public class ScrapperColcienciasPrivado {
             datosProductosConvocatoria.put("clase_prod", claseProduccion); 
 //            System.out.println("HOME>>>>>>>>>>>>>>>>>>>>>>>>>>"+homePage.parse().html());
         
-            Connection.Response res2 = Jsoup.connect("http://scienti.colciencias.gov.co:8085/gruplac/Medicion/calificacion/redirect.do")
+            Connection.Response res2 = Jsoup.connect(ConstantesScrapper.urlGruplac+"/gruplac/Medicion/calificacion/redirect.do")
             .data(datosProductosConvocatoria)
             .method(Connection.Method.GET)
             .cookies(cookies)

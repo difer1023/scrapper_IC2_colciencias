@@ -5,12 +5,21 @@
  */
 package co.com.ic2.colciencias.gruplac;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  *
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "Institucion",namespace = "gruplac.colciencias.ic2.com.co")
 public class Institucion {
+    @XmlElement(name = "nombre")
     private String nombre;
+    @XmlElement(name = "avalado")
     private boolean avalado;
 
     public String getNombre() {

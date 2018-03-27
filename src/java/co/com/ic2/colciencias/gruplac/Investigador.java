@@ -5,17 +5,31 @@
  */
 package co.com.ic2.colciencias.gruplac;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  *
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "Investigador", namespace = "gruplac.colciencias.ic2.com.co")
 public class Investigador {
+    @XmlElement(name = "nombreCompleto")
     private String nombreCompleto;
+    @XmlElement(name = "horasDedicacion")
     private String horasDedicacion;
+    @XmlElement(name = "inicioVinculacion")
     private String inicioVinculacion;
+    @XmlElement(name = "finVinculacion")
     private String finVinculacion;
+    @XmlElement(name = "categoria")
     private String categoria;
+    @XmlElement(name = "vigenciaCategoria")
     private String vigenciaCategoria;
+    @XmlElement(name = "lider")
     private boolean lider;
 
     public String getNombreCompleto() {
