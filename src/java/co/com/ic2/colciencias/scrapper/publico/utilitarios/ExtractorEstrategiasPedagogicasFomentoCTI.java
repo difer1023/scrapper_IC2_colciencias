@@ -5,11 +5,14 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
+import co.com.ic2.colciencias.constants.ConstantesModelo;
 import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaPedagogicaFomentoCTI;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -40,7 +43,7 @@ public class ExtractorEstrategiasPedagogicasFomentoCTI {
       
             String [] detalle1=detalleEstrategiaPedagogica.split("desde ");
             String [] detalle2= detalle1[1].split(" ");
-            estrategiaPedagogica.setAnoInicio(Integer.parseInt(detalle2[1]));
+            estrategiaPedagogica.setFechaInicio("01-"+Utilidades.transformarMesANumero(detalle2[0].trim())+"-"+detalle2[1]);
             
             String detalleEstrategia=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
             estrategiaPedagogica.setDescripcion(detalleEstrategia.substring(14));
@@ -55,56 +58,64 @@ public class ExtractorEstrategiasPedagogicasFomentoCTI {
     * Método encargado de extraer información sobre el producto Estrategia pedagógica de fomento a la CTI
     * Presente en la parte privada del Gruplac
     */
-    public static ArrayList<EstrategiaPedagogicaFomentoCTI> extraerEstrategiasPedagogicasFomentoCTIPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+    public static ArrayList<EstrategiaPedagogicaFomentoCTI> extraerEstrategiasPedagogicasFomentoCTIPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies,int anoFinVentanaObservacion) {
         ArrayList<EstrategiaPedagogicaFomentoCTI> estrategiasPedagogicas = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
                 EstrategiaPedagogicaFomentoCTI estrategiaPedagogica = new EstrategiaPedagogicaFomentoCTI();
-                System.out.println("FILA"+ elements.get(i).text());
+//                System.out.println("FILA"+ elements.get(i).text());
+                int ano = Integer.parseInt(Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get());
+                estrategiaPedagogica.setFechaInicio(String.valueOf(ano));
                 
-                estrategiaPedagogica.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
-                
-                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-                estrategiaPedagogica.setAnoInicio(Integer.parseInt(ano));
-                estrategiaPedagogica.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
-              
-                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
-                System.out.println("enlace"+enlaceDetalle); 
-                Document doc = null;
-                try {
-                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
-                        .cookies(cookies)
-                        .userAgent(USER_AGENT)
-                        .execute();
-                    doc=res2.parse();
-                } catch (IOException ex) {
-                 Logger.getLogger(ExtractorEstrategiasPedagogicasFomentoCTI.class.getName()).log(Level.SEVERE, null, ex);
+                int anoInicioVentanaObservacion=anoFinVentanaObservacion-(ConstantesModelo.VO_EPA-1);
+                if(ano<=anoFinVentanaObservacion && ano>=anoInicioVentanaObservacion){
+
+                    estrategiaPedagogica.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+
+                    String categoria=Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get();
+                    if(!categoria.equals("No cumple existencia") && !categoria.equals("Cumple con existencia")){
+                        estrategiaPedagogica.setCategoria(categoria);
+                        estrategiaPedagogica.setClasificado(true);
+                    }
+                    String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+    //                System.out.println("enlace"+enlaceDetalle); 
+                    Document doc = null;
+                    try {
+                        Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                            .cookies(cookies)
+                            .userAgent(USER_AGENT)
+                            .proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY)
+                            .execute();
+                        doc=res2.parse();
+                    } catch (IOException ex) {
+                     Logger.getLogger(ExtractorEstrategiasPedagogicasFomentoCTI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try{
+                    String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-");
+                    estrategiaPedagogica.setFechaInicio(fechaPublicacion[0].trim()+"-"+Utilidades.transformarMesANumero(fechaPublicacion[1].trim())+"-"+"01");
+                    } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error no existe fecha publicacion");}
+                    //Campo en blanco
+                    try{
+                    String [] institucionesTabla= Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split(" \\| ");
+    //                System.out.println(institucionesTabla.length);
+                    ArrayList<Institucion> instituciones= new ArrayList<>();
+
+                    for(String nombreInstitucion:institucionesTabla){
+                        Institucion institucion= new Institucion();
+                        institucion.setNombre(nombreInstitucion);
+                        instituciones.add(institucion);
+                    }
+                    estrategiaPedagogica.setInstituciones(instituciones);
+                    } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
+
+                    //Campo en blanco
+                    String numeroInvestigadoresPrincipales=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get();
+                    try{
+                    estrategiaPedagogica.setNumeroInvestigadoresPrincipales(Integer.parseInt(numeroInvestigadoresPrincipales.split("\\) ")[0].split("\\(")[1]));
+                    } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay numero de investigadores principales");}
+
+                    estrategiasPedagogicas.add(estrategiaPedagogica);
                 }
-                try{
-                String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-");
-                estrategiaPedagogica.setAnoInicio(Integer.parseInt(fechaPublicacion[0]));
-                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error no existe fecha publicacion");}
-                //Campo en blanco
-                try{
-                String [] institucionesTabla= Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get().split(" \\| ");
-                System.out.println(institucionesTabla.length);
-                ArrayList<Institucion> instituciones= new ArrayList<>();
-                
-                for(String nombreInstitucion:institucionesTabla){
-                    Institucion institucion= new Institucion();
-                    institucion.setNombre(nombreInstitucion);
-                    instituciones.add(institucion);
-                }
-                estrategiaPedagogica.setInstituciones(instituciones);
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
-                
-                //Campo en blanco
-                String numeroInvestigadoresPrincipales=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get();
-                try{
-                estrategiaPedagogica.setNumeroInvestigadoresPrincipales(Integer.parseInt(numeroInvestigadoresPrincipales.split("\\) ")[0].split("\\(")[1]));
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay numero de investigadores principales");}
-                
-                estrategiasPedagogicas.add(estrategiaPedagogica);
             }
         }
         return estrategiasPedagogicas;

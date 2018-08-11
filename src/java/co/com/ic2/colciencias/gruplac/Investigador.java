@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "Investigador", namespace = "gruplac.colciencias.ic2.com.co")
 public class Investigador {
+
     @XmlElement(name = "nombreCompleto")
     private String nombreCompleto;
     @XmlElement(name = "horasDedicacion")
@@ -31,6 +32,10 @@ public class Investigador {
     private String vigenciaCategoria;
     @XmlElement(name = "lider")
     private boolean lider;
+    @XmlElement(name = "integranteGrupo")
+    private int integranteGrupo;
+    @XmlElement(name = "gruposColaboracion")
+    private int gruposColaboracion;
 
     public String getNombreCompleto() {
         return nombreCompleto;
@@ -80,13 +85,29 @@ public class Investigador {
         this.vigenciaCategoria = vigenciaCategoria;
     }
 
-	public boolean isLider() {
-		return lider;
-	}
+    public boolean isLider() {
+        return lider;
+    }
 
-	public void setLider(boolean lider) {
-		this.lider = lider;
-	}
-    
+    public void setLider(boolean lider) {
+        this.lider = lider;
+    }
+
+    public int getIntegranteGrupo() {
+        return integranteGrupo;
+    }
+
+    public void setIntegranteGrupo(int integranteGrupo) {
+        this.integranteGrupo = integranteGrupo;
+    }
+
+    public int getGruposColaboracion() {
+        return gruposColaboracion;
+    }
+
+    public void setGruposColaboracion(int gruposColaboracion) {
+        this.gruposColaboracion = gruposColaboracion;
+    }
+
     
 }

@@ -11,4 +11,7 @@ package co.com.ic2.colciencias.constants;
  */
 public class ConstantesScrapper {
     public static String urlGruplac="http://scienti.colciencias.gov.co:8085";
+    public static boolean proxy=false;
+    public static String urlProxy="proxy.udistrital.edu.co";
+    public static int puertoProxy=3128;
 }

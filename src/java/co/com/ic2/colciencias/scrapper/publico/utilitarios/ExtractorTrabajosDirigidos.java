@@ -5,11 +5,14 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
+import co.com.ic2.colciencias.constants.ConstantesModelo;
 import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.TrabajoGrado;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -82,38 +85,46 @@ public class ExtractorTrabajosDirigidos {
     * Método encargado de extraer información sobre el producto Tesis de doctorado
     * Presente en la parte privada del Gruplac
     */
-    public static ArrayList<TrabajoGrado> extraerTesisDoctoradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+    public static ArrayList<TrabajoGrado> extraerTesisDoctoradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies,int anoFinVentanaObservacion) {
         ArrayList<TrabajoGrado> trabajosDoctorado = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
                 TrabajoGrado trabajoDoctorado = new TrabajoGrado();
-                System.out.println("FILA"+ elements.get(i).text());
+//                System.out.println("FILA"+ elements.get(i).text());
+                int ano = Integer.parseInt(Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get());
+                trabajoDoctorado.setAnoFin(ano);
                 
-                trabajoDoctorado.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+                int anoInicioVentanaObservacion=anoFinVentanaObservacion-(ConstantesModelo.VO_TD-1);
+                if(ano<=anoFinVentanaObservacion && ano>=anoInicioVentanaObservacion){
                 
-                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-                trabajoDoctorado.setAnoFin(Integer.parseInt(ano));
-                trabajoDoctorado.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
-              
-                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
-                System.out.println("enlace"+enlaceDetalle); 
-                Document doc = null;
-                try {
-                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
-                        .cookies(cookies)
-                        .userAgent(USER_AGENT)
-                        .execute();
-                    doc=res2.parse();
-                } catch (IOException ex) {
-                    Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                    trabajoDoctorado.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+
+                    String categoria=Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get();
+                    if(!categoria.equals("No cumple existencia") && !categoria.equals("Cumple con existencia")){
+                        trabajoDoctorado.setCategoria(categoria);
+                        trabajoDoctorado.setClasificado(true);
+                    }
+                    String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+    //                System.out.println("enlace"+enlaceDetalle); 
+                    Document doc = null;
+                    try {
+                        Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                            .cookies(cookies)
+                            .userAgent(USER_AGENT)
+                            .proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY)
+                            .execute();
+                        doc=res2.parse();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    trabajoDoctorado.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
+                    trabajoDoctorado.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
+                    trabajoDoctorado.setTipoDireccion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
+                    trabajoDoctorado.setValoracion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
+
+                    trabajosDoctorado.add(trabajoDoctorado);
                 }
-            
-                trabajoDoctorado.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
-                trabajoDoctorado.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
-                trabajoDoctorado.setTipoDireccion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
-                trabajoDoctorado.setValoracion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
-                
-                trabajosDoctorado.add(trabajoDoctorado);
             }
         }
         return trabajosDoctorado;
@@ -123,38 +134,46 @@ public class ExtractorTrabajosDirigidos {
     * Método encargado de extraer información sobre el producto Tesis de maestría
     * Presente en la parte privada del Gruplac
     */
-    public static ArrayList<TrabajoGrado> extraerTesisMaestriaPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+    public static ArrayList<TrabajoGrado> extraerTesisMaestriaPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies, int anoFinVentanaObservacion) {
         ArrayList<TrabajoGrado> trabajosMaestria = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
                 TrabajoGrado trabajoMaestria = new TrabajoGrado();
-                System.out.println("FILA"+ elements.get(i).text());
+//                System.out.println("FILA"+ elements.get(i).text());
+                int ano = Integer.parseInt(Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get());
+                trabajoMaestria.setAnoFin(ano);
+
+                int anoInicioVentanaObservacion=anoFinVentanaObservacion-(ConstantesModelo.VO_TM-1);
+                if(ano<=anoFinVentanaObservacion && ano>=anoInicioVentanaObservacion){
                 
-                trabajoMaestria.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
-                
-                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-                trabajoMaestria.setAnoFin(Integer.parseInt(ano));
-                trabajoMaestria.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
-              
-                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
-                System.out.println("enlace"+enlaceDetalle); 
-                Document doc = null;
-                try {
-                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
-                        .cookies(cookies)
-                        .userAgent(USER_AGENT)
-                        .execute();
-                    doc=res2.parse();
-                } catch (IOException ex) {
-                    Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                    trabajoMaestria.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+
+                    String categoria=Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get();
+                    if(!categoria.equals("No cumple existencia")){
+                        trabajoMaestria.setCategoria(categoria);
+                        trabajoMaestria.setClasificado(true);
+                    }
+                    String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+    //                System.out.println("enlace"+enlaceDetalle); 
+                    Document doc = null;
+                    try {
+                        Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                            .cookies(cookies)
+                            .userAgent(USER_AGENT)
+                            .proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY)
+                            .execute();
+                        doc=res2.parse();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    trabajoMaestria.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
+                    trabajoMaestria.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
+                    trabajoMaestria.setTipoDireccion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
+                    trabajoMaestria.setValoracion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
+
+                    trabajosMaestria.add(trabajoMaestria);
                 }
-            
-                trabajoMaestria.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
-                trabajoMaestria.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
-                trabajoMaestria.setTipoDireccion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
-                trabajoMaestria.setValoracion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
-                
-                trabajosMaestria.add(trabajoMaestria);
             }
         }
         return trabajosMaestria;
@@ -164,38 +183,46 @@ public class ExtractorTrabajosDirigidos {
     * Método encargado de extraer información sobre el producto tesis de pregrado
     * Presente en la parte privada del Gruplac
     */
-    public static ArrayList<TrabajoGrado> extraerTesisPregradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+    public static ArrayList<TrabajoGrado> extraerTesisPregradoPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies, int anoFinVentanaObservacion) {
         ArrayList<TrabajoGrado> trabajosPregrado = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
                 TrabajoGrado trabajoPregrado = new TrabajoGrado();
-                System.out.println("FILA"+ elements.get(i).text());
+//                System.out.println("FILA"+ elements.get(i).text());
+                int ano = Integer.parseInt(Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get());
+                trabajoPregrado.setAnoFin(ano);
+
+                int anoInicioVentanaObservacion=anoFinVentanaObservacion-(ConstantesModelo.VO_TP-1);
+                if(ano<=anoFinVentanaObservacion && ano>=anoInicioVentanaObservacion){
                 
-                trabajoPregrado.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
-                
-                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-                trabajoPregrado.setAnoFin(Integer.parseInt(ano));
-                trabajoPregrado.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
-              
-                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
-                System.out.println("enlace"+enlaceDetalle); 
-                Document doc = null;
-                try {
-                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
-                        .cookies(cookies)
-                        .userAgent(USER_AGENT)
-                        .execute();
-                    doc=res2.parse();
-                } catch (IOException ex) {
-                    Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                    trabajoPregrado.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+
+                    String categoria=Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get();
+                    if(!categoria.equals("No cumple existencia")){
+                        trabajoPregrado.setCategoria(categoria);
+                        trabajoPregrado.setClasificado(true);
+                    }
+                    String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+    //                System.out.println("enlace"+enlaceDetalle); 
+                    Document doc = null;
+                    try {
+                        Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                            .cookies(cookies)
+                            .userAgent(USER_AGENT)
+                            .proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY)
+                            .execute();
+                        doc=res2.parse();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ExtractorTrabajosDirigidos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    trabajoPregrado.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
+                    trabajoPregrado.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
+                    trabajoPregrado.setTipoDireccion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
+                    trabajoPregrado.setValoracion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
+
+                    trabajosPregrado.add(trabajoPregrado);
                 }
-            
-                trabajoPregrado.setAutorTrabajo(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
-                trabajoPregrado.setInstitucion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get());
-                trabajoPregrado.setTipoDireccion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
-                trabajoPregrado.setValoracion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[7]/td[3]/text()").evaluate(doc).get());
-                
-                trabajosPregrado.add(trabajoPregrado);
             }
         }
         return trabajosPregrado;

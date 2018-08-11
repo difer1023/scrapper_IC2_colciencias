@@ -7,24 +7,40 @@ package co.com.ic2.colciencias.gruplac.productosInvestigacion;
 
 import co.com.ic2.colciencias.gruplac.Institucion;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa el producto Red de conocimiento
  * @author L
  */
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(name = "RedConocimiento",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class RedConocimiento extends ProductoInvestigacion{
+    @XmlElement(name = "lugar")
     private String lugar;
+    @XmlElement(name = "fechaInicio")
     private String fechaInicio;
+    @XmlElement(name = "tipo")
     private String tipo;
     
+    @XmlElement(name = "ano")
     private int ano;
+    @XmlElement(name = "investigador")
     private String investigador;
+    @XmlElement(name = "comunidadesParticipantes")
     private int comunidadesParticipantes;
+    @XmlElement(name = "pagWeb")
     private String pagWeb;
     
+    @XmlElement(name = "nombreComunidad")
     private String nombreComunidad;
+    @XmlElement(name = "liderRed")
     private boolean liderRed;
     
+    @XmlElement(name = "instituciones")
     private ArrayList<Institucion> instituciones;
     
 

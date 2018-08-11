@@ -7,14 +7,24 @@
  >
     <message name="extraerGrupoInvestigacion"/>
     <message name="extraerGrupoInvestigacionResponse"/>
+    <message name="extraerGruposInvestigador"/>
+    <message name="extraerGruposInvestigadorResponse"/>
     <portType name="ScrapperColcienciasPublico">
         <operation name="extraerGrupoInvestigacion">
             <input message="tns:extraerGrupoInvestigacion"/>
             <output message="tns:extraerGrupoInvestigacionResponse"/>
         </operation>
+        <operation name="extraerGruposInvestigador">
+            <input message="tns:extraerGruposInvestigador"/>
+            <output message="tns:extraerGruposInvestigadorResponse"/>
+        </operation>
     </portType>
     <binding name="ScrapperColcienciasPublicoPortBinding" type="tns:ScrapperColcienciasPublico">
         <operation name="extraerGrupoInvestigacion">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="extraerGruposInvestigador">
             <input/>
             <output/>
         </operation>

@@ -31,10 +31,12 @@ public class ExtractorGeneracionContenidosVirtuales {
             //System.out.println(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get());
             contenidoVirtual.setNombre(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get().substring(3));
             String detalleContenidoVirtual=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
-            
-            String ano=detalleContenidoVirtual.split(",")[0].substring(1,5);
-            contenidoVirtual.setAno(Integer.parseInt(ano));
-            
+            try{
+                String ano=detalleContenidoVirtual.split(",")[0].substring(1,5);
+                contenidoVirtual.setAno(Integer.parseInt(ano));
+            }catch(StringIndexOutOfBoundsException e){
+                System.out.println("Error en extraerOtrosLibrosPublicados ISBN");
+            }
             String [] institucionesContenido=detalleContenidoVirtual.split("Entidades vinculadas: ")[1].split(" Sitio web:")[0].split(",");
             ArrayList<Institucion> instituciones=new ArrayList<>();
             for(int j=0;j<institucionesContenido.length;j++){

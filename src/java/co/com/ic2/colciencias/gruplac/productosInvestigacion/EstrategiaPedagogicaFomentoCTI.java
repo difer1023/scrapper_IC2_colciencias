@@ -23,8 +23,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "EstrategiaPedagogicaFomentoCTI",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public class EstrategiaPedagogicaFomentoCTI extends ProductoInvestigacion{
     
-    @XmlElement(name = "anoInicio")
-    private int anoInicio;
+    @XmlElement(name = "fechaInicio")
+    private String fechaInicio;
     @XmlElement(name = "descripcion")
     private String descripcion;
     @XmlElement(name = "tipo")
@@ -56,12 +56,12 @@ public class EstrategiaPedagogicaFomentoCTI extends ProductoInvestigacion{
 		this.certificado = certificado;
 	}
 
-	public int getAnoInicio() {
-        return anoInicio;
+	public String getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setAnoInicio(int anoInicio) {
-        this.anoInicio = anoInicio;
+    public void setFechaInicio(String anoInicio) {
+        this.fechaInicio = anoInicio;
     }
 
     public String getDescripcion() {

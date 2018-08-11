@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "ProductoInvestigacion",namespace = "productosInvestigacion.gruplac.colciencias.ic2.com.co")
 public abstract class ProductoInvestigacion {
 	
+    @XmlElement(name = "fechaProducto")
+    private String fechaProducto;
     @XmlElement(name = "subtipo")
     private String subtipo;
     @XmlElement(name = "nombre")
@@ -62,11 +64,19 @@ public abstract class ProductoInvestigacion {
         this.codigo = codigo;
     }
 
-	public boolean isClasificado() {
-		return clasificado;
-	}
+    public boolean isClasificado() {
+            return clasificado;
+    }
 
-	public void setClasificado(boolean clasificado) {
-		this.clasificado = clasificado;
-	}
+    public void setClasificado(boolean clasificado) {
+            this.clasificado = clasificado;
+    }
+
+    public String getFechaProducto() {
+        return fechaProducto;
+    }
+
+    public void setFechaProducto(String fechaProducto) {
+        this.fechaProducto = fechaProducto;
+    }
 }

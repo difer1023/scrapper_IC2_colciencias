@@ -5,6 +5,7 @@
  */
 package co.com.ic2.colciencias.scrapper.publico;
 
+import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.GrupoInvestigacion;
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.Investigador;
@@ -70,6 +71,8 @@ import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorSoftwares;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorTrabajosDirigidos;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -88,9 +91,10 @@ import us.codecraft.xsoup.Xsoup;
  * Requiere la dirección URL del grupo de investigación
  * @author Difer
  */
-@WebService(serviceName = "NewWebService")
+@WebService(serviceName = "scrapperColcienciasPublico")
 public class ScrapperColcienciasPublico {
 
+    static final Logger LOG=Logger.getLogger(ScrapperColcienciasPublico.class.getName());
     /**
      * Operacion para extraer los datos de la parte publica del gruplac de un
      * grupo de investigacion
@@ -99,6 +103,7 @@ public class ScrapperColcienciasPublico {
      * @param instituciones
      * @param lineasInvestigacion
      * @param integrantes
+     * @param integrantesDetalles
      * @param productos
      * @return
      */
@@ -108,13 +113,16 @@ public class ScrapperColcienciasPublico {
             @WebParam(name = "instituciones") boolean instituciones,
             @WebParam(name = "lineasInvestigacion") boolean lineasInvestigacion,
             @WebParam(name = "integrantes") boolean integrantes,
+            @WebParam(name = "integrantesDetalles") boolean integrantesDetalles,
             @WebParam(name = "productos") boolean productos) {
         GrupoInvestigacion grupoInvestigacion = new GrupoInvestigacion();
         Document documento;
         try {
-            documento = Jsoup.connect(urlGruplac).get();
+            LOG.info("Iniciando extraccion grupo investigacion "+urlGruplac);
+            documento = Jsoup.connect(urlGruplac).proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY).get();
             Elements elements = Xsoup.compile("/html/body/table[1]/tbody/tr").evaluate(documento).getElements();
-
+            
+            grupoInvestigacion.setNombre(Xsoup.compile("/html/body/span/text()").evaluate(documento).get());
             grupoInvestigacion.setAnoMesFormacion(Xsoup.compile("/td[2]/text()").evaluate(elements.get(1)).get());
             grupoInvestigacion.setDepartamento(Xsoup.compile("/td[2]/text()").evaluate(elements.get(2)).get().split("-")[0]);
             grupoInvestigacion.setCiudad(Xsoup.compile("/td[2]/text()").evaluate(elements.get(2)).get().split("-")[1]);
@@ -126,22 +134,30 @@ public class ScrapperColcienciasPublico {
             grupoInvestigacion.setProgramaCienciaTecnologia(Xsoup.compile("/td[2]/text()").evaluate(elements.get(8)).get());
             grupoInvestigacion.setProgramaCienciaTecnologiaSecundario(Xsoup.compile("/td[2]/text()").evaluate(elements.get(9)).get());
 
+            
             if (instituciones) {
+                LOG.info("Iniciando extraccion instituciones");
                 elements = Xsoup.compile("/html/body/table[2]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setInstituciones(extraerInstituciones(elements));
             }
 
+            
             if (lineasInvestigacion) {
+                LOG.info("Iniciando extraccion lineas investigacion");
                 elements = Xsoup.compile("/html/body/table[4]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setLineasInvestigacion(extraerLineasInvestigacion(elements));
             }
 
+            
             if (integrantes) {
+                LOG.info("Iniciando extraccion integrantes");
                 elements = Xsoup.compile("/html/body/table[6]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setIntegrantes(extraerIntegrantes(elements));
+                grupoInvestigacion.setIntegrantes(extraerIntegrantes(elements,grupoInvestigacion.getLider(),integrantesDetalles));
             }
 
+            
             if (productos) {
+                LOG.info("Iniciando extraccion productos");
                 elements = Xsoup.compile("/html/body/table[8]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setArticulosInvestigacion(extraerArticulosPublicados(elements));
 
@@ -230,12 +246,18 @@ public class ScrapperColcienciasPublico {
                 grupoInvestigacion.setProyecto(extraerProyectos(elements));
             }
             Gson gson = new Gson();
-
-            System.out.println(gson.toJson(grupoInvestigacion));
+           
+//            LOG.info(gson.toJson(grupoInvestigacion));
         } catch (IOException ex) {
             Logger.getLogger(ScrapperColcienciasPublico.class.getName()).log(Level.SEVERE, null, ex);
         }
         return grupoInvestigacion;
+    }
+    
+    @WebMethod(operationName = "extraerGruposInvestigador")
+    public ArrayList<GrupoInvestigacion> extraerGruposInvestigador(
+            @WebParam(name = "Investigador") Investigador investigador) {
+        return ExtractorIntegrantes.extraerGruposIntegrante(investigador);
     }
 
     private ArrayList<Institucion> extraerInstituciones(Elements elements) {
@@ -246,8 +268,8 @@ public class ScrapperColcienciasPublico {
         return ExtractorLineasInvestigacion.extraerLineasInvestigacion(elements);
     }
 
-    private ArrayList<Investigador> extraerIntegrantes(Elements elements) {
-        return ExtractorIntegrantes.extraerIntegrantes(elements);
+    private ArrayList<Investigador> extraerIntegrantes(Elements elements,String lider,boolean integrantesDetalles) {
+        return ExtractorIntegrantes.extraerIntegrantes(elements,lider,integrantesDetalles);
     }
 
     //problemas con grupos muy grandes como giira

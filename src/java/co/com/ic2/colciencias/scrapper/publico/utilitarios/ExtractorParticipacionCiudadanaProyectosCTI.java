@@ -5,11 +5,14 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
+import co.com.ic2.colciencias.constants.ConstantesModelo;
 import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ParticipacionCiudadanaProyectoCTI;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -51,60 +54,68 @@ public class ExtractorParticipacionCiudadanaProyectosCTI {
     * Método encargado de extraer información sobre el producto Participación ciudadana en proyectos de CTI
     * Presente en la parte privada del Gruplac
     */
-    public static ArrayList<ParticipacionCiudadanaProyectoCTI> extraerPaticipacionCiudadanaProyectosCTIPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+    public static ArrayList<ParticipacionCiudadanaProyectoCTI> extraerPaticipacionCiudadanaProyectosCTIPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies,int anoFinVentanaObservacion) {
         ArrayList<ParticipacionCiudadanaProyectoCTI> participacionCiudadanaProyectos = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
                 ParticipacionCiudadanaProyectoCTI participacionCiudadanaProyecto = new ParticipacionCiudadanaProyectoCTI();
-                System.out.println("FILA"+ elements.get(i).text());
-                
-                participacionCiudadanaProyecto.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
-                
-               String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-                participacionCiudadanaProyecto.setAnoInicio(Integer.parseInt(ano));
-                participacionCiudadanaProyecto.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
-              
-                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
-                System.out.println("enlace"+enlaceDetalle); 
-                Document doc = null;
-                try {
-                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
-                        .cookies(cookies)
-                        .userAgent(USER_AGENT)
-                        .execute();
-                    doc=res2.parse();
-                } catch (IOException ex) {
-                    Logger.getLogger(ExtractorParticipacionCiudadanaProyectosCTI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            
-                String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-");
-                participacionCiudadanaProyecto.setAnoInicio(Integer.parseInt(fechaPublicacion[0]));
-                
-                String numeroInvestigadoresPrincipales=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get();
-                try{
-                participacionCiudadanaProyecto.setNumeroInvestigadoresPrincipales(Integer.parseInt(numeroInvestigadoresPrincipales.split("\\) ")[0].split("\\(")[1]));
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay numero de investigadores principales");}
+//                System.out.println("FILA"+ elements.get(i).text());
+                int ano = Integer.parseInt(Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get());
+                participacionCiudadanaProyecto.setAnoInicio(ano);
 
-                //Campo en blanco
-                try{
-                participacionCiudadanaProyecto.setComunidadesParticipantes(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
-                
-                //Campo en blanco
-                try{
-                String [] institucionesTabla= Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split(" \\| ");
-                System.out.println(institucionesTabla.length);
-                ArrayList<Institucion> instituciones= new ArrayList<>();
-                
-                for(String nombreInstitucion:institucionesTabla){
-                    Institucion institucion= new Institucion();
-                    institucion.setNombre(nombreInstitucion);
-                    instituciones.add(institucion);
+                int anoInicioVentanaObservacion=anoFinVentanaObservacion-(ConstantesModelo.VO_PPC-1);
+                if(ano<=anoFinVentanaObservacion && ano>=anoInicioVentanaObservacion){
+
+                    participacionCiudadanaProyecto.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+
+                    String categoria=Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get();
+                    if(!categoria.equals("No cumple existencia") && !categoria.equals("Cumple con existencia")){
+                        participacionCiudadanaProyecto.setCategoria(categoria);
+                        participacionCiudadanaProyecto.setClasificado(true);
+                    }
+                    String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+    //                System.out.println("enlace"+enlaceDetalle); 
+                    Document doc = null;
+                    try {
+                        Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                            .cookies(cookies)
+                            .userAgent(USER_AGENT)
+                            .proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY)
+                            .execute();
+                        doc=res2.parse();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ExtractorParticipacionCiudadanaProyectosCTI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get().split("-");
+                    participacionCiudadanaProyecto.setAnoInicio(Integer.parseInt(fechaPublicacion[0]));
+
+                    String numeroInvestigadoresPrincipales=Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[4]/td[3]/text()").evaluate(doc).get();
+                    try{
+                    participacionCiudadanaProyecto.setNumeroInvestigadoresPrincipales(Integer.parseInt(numeroInvestigadoresPrincipales.split("\\) ")[0].split("\\(")[1]));
+                    } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no hay numero de investigadores principales");}
+
+                    //Campo en blanco
+                    try{
+                    participacionCiudadanaProyecto.setComunidadesParticipantes(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
+                    } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
+
+                    //Campo en blanco
+                    try{
+                    String [] institucionesTabla= Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split(" \\| ");
+    //                System.out.println(institucionesTabla.length);
+                    ArrayList<Institucion> instituciones= new ArrayList<>();
+
+                    for(String nombreInstitucion:institucionesTabla){
+                        Institucion institucion= new Institucion();
+                        institucion.setNombre(nombreInstitucion);
+                        instituciones.add(institucion);
+                    }
+                    participacionCiudadanaProyecto.setInstituciones(instituciones);
+                    } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
+
+                    participacionCiudadanaProyectos.add(participacionCiudadanaProyecto);
                 }
-                participacionCiudadanaProyecto.setInstituciones(instituciones);
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error campo en blanco");}
-                
-                participacionCiudadanaProyectos.add(participacionCiudadanaProyecto);
             }
         }
         return participacionCiudadanaProyectos;

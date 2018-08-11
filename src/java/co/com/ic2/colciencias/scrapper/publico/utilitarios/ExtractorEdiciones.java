@@ -5,12 +5,15 @@
  */
 package co.com.ic2.colciencias.scrapper.publico.utilitarios;
 
+import co.com.ic2.colciencias.constants.ConstantesModelo;
 import co.com.ic2.colciencias.constants.ConstantesScrapper;
 import co.com.ic2.colciencias.gruplac.Institucion;
 import co.com.ic2.colciencias.gruplac.Investigador;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Edicion;
 import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorArticulosInvestigacion.USER_AGENT;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -66,52 +69,60 @@ public class ExtractorEdiciones {
     * Método encargado de extraer información sobre el producto Edicion
     * Presente en la parte privada del gruplac
     */
-    public static ArrayList<Edicion> extraerEdicionesPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies) {
+    public static ArrayList<Edicion> extraerEdicionesPrivado(ArrayList<Elements> arrayElements, HashMap<String, String> cookies,int anoFinVentanaObservacion) {
         ArrayList<Edicion> ediciones = new ArrayList();
         for (Elements elements : arrayElements) {
             for (int i = 0; i < elements.size(); i++) {
                 Edicion edicion = new Edicion();
-                System.out.println("FILA"+ elements.get(i).text());
-                
-                edicion.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
-                
-                String ano = Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get();
-                edicion.setAno(Integer.parseInt(ano));
-                edicion.setCategoria(Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get());
-              
-                String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
-                System.out.println("enlace"+enlaceDetalle); 
-                Document doc = null;
-                try {
-                Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
-                        .cookies(cookies)
-                        .userAgent(USER_AGENT)
-                        .execute();
-                doc=res2.parse();
-                } catch (IOException ex) {
-                    Logger.getLogger(ExtractorEdiciones.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                edicion.setIssn_Isbn(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
-                
-                try{
-                String[] autoresTabla = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split(" \\| ");
-                ArrayList<Investigador> autores = new ArrayList<>();
+//                System.out.println("FILA"+ elements.get(i).text());
+                int ano = Integer.parseInt(Xsoup.compile("/td[3]/text()").evaluate(elements.get(i)).get());
+                edicion.setAno(ano);
 
-                for (String nombreAutor : autoresTabla) {
-                    Investigador integrante = new Investigador();
-                    integrante.setNombreCompleto(nombreAutor);
-                    autores.add(integrante);
+                int anoInicioVentanaObservacion=anoFinVentanaObservacion-(ConstantesModelo.VO_ERL-1);
+                if(ano<=anoFinVentanaObservacion && ano>=anoInicioVentanaObservacion){
+
+                    edicion.setNombre(Xsoup.compile("/td[2]/text()").evaluate(elements.get(i)).get());
+
+                    String categoria=Xsoup.compile("/td[4]/text()").evaluate(elements.get(i)).get();
+                    if(!categoria.equals("No cumple existencia") && !categoria.equals("Cumple con existencia")){
+                        edicion.setCategoria(categoria);
+                        edicion.setClasificado(true);
+                    }
+                    String enlaceDetalle=(ConstantesScrapper.urlGruplac+Xsoup.compile("/td[5]/a/@href").evaluate(elements.get(i)).get()).replaceAll(" ", "%20");
+    //                System.out.println("enlace"+enlaceDetalle); 
+                    Document doc = null;
+                    try {
+                    Connection.Response res2 = Jsoup.connect(enlaceDetalle).method(Connection.Method.GET)
+                            .cookies(cookies)
+                            .userAgent(USER_AGENT)
+                            .proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY)
+                            .execute();
+                    doc=res2.parse();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ExtractorEdiciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    edicion.setIssn_Isbn(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/text()").evaluate(doc).get());
+
+                    try{
+                    String[] autoresTabla = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split(" \\| ");
+                    ArrayList<Investigador> autores = new ArrayList<>();
+
+                    for (String nombreAutor : autoresTabla) {
+                        Investigador integrante = new Investigador();
+                        integrante.setNombreCompleto(nombreAutor);
+                        autores.add(integrante);
+                    }
+                    edicion.setAutor(autores.get(0));
+                    } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existen autores");}
+
+                    edicion.setFechaEdicion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
+                    try {
+                    String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split("-");
+                    edicion.setAno(Integer.parseInt(fechaPublicacion[0]));
+                    } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error existe fecha publicacion");}
+                    ediciones.add(edicion);
                 }
-                edicion.setAutor(autores.get(0));
-                } catch(ArrayIndexOutOfBoundsException e){System.out.println("Error no existen autores");}
-                
-                edicion.setFechaEdicion(Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get());
-                try {
-                String [] fechaPublicacion = Xsoup.compile("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[3]/table/tbody/tr/td/table/tbody/tr[3]/td/table[1]/tbody/tr[5]/td[3]/text()").evaluate(doc).get().split("-");
-                edicion.setAno(Integer.parseInt(fechaPublicacion[0]));
-                } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {System.out.println("Error existe fecha publicacion");}
-                ediciones.add(edicion);
             }
         }
         return ediciones;

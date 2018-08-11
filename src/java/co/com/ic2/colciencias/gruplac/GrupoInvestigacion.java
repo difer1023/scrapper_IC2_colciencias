@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -49,7 +50,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "GrupoInvestigacion",namespace = "gruplac.colciencias.ic2.com.co")
+@XmlType(name = "GrupoInvestigacion",namespace = "gruplac.colciencias.ic2.com.co")
 public class GrupoInvestigacion {
     
     @XmlElement(name = "codigo")
@@ -81,106 +82,74 @@ public class GrupoInvestigacion {
     @XmlElementWrapper(name = "listInstituciones")
     @XmlElement(name = "instituciones")
     private ArrayList<Institucion> instituciones;
-    @XmlElementWrapper(name = "listLineasInvestigacion")
     @XmlElement(name = "lineasInvestigacion")
     private ArrayList<LineaInvestigacion> lineasInvestigacion;
-    @XmlElementWrapper(name = "listIntegrantes")
     @XmlElement(name = "integrantes")
     private ArrayList<Investigador> integrantes;
-    @XmlElementWrapper(name = "listProductosInvestigacion")
     @XmlElement(name = "productosInvestigacion")
     private ArrayList<ProductoInvestigacion> productosInvestigacion;
-    @XmlElementWrapper(name = "listArticulosInvestigacion")
     @XmlElement(name = "articulosInvestigacion")
     private ArrayList<ArticuloInvestigacion> articulosInvestigacion;
-    @XmlElementWrapper(name = "listLibrosResultadoInvestigacion")
     @XmlElement(name = "librosResultadoInvestigacion")
     private ArrayList<LibroInvestigacion> librosResultadoInvestigacion;
-    @XmlElementWrapper(name = "listCapituloDeLibro")
     @XmlElement(name = "capituloDeLibro")
     private ArrayList<CapituloLibroPublicado> capituloDeLibro;
-    @XmlElementWrapper(name = "listDocumentoTrabajo")
     @XmlElement(name = "documentoTrabajo")
     private ArrayList<DocumentoTrabajo> documentoTrabajo;
-    @XmlElementWrapper(name = "listOtroArticuloPublicado")
     @XmlElement(name = "otroArticuloPublicado")
     private ArrayList<OtroArticuloPublicado> otroArticuloPublicado;
-    @XmlElementWrapper(name = "listOtroLibroPublicado")
     @XmlElement(name = "otroLibroPublicado")
     private ArrayList<OtroLibroPublicado> otroLibroPublicado;
-    @XmlElementWrapper(name = "listConsultoria")
     @XmlElement(name = "consultoria")
     private ArrayList<Consultoria> consultoria;
-    @XmlElementWrapper(name = "listDisenoIndustrial")
     @XmlElement(name = "disenoIndustrial")
     private ArrayList<DisenoIndustrial> disenoIndustrial;
-    @XmlElementWrapper(name = "listEsquemaCircuito")
     @XmlElement(name = "esquemaCircuito")
     private ArrayList<EsquemaCircuito> esquemaCircuito;
-    @XmlElementWrapper(name = "listInnovacionProceso")
     @XmlElement(name = "innovacionProceso")
     private ArrayList<InnovacionProcedimientoServicio> innovacionProceso;
-    @XmlElementWrapper(name = "listPlantaPiloto")
     @XmlElement(name = "plantaPiloto")
     private ArrayList<PlantaPiloto> plantaPiloto;
-    @XmlElementWrapper(name = "listPrototipo")
     @XmlElement(name = "prototipo")
     private ArrayList<PrototipoIndustrial> prototipo;
-    @XmlElementWrapper(name = "listSignoDistintivo")
     @XmlElement(name = "signoDistintivo")
     private ArrayList<SignoDistintivo> signoDistintivo;
-    @XmlElementWrapper(name = "listSoftware")
     @XmlElement(name = "software")
     private ArrayList<Software> software;
-    @XmlElementWrapper(name = "listEmpresaBaseTecnologica")
     @XmlElement(name = "empresaBaseTecnologica")
     private ArrayList<EmpresaBaseTecnologica> empresaBaseTecnologica;
-    @XmlElementWrapper(name = "listEdicion")
     @XmlElement(name = "edicion")
     private ArrayList<Edicion> edicion;
-    @XmlElementWrapper(name = "listEventoCientifico")
     @XmlElement(name = "eventoCientifico")
     private ArrayList<EventoCientifico> eventoCientifico;
-    @XmlElementWrapper(name = "listInformeInvestigacion")
     @XmlElement(name = "informeInvestigacion")
     private ArrayList<InformeFinalInvestigacion> informeInvestigacion;
-    @XmlElementWrapper(name = "listRedConocimiento")
     @XmlElement(name = "redConocimiento")
     private ArrayList<RedConocimiento> redConocimiento;
-    @XmlElementWrapper(name = "listGeneracionContenidoImpreso")
     @XmlElement(name = "generacionContenidoImpreso")
     private ArrayList<GeneracionContenidoImpreso> generacionContenidoImpreso;
-    @XmlElementWrapper(name = "listGeneracionContenidoMultimedia")
     @XmlElement(name = "generacionContenidoMultimedia")
     private ArrayList<GeneracionContenidoMultimedia> generacionContenidoMultimedia;
-    @XmlElementWrapper(name = "listGeneracionContenidoVirtual")
     @XmlElement(name = "generacionContenidoVirtual")
     private ArrayList<GeneracionContenidoVirtual> generacionContenidoVirtual;
-    @XmlElementWrapper(name = "listEstrategiaComunicacionConocimiento")
     @XmlElement(name = "estrategiaComunicacionConocimiento")
     private ArrayList<EstrategiaComunicacionConocimiento> estrategiaComunicacionConocimiento;
-    @XmlElementWrapper(name = "listEstrategiaPedagogicaFomentoCTI")
     @XmlElement(name = "estrategiaPedagogicaFomentoCTI")
     private ArrayList<EstrategiaPedagogicaFomentoCTI> estrategiaPedagogicaFomentoCTI;
-    @XmlElementWrapper(name = "listEspacioParticipacionCiudadana")
     @XmlElement(name = "espacioParticipacionCiudadana")
     private ArrayList<EspacioParticipacionCiudadanaCTI> espacioParticipacionCiudadana;
-    @XmlElementWrapper(name = "listParticipacionCiudadanaProyectoCTI")
     @XmlElement(name = "participacionCiudadanaProyectoCTI")
     private ArrayList<ParticipacionCiudadanaProyectoCTI> participacionCiudadanaProyectoCTI;
-    @XmlElementWrapper(name = "listAsesoriaProgramaOndas")
     @XmlElement(name = "asesoriaProgramaOndas")
     private ArrayList<AsesoriaProgramaOndas> asesoriaProgramaOndas;
-    @XmlElementWrapper(name = "listTrabajoDirigido")
     @XmlElement(name = "trabajoDirigido")
     private ArrayList<TrabajoGrado> trabajoDirigido;
-    @XmlElementWrapper(name = "listProyecto")
     @XmlElement(name = "proyecto")
     private ArrayList<Proyecto> proyecto;
-    @XmlElementWrapper(name = "listApoyoProgramaFormacion")
     @XmlElement(name = "apoyoProgramaFormacion")
     private ArrayList<ApoyoProgramaFormacion> apoyoProgramaFormacion;
-    
+    @XmlElement(name = "urlGruplac")
+    private String urlGruplac;
     
     public int getCodigo() {
 		return codigo;
@@ -557,6 +526,14 @@ public class GrupoInvestigacion {
 
     public void setApoyoProgramaFormacion(ArrayList<ApoyoProgramaFormacion> apoyoProgramaFormacion) {
         this.apoyoProgramaFormacion = apoyoProgramaFormacion;
+    }
+
+    public String getUrlGruplac() {
+        return urlGruplac;
+    }
+
+    public void setUrlGruplac(String urlGruplac) {
+        this.urlGruplac = urlGruplac;
     }
 }
 
