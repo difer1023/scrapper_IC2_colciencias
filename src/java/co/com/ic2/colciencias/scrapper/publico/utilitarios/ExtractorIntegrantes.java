@@ -59,6 +59,7 @@ public class ExtractorIntegrantes {
             if(integrantesDetalles){
                 String url= (Xsoup.compile("/td[1]/a/@href").evaluate(elements.get(i)).get());
                 Document doc = null;
+                LOG.info(url);
                 try {
                     doc = Jsoup.connect(url).proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY).get();
                 } catch (IOException ex) {
@@ -91,7 +92,7 @@ public class ExtractorIntegrantes {
         final String USER_AGENT = "\"Mozilla/5.0 (Windows NT\" +\n"
                 + "          \" 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36\"";
         String loginFormUrl = ConstantesScrapper.urlGruplac+"/gruplac/";
-        String loginActionUrl = "http://scienti.colciencias.gov.co:8083/ciencia-war/busquedaGruposGeneral.do?buscar=buscar";
+        String loginActionUrl = "https://scienti.colciencias.gov.co:8083/ciencia-war/busquedaGruposGeneral.do?buscar=buscar";
         
          HashMap<String, String> cookies = new HashMap<>();
         HashMap<String, String> formData = new HashMap<>();
@@ -119,12 +120,13 @@ public class ExtractorIntegrantes {
             for (int i=0;i<grupos.size();i++) {
                 GrupoInvestigacion grupoInvestigacion=new GrupoInvestigacion();
                 grupoInvestigacion.setNombre(Xsoup.compile("/a/text()").evaluate(grupos.get(i)).get());
-                grupoInvestigacion.setUrlGruplac(Xsoup.compile("/a/@href").evaluate(grupos.get(i)).get());
+                grupoInvestigacion.setUrlGruplac(Xsoup.compile("/a/@href").evaluate(grupos.get(i)).get().replace("http:", "https:"));
                 gruposInvestigacion.add(grupoInvestigacion);
             }
            // System.out.println("Contenido"+ homePage.body());
         } catch (IOException ex) {
             Logger.getLogger(ExtractorIntegrantes.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return gruposInvestigacion;
     }

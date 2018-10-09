@@ -153,13 +153,13 @@ public class ScrapperColcienciasPrivado {
             }
             ScrapperColcienciasPublico scrapperPublico=new ScrapperColcienciasPublico();
             LOG.info(enlacePublico);
-            GrupoInvestigacion grupoInvestigacionPublico=scrapperPublico.extraerGrupoInvestigacion(enlacePublico, true, true, true, true, true);
+            GrupoInvestigacion grupoInvestigacionPublico=scrapperPublico.extraerGrupoInvestigacion(ConstantesScrapper.urlGruplac +enlacePublico, true, true, true, true, true);
             
             GrupoInvestigacion grupoInvestigacion = new GrupoInvestigacion();
             
             grupoInvestigacion.setNombre(grupoInvestigacionPublico.getNombre());
             grupoInvestigacion.setIntegrantes(grupoInvestigacionPublico.getIntegrantes());
-            
+            grupoInvestigacion.setAnoMesFormacion(grupoInvestigacionPublico.getAnoMesFormacion().substring(0,4));
             try{
                 ArrayList<ArticuloInvestigacion> articulos=ExtractorArticulosInvestigacion.extraerArticulosPublicadosPrivado(extraerTablaProductos("ART", "19", "GNC", cookies), cookies, anoFinVentanaObservacion);
                 ArrayList<ArticuloInvestigacion> articulosPublico=grupoInvestigacionPublico.getArticulosInvestigacion();
