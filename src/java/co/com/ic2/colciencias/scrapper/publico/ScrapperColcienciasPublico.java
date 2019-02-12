@@ -56,16 +56,24 @@ import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorGeneracionCo
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorGeneracionContenidosMultimedia;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorGeneracionContenidosVirtuales;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorInformesInvestigacion;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorInformesTecnicos.extraerInformesTecnicos;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorInnovacionProcesos;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorInnovacionesGeneradasGestionEmpresarial.extraerInnovacionesGeneradasGestionEmpresarial;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorInstituciones;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorIntegrantes;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorLibrosInvestigacion;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorLineasInvestigacion;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorNuevasVariedadesAnimales;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorNuevasVariedadesAnimales.extraerNuevasVariedadesAnimales;
+import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorNuevasVariedadesVegetales;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorNuevasVariedadesVegetales.extraerNuevasVariedadesVegetales;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorParticipacionCiudadanaProyectosCTI;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorPlantasPiloto;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorPrototipos;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorProyectos;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorRedesConocimiento;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorReglamentosTecnicos.extraerReglamentosTecnicos;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorRegulacionesNormas.extraerRegulacionesNormas;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorSignosDistintivos;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorSoftwares;
 import co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorTrabajosDirigidos;
@@ -85,6 +93,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorGuiasPracticaClinica.extraerGuiasPracticaClinica;
+import static co.com.ic2.colciencias.scrapper.publico.utilitarios.ExtractorProyectosLey.extraerProyectosLey;
 
 /**
  * Clase que se encarga de extraer la información de la parte pública del Gruplac
@@ -176,73 +186,97 @@ public class ScrapperColcienciasPublico {
                 elements = Xsoup.compile("/html/body/table[14]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setOtroLibroPublicado(extraerOtrosLibrosPublicados(elements));
 
-                elements = Xsoup.compile("/html/body/table[18]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setConsultoria(extraerConsultorias(elements));
-
-                elements = Xsoup.compile("/html/body/table[19]/tbody/tr").evaluate(documento).getElements();
+                elements = Xsoup.compile("/html/body/table[20]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setDisenoIndustrial(extraerDisenosIndustriales(elements));
 
-                elements = Xsoup.compile("/html/body/table[20]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setEsquemaCircuito(extraerEsquemasCircuito(elements));
-
                 elements = Xsoup.compile("/html/body/table[21]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setEsquemaCircuito(extraerEsquemasCircuito(elements));
+                
+                elements = Xsoup.compile("/html/body/table[22]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setInformeTecnico(extraerInformesTecnicos(elements));
+
+                elements = Xsoup.compile("/html/body/table[23]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setInnovacionProceso(extraerInnovacionProcesos(elements));
+                
+                elements = Xsoup.compile("/html/body/table[24]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setInnovacionGestion(extraerInnovacionesGeneradasGestionEmpresarial(elements));
 
                 elements = Xsoup.compile("/html/body/table[25]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setNuevaVariedadAnimal(extraerNuevasVariedadesAnimales(elements));
+                
+                elements = Xsoup.compile("/html/body/table[27]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setNuevaVariedadVegetal(extraerNuevasVariedadesVegetales(elements));
+                
+                elements = Xsoup.compile("/html/body/table[29]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setPlantaPiloto(extraerPlantasPiloto(elements));
 
-                elements = Xsoup.compile("/html/body/table[27]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setPrototipo(extraerPrototipos(elements));
-
                 elements = Xsoup.compile("/html/body/table[32]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setSignoDistintivo(extraerSignosDistintivos(elements));
-
+                grupoInvestigacion.setPrototipo(extraerPrototipos(elements));
+                
                 elements = Xsoup.compile("/html/body/table[33]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setSoftware(extraerSoftwares(elements));
-
-                elements = Xsoup.compile("/html/body/table[34]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setEmpresaBaseTecnologica(extraerEmpresasBaseTecnologica(elements));
-
+                grupoInvestigacion.setRegulacionNorma(extraerRegulacionesNormas(elements));
+                
+                elements = Xsoup.compile("/html/body/table[35]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setReglamentoTecnico(extraerReglamentosTecnicos(elements));
+                
                 elements = Xsoup.compile("/html/body/table[36]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setEdicion(extraerEdiciones(elements));
-
+                grupoInvestigacion.setGuiaPracticaClinica(extraerGuiasPracticaClinica(elements));
+                
                 elements = Xsoup.compile("/html/body/table[37]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setEventoCientifico(extraerEventosCientificos(elements));
+                grupoInvestigacion.setProyectoLey(extraerProyectosLey(elements));
 
                 elements = Xsoup.compile("/html/body/table[38]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setInformeInvestigacion(extraerInformesInvestigacion(elements));
+                grupoInvestigacion.setSignoDistintivo(extraerSignosDistintivos(elements));
 
                 elements = Xsoup.compile("/html/body/table[39]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setRedConocimiento(extraerRedesConocimiento(elements));
+                grupoInvestigacion.setSoftware(extraerSoftwares(elements));
 
                 elements = Xsoup.compile("/html/body/table[40]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setGeneracionContenidoImpreso(extraerGeneracionContenidosImpresos(elements));
-
-                elements = Xsoup.compile("/html/body/table[41]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setGeneracionContenidoMultimedia(extraerGeneracionContenidosMultimedia(elements));
-
+                grupoInvestigacion.setEmpresaBaseTecnologica(extraerEmpresasBaseTecnologica(elements));
+                
                 elements = Xsoup.compile("/html/body/table[42]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setGeneracionContenidoVirtual(extraerGeneracionContenidosVirtuales(elements));
+                grupoInvestigacion.setConsultoria(extraerConsultorias(elements));
 
                 elements = Xsoup.compile("/html/body/table[43]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setEstrategiaComunicacionConocimiento(extraerEstrategiasComunicacionConocimiento(elements));
+                grupoInvestigacion.setEdicion(extraerEdiciones(elements));
 
                 elements = Xsoup.compile("/html/body/table[44]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setEstrategiaPedagogicaFomentoCTI(extraerEstrategiasPedagogicasFomentoCTI(elements));
+                grupoInvestigacion.setEventoCientifico(extraerEventosCientificos(elements));
 
                 elements = Xsoup.compile("/html/body/table[45]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setEspacioParticipacionCiudadana(extraerEspaciosParticipacionCiudadana(elements));
+                grupoInvestigacion.setInformeInvestigacion(extraerInformesInvestigacion(elements));
 
-                elements = Xsoup.compile("/html/body/table[46]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setParticipacionCiudadanaProyectoCTI(extraerParticipacionCiudadanaProyectosCTI(elements));
+                elements = Xsoup.compile("/html/body/table[47]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setRedConocimiento(extraerRedesConocimiento(elements));
 
                 elements = Xsoup.compile("/html/body/table[49]/tbody/tr").evaluate(documento).getElements();
-                grupoInvestigacion.setAsesoriaProgramaOndas(extraerAsesoriasProgramaOndas(elements));
+                grupoInvestigacion.setGeneracionContenidoImpreso(extraerGeneracionContenidosImpresos(elements));
+
+                elements = Xsoup.compile("/html/body/table[50]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setGeneracionContenidoMultimedia(extraerGeneracionContenidosMultimedia(elements));
 
                 elements = Xsoup.compile("/html/body/table[51]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setGeneracionContenidoVirtual(extraerGeneracionContenidosVirtuales(elements));
+
+                elements = Xsoup.compile("/html/body/table[52]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setEstrategiaComunicacionConocimiento(extraerEstrategiasComunicacionConocimiento(elements));
+
+                elements = Xsoup.compile("/html/body/table[53]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setEstrategiaPedagogicaFomentoCTI(extraerEstrategiasPedagogicasFomentoCTI(elements));
+
+                elements = Xsoup.compile("/html/body/table[54]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setEspacioParticipacionCiudadana(extraerEspaciosParticipacionCiudadana(elements));
+
+                elements = Xsoup.compile("/html/body/table[55]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setParticipacionCiudadanaProyectoCTI(extraerParticipacionCiudadanaProyectosCTI(elements));
+
+                elements = Xsoup.compile("/html/body/table[58]/tbody/tr").evaluate(documento).getElements();
+                grupoInvestigacion.setAsesoriaProgramaOndas(extraerAsesoriasProgramaOndas(elements));
+
+                elements = Xsoup.compile("/html/body/table[60]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setTrabajoDirigido(extraerTrabajosDirigidos(elements));
 
-                elements = Xsoup.compile("/html/body/table[56]/tbody/tr").evaluate(documento).getElements();
+                elements = Xsoup.compile("/html/body/table[65]/tbody/tr").evaluate(documento).getElements();
                 grupoInvestigacion.setProyecto(extraerProyectos(elements));
             }
             Gson gson = new Gson();

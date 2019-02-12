@@ -43,7 +43,7 @@ public class ExtractorEstrategiasPedagogicasFomentoCTI {
       
             String [] detalle1=detalleEstrategiaPedagogica.split("desde ");
             String [] detalle2= detalle1[1].split(" ");
-            estrategiaPedagogica.setFechaInicio("01-"+Utilidades.transformarMesANumero(detalle2[0].trim())+"-"+detalle2[1]);
+            estrategiaPedagogica.setFechaInicio(detalle2[1]);
             
             String detalleEstrategia=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
             estrategiaPedagogica.setDescripcion(detalleEstrategia.substring(14));

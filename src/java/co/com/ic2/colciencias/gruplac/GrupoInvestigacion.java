@@ -16,6 +16,10 @@ import co.com.ic2.colciencias.gruplac.productosInvestigacion.Edicion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EmpresaBaseTecnologica;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EspacioParticipacionCiudadanaCTI;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EsquemaCircuito;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.InnovacionGeneradaGestionEmpresarial;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.NuevaVariedadAnimal;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.NuevaVariedadVegetal;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.InformeTecnico;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaComunicacionConocimiento;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EstrategiaPedagogicaFomentoCTI;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.EventoCientifico;
@@ -31,6 +35,10 @@ import co.com.ic2.colciencias.gruplac.productosInvestigacion.ParticipacionCiudad
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.PlantaPiloto;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.ProductoInvestigacion;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.PrototipoIndustrial;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.RegulacionNorma;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.ReglamentoTecnico;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.GuiaPracticaClinica;
+import co.com.ic2.colciencias.gruplac.productosInvestigacion.ProyectoLey;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.Proyecto;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.RedConocimiento;
 import co.com.ic2.colciencias.gruplac.productosInvestigacion.SignoDistintivo;
@@ -106,12 +114,28 @@ public class GrupoInvestigacion {
     private ArrayList<DisenoIndustrial> disenoIndustrial;
     @XmlElement(name = "esquemaCircuito")
     private ArrayList<EsquemaCircuito> esquemaCircuito;
-    @XmlElement(name = "innovacionProceso")
+    @XmlElement(name = "informeTecnico")
+    private ArrayList<InformeTecnico> informeTecnico;
+    @XmlElement(name = "innovacionProcedimientoServicio")
     private ArrayList<InnovacionProcedimientoServicio> innovacionProceso;
+    @XmlElement(name = "innovacionGeneradaGestionEmpresarial")
+    private ArrayList<InnovacionGeneradaGestionEmpresarial> innovacionGestion;
+    @XmlElement(name = "nuevaVariedadAnimal")
+    private ArrayList<NuevaVariedadAnimal> nuevaVariedadAnimal;
+    @XmlElement(name = "nuevaVariedadVegetal")
+    private ArrayList<NuevaVariedadVegetal> nuevaVariedadVegetal;
     @XmlElement(name = "plantaPiloto")
     private ArrayList<PlantaPiloto> plantaPiloto;
     @XmlElement(name = "prototipo")
     private ArrayList<PrototipoIndustrial> prototipo;
+    @XmlElement(name = "regulacionNorma")
+    private ArrayList<RegulacionNorma> regulacionNorma;
+    @XmlElement(name = "reglamentoTecnico")
+    private ArrayList<ReglamentoTecnico> reglamentoTecnico;
+    @XmlElement(name = "guiaPracticaClinica")
+    private ArrayList<GuiaPracticaClinica> guiaPracticaClinica;
+    @XmlElement(name = "proyectoLey")
+    private ArrayList<ProyectoLey> proyectoLey;
     @XmlElement(name = "signoDistintivo")
     private ArrayList<SignoDistintivo> signoDistintivo;
     @XmlElement(name = "software")
@@ -360,12 +384,44 @@ public class GrupoInvestigacion {
         this.esquemaCircuito = esquemaCircuito;
     }
 
+    public ArrayList<InformeTecnico> getInformeTecnico() {
+        return informeTecnico;
+    }
+
+    public void setInformeTecnico(ArrayList<InformeTecnico> informeTecnico) {
+        this.informeTecnico = informeTecnico;
+    }
+    
     public ArrayList<InnovacionProcedimientoServicio> getInnovacionProceso() {
         return innovacionProceso;
     }
 
     public void setInnovacionProceso(ArrayList<InnovacionProcedimientoServicio> innovacionProceso) {
         this.innovacionProceso = innovacionProceso;
+    }
+
+    public ArrayList<InnovacionGeneradaGestionEmpresarial> getInnovacionGestion() {
+        return innovacionGestion;
+    }
+
+    public void setInnovacionGestion(ArrayList<InnovacionGeneradaGestionEmpresarial> innovacionGestion) {
+        this.innovacionGestion = innovacionGestion;
+    }
+
+    public ArrayList<NuevaVariedadAnimal> getNuevaVariedadAnimal() {
+        return nuevaVariedadAnimal;
+    }
+
+    public void setNuevaVariedadAnimal(ArrayList<NuevaVariedadAnimal> nuevaVariedadAnimal) {
+        this.nuevaVariedadAnimal = nuevaVariedadAnimal;
+    }
+
+    public ArrayList<NuevaVariedadVegetal> getNuevaVariedadVegetal() {
+        return nuevaVariedadVegetal;
+    }
+
+    public void setNuevaVariedadVegetal(ArrayList<NuevaVariedadVegetal> nuevaVariedadVegetal) {
+        this.nuevaVariedadVegetal = nuevaVariedadVegetal;
     }
 
     public ArrayList<PlantaPiloto> getPlantaPiloto() {
@@ -382,6 +438,38 @@ public class GrupoInvestigacion {
 
     public void setPrototipo(ArrayList<PrototipoIndustrial> prototipo) {
         this.prototipo = prototipo;
+    }
+
+    public ArrayList<RegulacionNorma> getRegulacionNorma() {
+        return regulacionNorma;
+    }
+
+    public void setRegulacionNorma(ArrayList<RegulacionNorma> regulacionNorma) {
+        this.regulacionNorma = regulacionNorma;
+    }
+
+    public ArrayList<ReglamentoTecnico> getReglamentoTecnico() {
+        return reglamentoTecnico;
+    }
+
+    public void setReglamentoTecnico(ArrayList<ReglamentoTecnico> reglamentoTecnico) {
+        this.reglamentoTecnico = reglamentoTecnico;
+    }
+
+    public ArrayList<GuiaPracticaClinica> getGuiaPracticaClinica() {
+        return guiaPracticaClinica;
+    }
+
+    public void setGuiaPracticaClinica(ArrayList<GuiaPracticaClinica> guiaPracticaClinica) {
+        this.guiaPracticaClinica = guiaPracticaClinica;
+    }
+
+    public ArrayList<ProyectoLey> getProyectoLey() {
+        return proyectoLey;
+    }
+
+    public void setProyectoLey(ArrayList<ProyectoLey> proyectoLey) {
+        this.proyectoLey = proyectoLey;
     }
 
     public ArrayList<SignoDistintivo> getSignoDistintivo() {

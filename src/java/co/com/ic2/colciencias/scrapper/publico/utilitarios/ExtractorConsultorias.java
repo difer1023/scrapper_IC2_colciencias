@@ -26,28 +26,16 @@ public class ExtractorConsultorias {
         ArrayList<Consultoria> consultorias = new ArrayList();
         for(int i=1;i<elements.size();i++){
             Consultoria consultoria = new Consultoria();
-            consultoria.setTipo(Xsoup.compile("/td[2]/strong[1]/text()").evaluate(elements.get(i)).get());
-            consultoria.setNombre(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get().substring(3));
+            consultoria.setTipo(Xsoup.compile("/td[2]/strong[1]/text()").evaluate(elements.get(i)).get().substring(3));
+            consultoria.setNombre(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get());
             String detalleConsultoria=Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
             
-            consultoria.setPais(detalleConsultoria.split(",")[0].substring(1));
-            String ano=detalleConsultoria.split(",")[1].substring(1,5);
+            String ano=detalleConsultoria.split(",")[0].split(":")[1].trim();
             consultoria.setAno(Integer.parseInt(ano));
-            consultoria.setIdioma(detalleConsultoria.split(",")[2].substring(9));
-            consultoria.setDisponibilidad(detalleConsultoria.split(",")[3].substring(17));
-            consultoria.setNumContrato(detalleConsultoria.split(",")[4].substring(22));
             
-            String detalleConsultoriaI=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
-            consultoria.setInstitucion(detalleConsultoriaI.split(":")[1].substring(1));
-        
-            String[] datosAutores=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get().substring(9).split(",");
-            ArrayList<Investigador> autores=new ArrayList<>();
-            for(int k=0;k<datosAutores.length-1;k++){
-                Investigador autor=new Investigador();
-                autor.setNombreCompleto(datosAutores[k].substring(1));
-                autores.add(autor);
-            }
-            consultoria.setAutores(autores);
+            String detalleConsultoria2=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get();
+            consultoria.setNumContrato(detalleConsultoria2.split(",")[0].split(":")[1].trim());
+            consultoria.setInstitucion(detalleConsultoria2.split(",")[1].split(":")[1].trim());
 
             consultorias.add(consultoria);
         }

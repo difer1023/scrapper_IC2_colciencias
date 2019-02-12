@@ -42,14 +42,18 @@ public class ExtractorEventosCientificos {
             eventoCientifico.setNombre(Xsoup.compile("/td[2]/text(2)").evaluate(elements.get(i)).get().substring(3));
             String detalleEvento = Xsoup.compile("/td[2]/text(3)").evaluate(elements.get(i)).get();
             String[] detalleEvento2 = detalleEvento.split(", desde");
-            eventoCientifico.setLugar(detalleEvento2[0].substring(1));
+            eventoCientifico.setLugar(detalleEvento2[0].trim());
             String[] fechas = detalleEvento2[1].split("- hasta");
-            eventoCientifico.setFechaInicio(fechas[0].substring(1,11));
+            
+            try{
+            eventoCientifico.setFechaInicio(fechas[0].substring(1,11));    
+            }catch(StringIndexOutOfBoundsException e){System.out.println("error fecha inicio evento científico");}
             
             try{
             eventoCientifico.setFechaFin(fechas[1].substring(1,11));    
-            }catch(StringIndexOutOfBoundsException e){System.out.println("error fecha fin");}
-            
+            }catch(StringIndexOutOfBoundsException e){System.out.println("error fecha fin evento científico");}
+    
+                    
             String detalleEventoP = Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
             eventoCientifico.setTipoParticipacion(detalleEventoP.split(",")[1].substring(25));
       

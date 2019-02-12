@@ -50,7 +50,7 @@ public class ExtractorTrabajosDirigidos {
             
             try{
             trabajoDirigido.setTipoDireccion(detalleTrabajoGrado.split("Tipo de orientación: ")[1]);
-            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error tipo de orientacion");}
+            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error tipo de orientacion trabajo de grado");}
             
             if(detalleTrabajo3.length>=2){
             trabajoDirigido.setAnoFin(Integer.parseInt(detalleTrabajo3[1]));
@@ -60,7 +60,7 @@ public class ExtractorTrabajosDirigidos {
             String nombreEstudiante=Xsoup.compile("/td[2]/text(4)").evaluate(elements.get(i)).get();
             String [] detalleNombreEstudiante= nombreEstudiante.split(", Programa académico:");
             trabajoDirigido.setAutorTrabajo(detalleNombreEstudiante[0].split("Nombre del estudiante: ")[1]);
-            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error nombre estudiante");}
+            }catch(ArrayIndexOutOfBoundsException e){System.out.println("Error nombre estudiante trabajo dirigido");}
             
             String detalleTrabajoGrado2=Xsoup.compile("/td[2]/text(5)").evaluate(elements.get(i)).get();
             trabajoDirigido.setValoracion(detalleTrabajoGrado2.split(",")[1].substring(13));
