@@ -139,7 +139,8 @@ public class ScrapperColcienciasPrivado {
             }
             
             if(idGrupo!= 0){
-            String enlaceGrupo = ConstantesScrapper.urlGruplac+"/gruplac" + (Xsoup.compile("/a/@href").evaluate(enlaces.get(idGrupo-1)).get().replace("..", ""));
+                LOG.info(Xsoup.compile("/a/@href").evaluate(enlaces.get(idGrupo-1)).get());
+            String enlaceGrupo = ConstantesScrapper.urlGruplac + (Xsoup.compile("/a/@href").evaluate(enlaces.get(idGrupo-1)).get().replace("..", ""));
             Connection.Response home = Jsoup.connect(enlaceGrupo)
                     .cookies(cookies)
                     .method(Connection.Method.GET)
@@ -182,6 +183,7 @@ public class ScrapperColcienciasPrivado {
                     }
                 }          
                 grupoInvestigacion.setArticulosInvestigacion(articulos);
+                LOG.info("NUMERO ARTICULOS "+articulos.size());
             }catch(NullPointerException e){
                 LOG.info("Error al extraer nombre articulos "+e);
                 e.printStackTrace();
@@ -470,7 +472,7 @@ public class ScrapperColcienciasPrivado {
         HashMap<String, String> datosProductosConvocatoria = new HashMap<>();
             
             datosProductosConvocatoria.put(tipoProducto+"_TABLE_p_", String.valueOf(pagina));  
-            datosProductosConvocatoria.put(tipoProducto+"_TABLE_mr_", "100");  
+            datosProductosConvocatoria.put(tipoProducto+"_TABLE_mr_", "15");  
             datosProductosConvocatoria.put(tipoProducto+"_TABLE_tr_", "true");  
             datosProductosConvocatoria.put("cod_convocatoria", idConvocatoria);  
             datosProductosConvocatoria.put("sgl_categoria", tipoProducto); 
@@ -483,21 +485,22 @@ public class ScrapperColcienciasPrivado {
             .userAgent(USER_AGENT)
             .proxy(ConstantesScrapper.proxy?new Proxy(Proxy.Type.HTTP,new InetSocketAddress(ConstantesScrapper.urlProxy, ConstantesScrapper.puertoProxy) ):Proxy.NO_PROXY)
             .execute();
+            //LOG.info(res2.body());
+            Elements elements=Xsoup.compile("/html/body/table/tbody/tr/td/div/form/div/table/tbody[1]/tr").evaluate(res2.parse()).getElements();
             
-            Elements elements=Xsoup.compile("/html/body/div/form/div/table/tbody[1]/tr").evaluate(res2.parse()).getElements();
-            
-            String resultadosTabla=Xsoup.compile("/html/body/div/form/div/table/tbody[2]/tr/td/text()").evaluate(res2.parse()).get();
+            String resultadosTabla=Xsoup.compile("/html/body/table/tbody/tr/td/div/form/div/table/tbody[2]/tr/td/text()").evaluate(res2.parse()).get();
             
             String [] registros = null;
             try{
-            registros=(resultadosTabla.split(" - ")[1]).split(" de ");
+                LOG.info(resultadosTabla.split(" - ")[1]);
+            registros=resultadosTabla.split("-")[1].trim().split("de");
             }catch(NullPointerException e){
                 LOG.info("Error en tabla productos "+e);
                 LOG.info(elements.html());
             }
-            int numeroActual=Integer.parseInt(registros[0]);
+            int numeroActual=Integer.parseInt(registros[0].trim());
             
-            int numeroTotal=Integer.parseInt(registros[1].substring(0, registros[1].length()-1));
+            int numeroTotal=Integer.parseInt(registros[1].trim().substring(0, registros[1].trim().length()-1));
             
             if(numeroActual<numeroTotal){
                 pagina++;
